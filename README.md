@@ -62,7 +62,14 @@ JS and the form posts cross-origin.
 
 ## Deploying
 
-Currently GitHub Pages, served from the contents of `site/` at the repo root.
+GitHub Pages, deployed by `.github/workflows/pages.yml`. The workflow uploads
+the contents of `site/` as the Pages artifact so it is served at the root of the
+URL rather than under `/site/`.
+
+This needs **Settings -> Pages -> Build and deployment -> Source = GitHub
+Actions**. With "Deploy from a branch" the legacy Jekyll build races the
+workflow and renders `README.md` as the home page instead.
+
 `.nojekyll` is required so files starting with `_` aren't stripped.
 
 Custom domain: add it in **Settings → Pages**, create a `CNAME` file, then
