@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HBI Studio — Brand Guidelines · Dark Couture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  /* Foundations */
+  --ink:#0D0B09; --ink-2:#100E0B; --panel:#15120F; --card:#1C1915; --card-2:#221E18;
+  --warm:#241C14; --warm-2:#332514;
+  /* Accent */
+  --gold:#C9A36A; --gold-deep:#AB824C;
+  --gold-dim:rgba(201,163,106,.35); --gold-line:rgba(201,163,106,.22); --gold-glow:rgba(201,163,106,.12);
+  /* Text */
+  --cream:#E8D5B8; --cream-2:#DCC8AA; --mute:#B0A595; --mute-2:#807666; --white:#FFF;
+  /* Type */
+  --serif:"Cormorant Garamond","Times New Roman",Georgia,serif;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --track-md:0.18em; --track-lg:0.28em;
+  --maxw:1180px; --gutter:clamp(22px,5vw,64px);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:var(--sans); font-size:15px; color:var(--cream);
+  background:var(--ink);
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block;}
+::selection{background:var(--gold);color:var(--ink);}
+
+/* Film grain overlay */
+.grain{
+  position:fixed; inset:0; pointer-events:none; z-index:9000;
+  opacity:.05; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>");
+}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 var(--gutter);}
+
+/* ── Type primitives ── */
+.eyebrow{
+  display:inline-flex; align-items:center; gap:14px;
+  font:700 11px/1 var(--sans); letter-spacing:var(--track-lg);
+  color:var(--gold); text-transform:uppercase;
+}
+.eyebrow::before{content:""; width:36px; height:1px; background:var(--gold-dim);}
+.eyebrow.no-line::before{display:none;}
+.italic{font-style:italic; color:var(--gold);}
+
+/* ── Header / cover ── */
+.cover{
+  min-height:88vh; position:relative;
+  display:flex; flex-direction:column; justify-content:center;
+  padding:clamp(80px,12vh,140px) 0 clamp(60px,8vh,100px);
+  border-bottom:1px solid var(--gold-line);
+  overflow:hidden;
+}
+.cover::after{
+  content:""; position:absolute; right:-12%; top:-10%;
+  width:60vw; height:60vw; max-width:760px; max-height:760px;
+  background:radial-gradient(circle at center, var(--gold-glow), transparent 62%);
+  pointer-events:none;
+}
+.cover .logo-row{display:flex; align-items:center; gap:22px; margin-bottom:clamp(40px,7vh,72px);}
+.cover .logo-row img{height:clamp(60px,9vw,104px); width:auto;}
+.cover h1{
+  font-family:var(--serif); font-weight:500;
+  font-size:clamp(54px,9vw,128px); line-height:.92; letter-spacing:-.02em;
+  color:var(--cream); margin:0; position:relative; z-index:1;
+}
+.cover h1 .l2{display:block; font-style:italic; color:var(--gold);}
+.cover .lede{
+  margin:clamp(28px,4vh,44px) 0 0; max-width:540px;
+  font:400 17px/1.65 var(--sans); color:var(--mute); position:relative; z-index:1;
+}
+.cover .meta-row{
+  margin-top:clamp(40px,7vh,72px);
+  display:flex; flex-wrap:wrap; gap:0;
+  border-top:1px solid var(--gold-line); position:relative; z-index:1;
+}
+.cover .meta-cell{
+  padding:24px 36px 24px 0; margin-right:36px;
+  border-right:1px solid var(--gold-line);
+}
+.cover .meta-cell:last-child{border-right:none; margin-right:0;}
+.cover .meta-cell .k{font:700 9px/1 var(--sans); letter-spacing:var(--track-lg); color:var(--gold); text-transform:uppercase;}
+.cover .meta-cell .v{font-family:var(--serif); font-size:24px; color:var(--cream); margin-top:10px;}
+.cover .meta-cell .v.i{font-style:italic; color:var(--gold);}
+
+/* ── Section frame ── */
+section.block{padding:clamp(72px,11vh,128px) 0; border-bottom:1px solid var(--gold-line);}
+section.block.alt{background:var(--panel);}
+.sec-head{display:flex; flex-direction:column; gap:18px; margin-bottom:clamp(40px,6vh,64px); max-width:680px;}
+.sec-head h2{
+  font-family:var(--serif); font-weight:500; font-size:clamp(36px,5vw,60px);
+  line-height:1.0; letter-spacing:-.01em; color:var(--cream); margin:0;
+}
+.sec-head h2 .italic{display:inline;}
+.sec-head p{font:400 15px/1.7 var(--sans); color:var(--mute); margin:0; max-width:560px;}
+.sec-num{font:700 11px/1 var(--sans); letter-spacing:var(--track-lg); color:var(--mute-2); text-transform:uppercase;}
+
+/* ── Logo section ── */
+.logo-grid{display:grid; grid-template-columns:1.3fr 1fr; gap:18px;}
+.logo-stage{
+  background:var(--ink-2); border:1px solid var(--gold-line);
+  display:flex; align-items:center; justify-content:center;
+  padding:clamp(40px,6vw,72px); min-height:280px; position:relative;
+}
+.logo-stage img{height:clamp(70px,9vw,120px); width:auto;}
+.logo-stage.invert{background:var(--cream);}
+.logo-stage .corner{position:absolute; font:700 9px/1 var(--sans); letter-spacing:var(--track-md); color:var(--mute-2); text-transform:uppercase; top:16px; left:16px;}
+.logo-stage.invert .corner{color:var(--warm);}
+.logo-side{display:flex; flex-direction:column; gap:18px;}
+.logo-note{background:var(--card); border:1px solid var(--gold-line); padding:24px 26px;}
+.logo-note h4{font-family:var(--serif); font-weight:500; font-size:22px; color:var(--cream); margin:0 0 10px;}
+.logo-note p{font:400 13.5px/1.65 var(--sans); color:var(--mute); margin:0;}
+.dos{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:30px;}
+.do-card{border:1px solid var(--gold-line); padding:18px 20px;}
+.do-card .tag{font:700 9px/1 var(--sans); letter-spacing:var(--track-md); text-transform:uppercase; display:inline-flex; align-items:center; gap:8px; margin-bottom:12px;}
+.do-card .tag::before{content:""; width:7px; height:7px; border-radius:50%;}
+.do-card.ok .tag{color:var(--gold);} .do-card.ok .tag::before{background:var(--gold);}
+.do-card.no .tag{color:var(--mute);} .do-card.no .tag::before{background:var(--mute-2);}
+.do-card ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px;}
+.do-card li{font:400 13px/1.5 var(--sans); color:var(--cream-2);}
+
+/* ── Colors ── */
+.swatch-group{margin-bottom:40px;}
+.swatch-group .grp-label{
+  font:700 10px/1 var(--sans); letter-spacing:var(--track-lg); color:var(--gold);
+  text-transform:uppercase; margin-bottom:18px; display:flex; align-items:center; gap:14px;
+}
+.swatch-group .grp-label::after{content:""; flex:1; height:1px; background:var(--gold-line);}
+.swatches{display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:14px;}
+.swatch{border:1px solid var(--gold-line); background:var(--card); overflow:hidden;}
+.swatch .chip{height:96px; position:relative;}
+.swatch .chip .ring{position:absolute; inset:0; box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);}
+.swatch .body{padding:14px 16px 16px;}
+.swatch .name{font:600 13px/1.2 var(--sans); color:var(--cream); margin-bottom:4px;}
+.swatch .var{font:400 11px/1.4 ui-monospace,Menlo,Consolas,monospace; color:var(--mute);}
+.swatch .hex{font:400 11px/1.4 ui-monospace,Menlo,Consolas,monospace; color:var(--gold); text-transform:uppercase; margin-top:6px; display:flex; justify-content:space-between; gap:8px;}
+.swatch .hex .use{color:var(--mute-2); text-transform:none; font-family:var(--sans); font-size:11px;}
+
+/* ── Typography ── */
+.type-cols{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:40px;}
+.type-card{border:1px solid var(--gold-line); background:var(--card); padding:30px 32px;}
+.type-card .specimen{font-family:var(--serif); font-weight:500; font-size:96px; line-height:1; color:var(--cream); margin-bottom:8px;}
+.type-card.sans .specimen{font-family:var(--sans); font-weight:600; font-size:76px;}
+.type-card .fam{font-family:var(--serif); font-style:italic; font-size:26px; color:var(--gold); margin-bottom:18px;}
+.type-card.sans .fam{font-family:var(--sans); font-style:normal; font-weight:600; letter-spacing:var(--track-md); text-transform:uppercase; font-size:14px;}
+.type-card .desc{font:400 13.5px/1.65 var(--sans); color:var(--mute); margin:0 0 18px; max-width:42ch;}
+.type-card .weights{display:flex; flex-wrap:wrap; gap:8px;}
+.type-card .weights span{
+  font:600 10px/1 var(--sans); letter-spacing:.08em; text-transform:uppercase;
+  color:var(--cream-2); border:1px solid var(--gold-line); padding:8px 12px;
+}
+.scale{border:1px solid var(--gold-line);}
+.scale-row{display:grid; grid-template-columns:130px 1fr; align-items:baseline; gap:24px; padding:20px 28px; border-bottom:1px solid var(--gold-line);}
+.scale-row:last-child{border-bottom:none;}
+.scale-row .lab{font:400 11px/1.4 ui-monospace,Menlo,Consolas,monospace; color:var(--mute);}
+.scale-row .lab b{display:block; color:var(--gold); font-family:var(--sans); font-weight:700; font-size:10px; letter-spacing:var(--track-md); text-transform:uppercase; margin-bottom:6px;}
+.scale-row .sample{color:var(--cream); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.s-display{font-family:var(--serif); font-weight:500; font-size:54px; line-height:1; letter-spacing:-.01em;}
+.s-h2{font-family:var(--serif); font-weight:500; font-size:38px;}
+.s-h3{font-family:var(--serif); font-weight:500; font-size:26px;}
+.s-quote{font-family:var(--serif); font-style:italic; font-weight:500; font-size:22px; color:var(--gold);}
+.s-body{font:400 17px/1.5 var(--sans); color:var(--cream-2);}
+.s-eyebrow{font:700 11px/1 var(--sans); letter-spacing:var(--track-lg); text-transform:uppercase; color:var(--gold);}
+
+/* ── Components ── */
+.comp-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px;}
+.comp-card{border:1px solid var(--gold-line); background:var(--card); padding:28px 30px; display:flex; flex-direction:column; gap:20px;}
+.comp-card .c-label{font:700 9px/1 var(--sans); letter-spacing:var(--track-lg); text-transform:uppercase; color:var(--mute);}
+.comp-card .c-stage{display:flex; flex-wrap:wrap; align-items:center; gap:14px; min-height:64px;}
+.comp-card .c-desc{font:400 12.5px/1.6 var(--sans); color:var(--mute); margin:0;}
+.btn{display:inline-flex; align-items:center; gap:12px; height:50px; padding:0 26px; font:700 10px/1 var(--sans); letter-spacing:var(--track-lg); text-transform:uppercase; border:none; border-radius:0; cursor:pointer;}
+.btn .arrow{font-weight:400; font-size:16px; letter-spacing:0;}
+.btn-gold{background:var(--gold); color:var(--ink);}
+.btn-ghost{background:transparent; color:var(--cream); border:1px solid var(--gold);}
+.pill{display:inline-flex; align-items:center; gap:10px; height:32px; padding:0 14px; background:var(--card-2); border:1px solid var(--gold-dim); font:700 9px/1 var(--sans); letter-spacing:var(--track-md); color:var(--mute); text-transform:uppercase;}
+.pill .pip{width:4px; height:4px; background:var(--gold); border-radius:50%;}
+.link-gold{display:inline-flex; align-items:center; gap:10px; font:700 10px/1 var(--sans); letter-spacing:var(--track-lg); color:var(--gold); text-transform:uppercase; padding-bottom:8px; border-bottom:1px solid var(--gold-dim);}
+.tick{width:24px; height:24px; border:1px solid var(--gold-dim); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--gold); font-size:11px;}
+.mini-card{border:1px solid var(--gold-line); background:var(--card-2); padding:18px 20px; flex:1; min-width:160px;}
+.mini-card h5{font-family:var(--serif); font-weight:500; font-size:22px; color:var(--cream); margin:0 0 6px;}
+.mini-card .pr{font-family:var(--serif); font-style:italic; font-size:15px; color:var(--gold);}
+
+/* ── Tokens / effects ── */
+.token-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px;}
+.token{border:1px solid var(--gold-line); padding:24px 26px; background:var(--card);}
+.token h4{font-family:var(--serif); font-weight:500; font-size:22px; color:var(--cream); margin:0 0 8px;}
+.token p{font:400 12.5px/1.6 var(--sans); color:var(--mute); margin:0 0 14px;}
+.token code{font:400 11px/1.5 ui-monospace,Menlo,Consolas,monospace; color:var(--gold); display:block; word-break:break-word;}
+.hair-demo{height:1px; background:var(--gold-line); margin:14px 0;}
+.hair-demo.bright{background:var(--gold-dim);}
+.spin-demo{width:64px; height:64px;}
+.spin-demo svg{width:100%; height:100%; animation:spin 26s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.cursor-demo{display:flex; align-items:center; gap:16px;}
+.cursor-demo .ring{width:36px; height:36px; border:1px solid var(--gold-dim); border-radius:50%; position:relative;}
+.cursor-demo .ring .dot{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:6px; height:6px; background:var(--gold); border-radius:50%;}
+
+/* ── Voice ── */
+.voice-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin-bottom:36px;}
+.voice-card{border:1px solid var(--gold-line); padding:26px 26px 28px; background:var(--card);}
+.voice-card .w{font-family:var(--serif); font-weight:500; font-size:30px; color:var(--cream); margin-bottom:6px;}
+.voice-card .w .italic{font-style:italic;}
+.voice-card p{font:400 13px/1.6 var(--sans); color:var(--mute); margin:0;}
+.voice-words{display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid var(--gold-line);}
+.voice-words .vc{padding:26px 30px;}
+.voice-words .vc:first-child{border-right:1px solid var(--gold-line);}
+.voice-words .vc .h{font:700 10px/1 var(--sans); letter-spacing:var(--track-lg); text-transform:uppercase; margin-bottom:18px;}
+.voice-words .vc.say .h{color:var(--gold);}
+.voice-words .vc.dont .h{color:var(--mute-2);}
+.voice-words .vc ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px;}
+.voice-words .vc li{font-family:var(--serif); font-style:italic; font-weight:500; font-size:19px; color:var(--cream);}
+.voice-words .vc.dont li{font-style:normal; font-family:var(--sans); font-size:14px; color:var(--mute); text-decoration:line-through; text-decoration-color:var(--mute-2);}
+
+/* ── Footer ── */
+.foot{padding:clamp(56px,8vh,90px) 0; display:flex; justify-content:space-between; align-items:flex-end; gap:32px; flex-wrap:wrap;}
+.foot .fl img{height:64px; width:auto; margin-bottom:18px;}
+.foot .fl p{font:400 13px/1.6 var(--sans); color:var(--mute); margin:0; max-width:320px;}
+.foot .fr{font:400 12px/1.7 var(--sans); color:var(--mute-2); text-align:right;}
+.foot .fr .italic{font-family:var(--serif); font-size:18px;}
+
+@media(max-width:880px){
+  .logo-grid,.type-cols{grid-template-columns:1fr;}
+  .voice-words{grid-template-columns:1fr;}
+  .voice-words .vc:first-child{border-right:none; border-bottom:1px solid var(--gold-line);}
+  .scale-row{grid-template-columns:1fr; gap:8px;}
+  .scale-row .sample{white-space:normal;}
+}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ════════════ COVER ════════════ -->
+<header class="cover">
+  <div class="wrap">
+    <div class="logo-row">
+      <img src="brand/logo.svg" alt="HBI Studio" />
+    </div>
+    <span class="eyebrow">Brand Guidelines · v1.0</span>
+    <h1>Dark Couture<span class="l2">визуальный кодекс</span></h1>
+    <p class="lede">Кинематографичная роскошь. Тёплый near-black, золотые волоски-хайрлайны и сдержанная типографика. Эта выжимка — рабочая шпаргалка для дизайнера: цвета, шрифты, компоненты и тон бренда HBI Studio.</p>
+    <div class="meta-row">
+      <div class="meta-cell"><div class="k">Studio</div><div class="v i">HBI Studio</div></div>
+      <div class="meta-cell"><div class="k">Эстетика</div><div class="v">Dark Couture</div></div>
+      <div class="meta-cell"><div class="k">Локация</div><div class="v">Austin, Texas</div></div>
+      <div class="meta-cell"><div class="k">Профиль</div><div class="v">Hair Extensions</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════ 01 · LOGO ════════════ -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">01 — Логотип</span>
+      <h2>Знак и его <span class="italic">пространство</span></h2>
+      <p>Основной знак — золотой леттеринг «HBI Studio» с каллиграфическим хвостом-прядью. Всегда даём ему воздух и тёмный или кремовый фон. Минимальная высота на экране — 44px.</p>
+    </div>
+    <div class="logo-grid">
+      <div class="logo-stage">
+        <span class="corner">Primary · на ink</span>
+        <img src="brand/logo.svg" alt="HBI Studio логотип, золото на тёмном" />
+      </div>
+      <div class="logo-side">
+        <div class="logo-stage invert" style="min-height:0; flex:1;">
+          <span class="corner">На кремовом</span>
+          <img src="brand/logo.svg" alt="HBI Studio логотип на кремовом" />
+        </div>
+        <div class="logo-note">
+          <h4>Охранное поле</h4>
+          <p>Свободная зона вокруг знака — не меньше высоты литеры «H». Не размещайте текст или элементы ближе.</p>
+        </div>
+      </div>
+    </div>
+    <div class="dos">
+      <div class="do-card ok">
+        <span class="tag">Можно</span>
+        <ul>
+          <li>Золото (#C9A36A) на ink-фоне</li>
+          <li>Тёмный знак на кремовом</li>
+          <li>Достаточный воздух вокруг</li>
+          <li>Масштаб по высоте, пропорции сохранены</li>
+        </ul>
+      </div>
+      <div class="do-card no">
+        <span class="tag">Нельзя</span>
+        <ul>
+          <li>Менять цвет на посторонний</li>
+          <li>Растягивать или наклонять</li>
+          <li>Класть на пёстрое фото без подложки</li>
+          <li>Добавлять тени и обводки</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 02 · COLORS ════════════ -->
+<section class="block alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">02 — Палитра</span>
+      <h2>Тёплый near-black <span class="italic">и золото</span></h2>
+      <p>Основа — почти чёрные тёплые тона для фонов и карточек. Золото — единственный яркий акцент: кнопки, хайрлайны, активные состояния. Кремовые оттенки несут текст.</p>
+    </div>
+
+    <div class="swatch-group">
+      <div class="grp-label">Foundations · фоны и поверхности</div>
+      <div class="swatches">
+        <div class="swatch"><div class="chip" style="background:#0D0B09"><div class="ring"></div></div><div class="body"><div class="name">Ink</div><div class="var">--ink</div><div class="hex"><span>#0D0B09</span><span class="use">фон</span></div></div></div>
+        <div class="swatch"><div class="chip" style="background:#100E0B"><div class="ring"></div></div><div class="body"><div class="name">Ink 2</div><div class="var">--ink-2</div><div class="hex"><span>#100E0B</span><span class="use">футер</span></div></div></div>
+        <div class="swatch"><div class="chip" style="background:#15120F"><div class="ring"></div></div><div class="body"><div class="name">Panel</div><div class="var">--panel</div><div class="hex"><span>#15120F</span><span class="use">секции</span></div></div></div>
+        <div class="swatch"><div class="chip" style="background:#1C1915"><div class="ring"></div></div><div class="body"><div class="name">Card</div><div class="var">--card</div><div class="hex"><span>#1C1915</span><span class="use">карточки</span></div></div></div>
+        <div class="swatch"><div class="chip" style="background:#221E18"><div class="ring"></div></div><div class="body"><div class="name">Card 2</div><div class="var">--card-2</div><div class="hex"><span>#221E18</span><span class="use">hover</span></div></div></div>
+        <div class="swatch"><div class="chip" style="background:#241C14"><div class="ring"></div></div><div class="body"><div class="name">Warm</div><div class="var">--warm</div><div class="hex"><span>#241C14</span><span class="use">медиа</span></div></div></div>
+        <div class="swatch"><div class="chip" style="background:#332514"><div class="ring"></div></div><div class="body"><div class="name">Warm 2</div><div class="var">--warm-2</div><div class="hex"><span>#332514</span><span class="use">маркиза</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="swatch-group">
+      <div class="grp-label">Accent · золото</div>
+      <div class="swatches">
+        <div class="swatch"><div class="chip" style="background:#C9A36A"></div><div class="body"><div class="name">Gold</div><div class="var">--gold</div><div class="hex"><span>#C9A36A</span><span class="use">акцент</span></div></div></div>
+        <div class="swatch"><div class="chip" style="background:#AB824C"></div><div class="body"><div class="name">Gold Deep</div><div class="var">--gold-deep</div><div class="hex"><span>#AB824C</span><span class="use">градиент</span></div></div></div>
+        <div class="swatch"><div class="chip" style="background:rgba(201,163,106,.35)"><div class="ring"></div></div><div class="body"><div class="name">Gold Dim</div><div class="var">--gold-dim</div><div class="hex"><span>35% alpha</span><span class="use">бордеры</span></div></div></div>
+        <div class="swatch"><div class="chip" style="background:rgba(201,163,106,.22)"><div class="ring"></div></div><div class="body"><div class="name">Gold Line</div><div class="var">--gold-line</div><div class="hex"><span>22% alpha</span><span class="use">хайрлайн</span></div></div></div>
+        <div class="swatch"><div class="chip" style="background:rgba(201,163,106,.12)"><div class="ring"></div></div><div class="body"><div class="name">Gold Glow</div><div class="var">--gold-glow</div><div class="hex"><span>12% alpha</span><span class="use">свечение</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="swatch-group">
+      <div class="grp-label">Text · кремовые и приглушённые</div>
+      <div class="swatches">
+        <div class="swatch"><div class="chip" style="background:#E8D5B8"></div><div class="body"><div class="name">Cream</div><div class="var">--cream</div><div class="hex"><span>#E8D5B8</span><span class="use">заголовки</span></div></div></div>
+        <div class="swatch"><div class="chip" style="background:#DCC8AA"></div><div class="body"><div class="name">Cream 2</div><div class="var">--cream-2</div><div class="hex"><span>#DCC8AA</span><span class="use">текст UI</span></div></div></div>
+        <div class="swatch"><div class="chip" style="background:#B0A595"></div><div class="body"><div class="name">Mute</div><div class="var">--mute</div><div class="hex"><span>#B0A595</span><span class="use">параграфы</span></div></div></div>
+        <div class="swatch"><div class="chip" style="background:#807666"></div><div class="body"><div class="name">Mute 2</div><div class="var">--mute-2</div><div class="hex"><span>#807666</span><span class="use">подписи</span></div></div></div>
+        <div class="swatch"><div class="chip" style="background:#FFFFFF"><div class="ring"></div></div><div class="body"><div class="name">White</div><div class="var">--white</div><div class="hex"><span>#FFFFFF</span><span class="use">редко</span></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 03 · TYPOGRAPHY ════════════ -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">03 — Типографика</span>
+      <h2>Кормоrant <span class="italic">&amp;</span> Inter</h2>
+      <p>Два семейства. Cormorant Garamond — для дисплейных заголовков и курсивных акцентов. Inter — для UI, надзаголовков (eyebrow) и текста. Курсив золотом — фирменный приём.</p>
+    </div>
+
+    <div class="type-cols">
+      <div class="type-card">
+        <div class="specimen">Aa</div>
+        <div class="fam">Cormorant Garamond</div>
+        <p class="desc">Дисплейный сериф. Medium (500) для заголовков, Italic — для акцентных строк золотом. Tight line-height (.92–1.0), letter-spacing −.01em.</p>
+        <div class="weights"><span>Regular 400</span><span>Medium 500</span><span>SemiBold 600</span><span>Italic</span></div>
+      </div>
+      <div class="type-card sans">
+        <div class="specimen">Aa</div>
+        <div class="fam">Inter</div>
+        <p class="desc">Гротеск для интерфейса. Body 400, eyebrow и кнопки 700 в верхнем регистре с трекингом .18–.28em. Базовый размер 15px.</p>
+        <div class="weights"><span>Light 300</span><span>Regular 400</span><span>Medium 500</span><span>SemiBold 600</span><span>Bold 700</span></div>
+      </div>
+    </div>
+
+    <div class="scale">
+      <div class="scale-row"><div class="lab"><b>Display</b>Cormorant · 500<br>54–128px · −.01em</div><div class="sample s-display">Seamless transformations</div></div>
+      <div class="scale-row"><div class="lab"><b>Heading 2</b>Cormorant · 500<br>36–60px</div><div class="sample s-h2">Invisible Bonds artistry</div></div>
+      <div class="scale-row"><div class="lab"><b>Heading 3</b>Cormorant · 500<br>26–28px</div><div class="sample s-h3">Color matching</div></div>
+      <div class="scale-row"><div class="lab"><b>Accent / Quote</b>Cormorant · Italic<br>19–22px · gold</div><div class="sample s-quote">«Roскошь в деталях»</div></div>
+      <div class="scale-row"><div class="lab"><b>Body</b>Inter · 400<br>15–17px · 1.6–1.7</div><div class="sample s-body">Приватная студия наращивания волос премиум-класса.</div></div>
+      <div class="scale-row"><div class="lab"><b>Eyebrow</b>Inter · 700<br>11px · .28em · UPPER</div><div class="sample s-eyebrow">Austin · Est. 2019</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 04 · COMPONENTS ════════════ -->
+<section class="block alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">04 — Элементы UI</span>
+      <h2>Компоненты <span class="italic">и состояния</span></h2>
+      <p>Острые углы (radius 0), золотые хайрлайны, аптайп-надписи. Никаких скруглений и теней — кроме круглых «pip» и галочек.</p>
+    </div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <span class="c-label">Кнопки</span>
+        <div class="c-stage">
+          <button class="btn btn-gold">Book Now <span class="arrow">→</span></button>
+          <button class="btn btn-ghost">Explore <span class="arrow">→</span></button>
+        </div>
+        <p class="c-desc">Primary — золотой фон, ink-текст. Ghost — прозрачная с золотой рамкой. Высота 50px, font 10px/700, трекинг .28em.</p>
+      </div>
+      <div class="comp-card">
+        <span class="c-label">Eyebrow</span>
+        <div class="c-stage"><span class="eyebrow">The Studio</span></div>
+        <p class="c-desc">Надзаголовок с золотой линией 36×1px. Inter 700, .28em, uppercase, цвет gold.</p>
+      </div>
+      <div class="comp-card">
+        <span class="c-label">Pills</span>
+        <div class="c-stage">
+          <span class="pill"><span class="pip"></span>Slavic Hair</span>
+          <span class="pill"><span class="pip"></span>Invisible Bonds</span>
+        </div>
+        <p class="c-desc">Метки-капсулы: card-фон, золотая рамка, золотой pip 4px. Высота 32px.</p>
+      </div>
+      <div class="comp-card">
+        <span class="c-label">Ссылка-акцент</span>
+        <div class="c-stage"><a class="link-gold" href="#">View gallery <span class="arrow">→</span></a></div>
+        <p class="c-desc">Золотой текст с подчёркивающим хайрлайном; стрелка уезжает вправо на hover.</p>
+      </div>
+      <div class="comp-card">
+        <span class="c-label">Список с галочкой</span>
+        <div class="c-stage" style="gap:14px;">
+          <span style="display:inline-flex;align-items:center;gap:12px;color:var(--cream-2);font-size:14px;"><span class="tick">✓</span> Консультация</span>
+        </div>
+        <p class="c-desc">Кружок 24px с золотой рамкой и галочкой. Для преимуществ и чеклистов.</p>
+      </div>
+      <div class="comp-card">
+        <span class="c-label">Карточка услуги</span>
+        <div class="c-stage">
+          <div class="mini-card"><h5>Full Install</h5><div class="pr">from $1,200</div></div>
+        </div>
+        <p class="c-desc">Сериф-заголовок + курсивная цена золотом. Рамка gold-line, hover осветляет фон.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 05 · TOKENS & EFFECTS ════════════ -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">05 — Токены и эффекты</span>
+      <h2>Текстура <span class="italic">кинематографа</span></h2>
+      <p>Атмосферу держат четыре приёма: золотые хайрлайны вместо толстых бордеров, лёгкая киноплёнка, вращающаяся печать и кастомный курсор-точка.</p>
+    </div>
+    <div class="token-grid">
+      <div class="token">
+        <h4>Золотые хайрлайны</h4>
+        <p>Разделители и рамки всегда тонкие — 1px полупрозрачного золота. Толстых линий не бывает.</p>
+        <div class="hair-demo"></div>
+        <div class="hair-demo bright"></div>
+        <code>--gold-line: rgba(201,163,106,.22)</code>
+      </div>
+      <div class="token">
+        <h4>Film grain</h4>
+        <p>Фиксированный шум поверх всего, overlay, opacity ≈ .05. Даёт «плёночную» глубину.</p>
+        <div style="height:48px; margin:14px 0; border:1px solid var(--gold-line); position:relative; overflow:hidden; background:var(--warm);"><div style="position:absolute;inset:0;opacity:.5;mix-blend-mode:overlay;background-image:url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n2'><feTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n2)' opacity='0.6'/></svg>&quot;);"></div></div>
+        <code>opacity .05 · mix-blend overlay</code>
+      </div>
+      <div class="token">
+        <h4>Вращающаяся печать</h4>
+        <p>Круговой текст-сил вращается 26–42s linear. Декоративный акцент в hero.</p>
+        <div class="spin-demo">
+          <svg viewBox="0 0 100 100">
+            <defs><path id="circ" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0" /></defs>
+            <text style="font:600 9px var(--sans); fill:var(--gold); text-transform:uppercase; letter-spacing:2px;"><textPath href="#circ">HBI STUDIO · AUSTIN TX · COUTURE HAIR · </textPath></text>
+            <circle cx="50" cy="50" r="3" fill="#C9A36A" />
+          </svg>
+        </div>
+        <code>animation: spin 26s linear infinite</code>
+      </div>
+      <div class="token">
+        <h4>Кастомный курсор</h4>
+        <p>Золотая точка 6px и кольцо 36px (difference). На hover кольцо расширяется до 60px.</p>
+        <div class="cursor-demo" style="margin:14px 0;"><div class="ring"><div class="dot"></div></div><span style="font:400 12px/1 var(--sans); color:var(--mute);">dot + ring</span></div>
+        <code>mix-blend-mode: difference</code>
+      </div>
+      <div class="token">
+        <h4>Трекинг</h4>
+        <p>Два уровня разрядки для аптайпа: средний и широкий.</p>
+        <div style="margin:14px 0; display:flex; flex-direction:column; gap:10px;">
+          <span style="font:700 10px/1 var(--sans); letter-spacing:.18em; text-transform:uppercase; color:var(--cream-2);">Track · Medium</span>
+          <span style="font:700 10px/1 var(--sans); letter-spacing:.28em; text-transform:uppercase; color:var(--gold);">Track · Large</span>
+        </div>
+        <code>--track-md .18em · --track-lg .28em</code>
+      </div>
+      <div class="token">
+        <h4>Сетка и ритм</h4>
+        <p>Контент в колонке до 1440px, боковые отступы и вертикальный ритм — адаптивные clamp.</p>
+        <div style="margin:14px 0; display:flex; flex-direction:column; gap:8px;">
+          <span style="font:400 12px/1 var(--sans); color:var(--cream-2);">max-width 1440px</span>
+          <span style="font:400 12px/1 var(--sans); color:var(--cream-2);">gutter clamp(20–80px)</span>
+        </div>
+        <code>--section-y: clamp(60px,7vw,110px)</code>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 06 · VOICE ════════════ -->
+<section class="block alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">06 — Тон бренда</span>
+      <h2>Голос <span class="italic">студии</span></h2>
+      <p>Говорим как мастер своего дела: спокойно, уверенно, с вниманием к деталям. Меньше — лучше. Роскошь подразумевается, а не выкрикивается.</p>
+    </div>
+    <div class="voice-grid">
+      <div class="voice-card"><div class="w">Интимно</div><p>Приватная студия, личный подход. Обращение на «вы», тёплое и внимательное.</p></div>
+      <div class="voice-card"><div class="w"><span class="italic">Точно</span></div><p>Конкретика вместо превосходных степеней: «invisible bonds», «Slavic hair», «seamless».</p></div>
+      <div class="voice-card"><div class="w">Сдержанно</div><p>Никаких капслока-распродаж и восклицаний. Тишина и воздух — часть роскоши.</p></div>
+    </div>
+    <div class="voice-words">
+      <div class="vc say">
+        <div class="h">Говорим так</div>
+        <ul>
+          <li>Seamless transformations</li>
+          <li>Invisible Bonds artistry</li>
+          <li>Crafted for you</li>
+          <li>Quietly luxurious</li>
+        </ul>
+      </div>
+      <div class="vc dont">
+        <div class="h">Избегаем</div>
+        <ul>
+          <li>СУПЕР СКИДКА!!!</li>
+          <li>Лучшие в мире</li>
+          <li>Дёшево и быстро</li>
+          <li>🔥 Хит продаж 🔥</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer class="wrap">
+  <div class="foot">
+    <div class="fl">
+      <img src="brand/logo.svg" alt="HBI Studio" />
+      <p>Выжимка фирменного стиля. Все токены соответствуют рабочему <code style="font-family:ui-monospace,monospace;font-size:12px;color:var(--gold);">style.css</code> проекта.</p>
+    </div>
+    <div class="fr">
+      <div class="italic" style="color:var(--gold);">Dark Couture</div>
+      Brand Guidelines · v1.0<br>
+      HBI Studio · Austin, Texas
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

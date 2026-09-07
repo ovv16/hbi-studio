@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>HBI Studio — Site Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--ink:#0D0B09;--ink-2:#100E0B;--panel:#15120F;--gold:#C9A36A;--gold-deep:#AB824C;--gold-line:rgba(201,163,106,.18);--cream:#E8D5B8;--cream-2:#DCC8AA;--mute:#B0A595;--red:#D97A6C;--amber:#D9B36C;--green:#8FA97E;--serif:"Cormorant Garamond",Georgia,serif;--sans:"Inter",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--cream-2);font:400 15px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-line)}
+a:hover{color:var(--cream);border-bottom-color:var(--gold)}
+.wrap{max-width:880px;margin:0 auto;padding:72px 32px 120px}
+.eyebrow{display:flex;align-items:center;gap:14px;font:500 11px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 20px}
+.eyebrow::before{content:"";width:36px;height:1px;background:var(--gold-deep)}
+h1{font:500 clamp(38px,6vw,60px)/1.05 var(--serif);color:var(--cream);margin:0 0 18px;letter-spacing:-.01em}
+h1 em{font-style:italic;color:var(--gold)}
+.lede{font:400 18px/1.6 var(--sans);color:var(--mute);max-width:60ch;margin:0 0 8px}
+.meta{font:400 13px/1.6 var(--sans);color:#807666;margin:24px 0 0;padding-top:20px;border-top:1px solid var(--gold-line)}
+h2{font:500 30px/1.15 var(--serif);color:var(--cream);margin:72px 0 6px;letter-spacing:-.005em}
+h2 .n{font:500 12px/1 var(--sans);letter-spacing:.2em;color:var(--gold-deep);display:block;margin-bottom:12px}
+.sec-sub{color:var(--mute);font-size:14px;margin:0 0 28px;max-width:62ch}
+.item{border-top:1px solid var(--gold-line);padding:22px 0}
+.item:last-of-type{border-bottom:1px solid var(--gold-line)}
+.item-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+.sev{font:600 9.5px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;padding:6px 9px;border:1px solid;border-radius:2px;flex-shrink:0}
+.sev.crit{color:var(--red);border-color:rgba(217,122,108,.4);background:rgba(217,122,108,.07)}
+.sev.high{color:var(--amber);border-color:rgba(217,179,108,.4);background:rgba(217,179,108,.07)}
+.sev.med{color:var(--mute);border-color:rgba(176,165,149,.3)}
+.item h3{font:500 18px/1.35 var(--sans);color:var(--cream);margin:0;letter-spacing:-.005em}
+.item p{margin:0 0 10px;max-width:70ch}
+.item p:last-child{margin-bottom:0}
+.fix{display:grid;grid-template-columns:auto 1fr;gap:0 10px;align-items:baseline;margin-top:10px;padding-left:14px;border-left:1px solid var(--gold-line)}
+.fix b{font:600 10px/1.7 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.fix span{font-size:14px;color:var(--cream-2)}
+code{font:400 13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--panel);border:1px solid var(--gold-line);border-radius:2px;padding:1px 5px;color:var(--cream)}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--gold-line);border:1px solid var(--gold-line);margin:48px 0 0}
+.summary div{background:var(--ink-2);padding:22px 20px}
+.summary .n{display:block;font:500 40px/1 var(--serif);color:var(--gold);margin-bottom:6px}
+.summary .l{font:400 11px/1.4 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+ul{margin:10px 0 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+ul li{padding-left:18px;position:relative;font-size:14px;max-width:70ch}
+ul li::before{content:"—";position:absolute;left:0;color:var(--gold-deep)}
+.ok{color:var(--green)}
+.footer{margin-top:80px;padding-top:28px;border-top:1px solid var(--gold-line);font-size:13px;color:#807666}
+@media print{body{background:#fff;color:#222}.wrap{padding:0}h1,h2,.item h3{color:#000}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<span class="eyebrow">Technical &amp; content review</span>
+<h1>Site <em>Audit.</em></h1>
+<p class="lede">Full review of the HBI Studio site — security, trust &amp; legal, SEO, performance and accessibility. Ordered by what to fix first.</p>
+<p class="meta">Reviewed: <code>index-nano-ktip-v2.html</code>, <code>style.css</code>, <code>main.js</code>, <code>build/</code> · 1 August 2026</p>
+
+<div class="summary">
+<div><span class="n">3</span><span class="l">Critical</span></div>
+<div><span class="n">7</span><span class="l">High</span></div>
+<div><span class="n">9</span><span class="l">Medium</span></div>
+</div>
+
+<h2><span class="n">01</span>Security</h2>
+<p class="sec-sub">One issue here outranks everything else on the list.</p>
+
+<div class="item">
+<div class="item-head"><span class="sev crit">Critical</span><h3>Telegram bot token is exposed in the page source</h3></div>
+<p><code>main.js</code> line 452 contains the live bot token and both chat IDs in plain text. On a static site every visitor can read that file. Anyone who does can send messages as your bot, read the message history, or delete the webhook — and bots get scraped from public repos automatically, usually within days.</p>
+<div class="fix"><b>Fix</b><span>Revoke the token in @BotFather now (<code>/revoke</code>), then move the send behind a free serverless proxy — Cloudflare Worker or Netlify Function — so the token lives in an env var, never in the browser. Simplest alternative: swap the form to Formspree or Basin (free tier, no backend) and forward to email.</span></div>
+</div>
+
+<h2><span class="n">02</span>Trust &amp; legal</h2>
+<p class="sec-sub">The site currently makes claims the content doesn't back up. This is the second launch blocker.</p>
+
+<div class="item">
+<div class="item-head"><span class="sev crit">Critical</span><h3>Stock photos presented as real client work</h3></div>
+<p>The Before&nbsp;&amp;&nbsp;After block is headed <em>"Real People · Real Results"</em> and reads <em>"Every client. Every result. Documented honestly."</em> — but the before and after images are two different Unsplash models. The same applies to all 7 gallery tiles (under your real Instagram handle), the bleed hero and the contact photo.</p>
+<p>Under FTC advertising rules a before/after in a beauty context has to be a genuine result. As written this is a misrepresentation, and clients who reverse-image-search will find the stock originals.</p>
+<div class="fix"><b>Fix</b><span>Replace with real before/after pairs and real gallery photos before launch. If a slot has no real photo yet, drop the slot rather than filling it — or soften the copy to "Studio inspiration" until you have the shots.</span></div>
+</div>
+
+<div class="item">
+<div class="item-head"><span class="sev crit">Critical</span><h3>The three testimonials appear to be invented</h3></div>
+<p>"Megan S.", "Ashley T." and "Lauren B." are marked with a Google glyph, implying they're pulled from your Google profile. Fabricated testimonials are the single most common FTC enforcement target for small service businesses.</p>
+<div class="fix"><b>Fix</b><span>Copy three real quotes verbatim from your Google reviews and use the reviewers' real first names. You have 5.0 stars — the real ones will read better anyway.</span></div>
+</div>
+
+<div class="item">
+<div class="item-head"><span class="sev high">High</span><h3>Review count says 13; brand facts say 12</h3></div>
+<p>The visible score block, its <code>aria-label</code>, and the <code>aggregateRating</code> in structured data all say <strong>13</strong> reviews. Your brand sheet records 12. Beyond the inconsistency: Google's structured-data policy forbids self-serving <code>aggregateRating</code> markup for your own business, and a mismatch against the live Google profile can get rich results suppressed.</p>
+<div class="fix"><b>Fix</b><span>Confirm the real count on your Google profile and use it in all three places — or remove the <code>aggregateRating</code> block entirely and keep only the visible link. Google shows the real rating from your Business Profile regardless.</span></div>
+</div>
+
+<div class="item">
+<div class="item-head"><span class="sev high">High</span><h3>Unverified stats: "500+ Happy Clients" and "9+"</h3></div>
+<p>Both sit in the About block as hard numbers. If they're estimates, round-and-qualify them; if they're accurate, keep them.</p>
+<div class="fix"><b>Fix</b><span>Confirm both, or reword to something defensible ("Hundreds of clients", "9 years experience").</span></div>
+</div>
+
+<h2><span class="n">03</span>SEO &amp; deployment</h2>
+
+<div class="item">
+<div class="item-head"><span class="sev high">High</span><h3>Three competing homepage files in the project</h3></div>
+<p><code>index.html</code>, <code>index-nano-ktip.html</code> and <code>index-nano-ktip-v2.html</code> all exist at root. <code>index.html</code> is an older draft (it still says 12 reviews and has different content). If anything ever serves from the project root instead of <code>build/</code>, visitors land on the stale version — and search engines can index both as duplicates.</p>
+<div class="fix"><b>Fix</b><span>Keep <code>index-nano-ktip-v2.html</code> as the single source of truth, archive the other two out of root, and deploy only from <code>build/</code>.</span></div>
+</div>
+
+<div class="item">
+<div class="item-head"><span class="sev high">High</span><h3><code>build/</code> is out of date</h3></div>
+<p>The build folder holds its own copies of <code>style.css</code>, <code>main.js</code> and <code>index.html</code>. Recent edits to the source (including today's footer alignment fix) aren't in them, so the deployed site and the working file have drifted.</p>
+<div class="fix"><b>Fix</b><span>Re-copy source → build before every deploy. Worth writing the step down in <code>build/README.md</code> so it isn't skipped.</span></div>
+</div>
+
+<div class="item">
+<div class="item-head"><span class="sev med">Medium</span><h3>Sitemap is incomplete and stale</h3></div>
+<p><code>sitemap.xml</code> lists only the homepage — <code>privacy.html</code> and <code>terms.html</code> are missing — and <code>lastmod</code> reads 2026-07-07.</p>
+<div class="fix"><b>Fix</b><span>Add both legal pages and refresh <code>lastmod</code> on each deploy.</span></div>
+</div>
+
+<div class="item">
+<div class="item-head"><span class="sev med">Medium</span><h3>Social share image is just the logo</h3></div>
+<p><code>og:image</code> points at <code>logo/HBI-Studio-logo-gold.png</code>. A logo on a dark field is a weak preview — a real photo with the wordmark on it converts far better when the link is shared in a DM or on Facebook.</p>
+<div class="fix"><b>Fix</b><span>Export a 1200×630 share card: hero photo, gold wordmark, "Micro K-Tip Extensions · Austin, TX".</span></div>
+</div>
+
+<div class="item">
+<div class="item-head"><span class="sev med">Medium</span><h3>Canonical URL still on the GitHub Pages address</h3></div>
+<p>Expected at this stage — noting it so it isn't forgotten. <code>og:url</code>, <code>canonical</code>, <code>robots.txt</code> and <code>sitemap.xml</code> all hard-code <code>ovv16.github.io/hbi-studio</code>.</p>
+<div class="fix"><b>Fix</b><span>Update all four the day the custom domain goes live.</span></div>
+</div>
+
+<h2><span class="n">04</span>Performance</h2>
+
+<div class="item">
+<div class="item-head"><span class="sev high">High</span><h3>No image dimensions anywhere → layout shift</h3></div>
+<p>Not one <code>&lt;img&gt;</code> carries <code>width</code>/<code>height</code>. Every image reflows the page as it arrives, which is exactly what Google's CLS metric penalises — and on a photo-heavy site the cumulative shift will be large.</p>
+<div class="fix"><b>Fix</b><span>Add intrinsic <code>width</code>/<code>height</code> attributes, or set <code>aspect-ratio</code> on each image class in CSS. Cheapest big win on the list.</span></div>
+</div>
+
+<div class="item">
+<div class="item-head"><span class="sev med">Medium</span><h3>Hero image isn't prioritised</h3></div>
+<p>The hero fallback is your Largest Contentful Paint element but has no <code>fetchpriority="high"</code> and isn't preloaded — the browser discovers it late, after CSS.</p>
+<div class="fix"><b>Fix</b><span>Add <code>fetchpriority="high"</code> to <code>.cine-img</code> and a <code>&lt;link rel="preload" as="image"&gt;</code> for <code>assets/hero-fallback-800.webp</code> in the head.</span></div>
+</div>
+
+<div class="item">
+<div class="item-head"><span class="sev med">Medium</span><h3>Twelve font weights loaded, far fewer used</h3></div>
+<p>The Google Fonts request pulls Cormorant Garamond in 6 cuts (incl. italics) and Inter in 5. Each is a separate download blocking first paint.</p>
+<div class="fix"><b>Fix</b><span>Trim the request to the weights actually in the CSS — likely Cormorant 400/500 + 400i/500i and Inter 300/400/500/600.</span></div>
+</div>
+
+<div class="item">
+<div class="item-head"><span class="sev med">Medium</span><h3>Photos load from Unsplash's CDN at runtime</h3></div>
+<p>Gallery, before/after, bleed hero and contact all hotlink Unsplash. That's a third-party dependency on your critical path, and the images vanish if a photo is taken down. It resolves itself when you swap in real photos — worth doing then, not twice.</p>
+<div class="fix"><b>Fix</b><span>Host the final photos yourself in <code>assets/</code> as sized WebP.</span></div>
+</div>
+
+<h2><span class="n">05</span>Accessibility</h2>
+
+<div class="item">
+<div class="item-head"><span class="sev high">High</span><h3>The custom cursor hides the system cursor site-wide</h3></div>
+<p><code>cursor: none !important</code> is applied to every link, button, summary and label. Anyone who relies on the OS cursor — low vision, tremor, a magnifier, or just a bright room — loses their pointer entirely. It's also the most likely thing to make an older client bounce.</p>
+<div class="fix"><b>Fix</b><span>Gate it behind <code>@media (pointer: fine) and (prefers-reduced-motion: no-preference)</code>, and add a visible off switch in the tweaks panel that persists.</span></div>
+</div>
+
+<div class="item">
+<div class="item-head"><span class="sev high">High</span><h3>The custom service dropdown has no keyboard support</h3></div>
+<p>It's a <code>&lt;button&gt;</code> plus a <code>role="listbox"</code> list, but <code>main.js</code> registers no arrow-key, Enter, Home/End or Escape handling on it (only the lightbox has key handling). Keyboard and screen-reader users cannot choose a service — which means they cannot complete the booking form.</p>
+<div class="fix"><b>Fix</b><span>Add ArrowUp/Down to move the active option, Enter/Space to select, Escape to close and return focus to the trigger, plus <code>aria-activedescendant</code>. Or fall back to a native <code>&lt;select&gt;</code> styled to match — far less code.</span></div>
+</div>
+
+<div class="item">
+<div class="item-head"><span class="sev med">Medium</span><h3>Gallery tiles are links to nowhere</h3></div>
+<p>All seven are <code>&lt;a href="#"&gt;</code>. A screen reader announces a link; activating it jumps to the top of the page if the lightbox script hasn't loaded.</p>
+<div class="fix"><b>Fix</b><span>Make them <code>&lt;button type="button"&gt;</code> since they open a lightbox — or point <code>href</code> at the real Instagram post so they work without JS.</span></div>
+</div>
+
+<div class="item">
+<div class="item-head"><span class="sev med">Medium</span><h3>Muted text may fail contrast</h3></div>
+<p><code>--mute-2</code> (<code>#807666</code>) on <code>--ink</code> (<code>#0D0B09</code>) is roughly 4.2:1 — under the 4.5:1 minimum for body text. <code>--mute</code> (<code>#B0A595</code>) passes comfortably.</p>
+<div class="fix"><b>Fix</b><span>Reserve <code>--mute-2</code> for large text and hairlines only; use <code>--mute</code> wherever it carries small copy.</span></div>
+</div>
+
+<div class="item">
+<div class="item-head"><span class="sev med">Medium</span><h3>Loose ends</h3></div>
+<ul>
+<li>TikTok social icon is commented out awaiting a URL — either add the profile or delete the block.</li>
+<li>Service modal still shows the "Add service photo" placeholder for every service.</li>
+<li>Before/After block still shows the <em>"Drop your before/after pair via the slots panel"</em> authoring hint — make sure it can never surface to a visitor.</li>
+<li>The second Telegram recipient (164306473) still needs to press <strong>Start</strong> on the bot before it can receive anything.</li>
+</ul>
+</div>
+
+<h2><span class="n">06</span>What's already right</h2>
+<div class="item">
+<p>Worth stating, because a lot of this is done well and shouldn't be touched:</p>
+<ul>
+<li class="ok">Structured data is thorough — HairSalon with address, hours, phone, <code>sameAs</code>, plus a complete FAQPage.</li>
+<li class="ok">Exactly one <code>&lt;h1&gt;</code>; the alternate hero variants correctly use <code>&lt;p class="hero-h1"&gt;</code>.</li>
+<li class="ok">Skip link, <code>aria-label</code>ed landmarks, real form labels, correct <code>alt=""</code> on the decorative hair layer.</li>
+<li class="ok">Responsive <code>srcset</code>/<code>sizes</code> on every photo, and <code>loading="lazy"</code> below the fold.</li>
+<li class="ok">Hero video degrades to an animated still on save-data and slow connections.</li>
+<li class="ok">Lightbox has full keyboard support: Escape, ArrowLeft, ArrowRight.</li>
+<li class="ok">Brand facts — phone, email, address, Instagram handle, Micro K-Tip naming — are consistent throughout. No stray "hand-tied".</li>
+</ul>
+</div>
+
+<h2><span class="n">07</span>Suggested order</h2>
+<div class="item">
+<ul>
+<li><strong>Before launch:</strong> revoke &amp; proxy the Telegram token · replace stock before/after and gallery photos · swap in real testimonials · settle the review count.</li>
+<li><strong>Launch week:</strong> resolve the duplicate index files · rebuild <code>build/</code> · add image dimensions · gate the custom cursor · fix dropdown keyboard access.</li>
+<li><strong>After:</strong> share card · sitemap · font trimming · self-hosted photos · contrast pass.</li>
+</ul>
+</div>
+
+<p class="footer">Nothing in this audit has been changed in the site — say the word on any item and I'll implement it.</p>
+</div>
+</body>
+</html>
