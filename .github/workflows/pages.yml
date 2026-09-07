@@ -32,9 +32,19 @@ jobs:
         with:
           enablement: true
 
+      # The light variant ships as a separate site under /light/ rather than
+      # replacing the main one. It carries its own canonical and a noindex,
+      # so the two never compete in search.
+      - name: Assemble the publish root
+        run: |
+          mkdir -p _publish
+          cp -r site/. _publish/
+          mkdir -p _publish/light
+          cp -r light/. _publish/light/
+
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: _publish
 
       - id: deployment
         uses: actions/deploy-pages@v4

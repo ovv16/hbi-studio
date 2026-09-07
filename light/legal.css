@@ -1,0 +1,105 @@
+/* ===========================================================
+   HBI Studio — Legal pages (Privacy / Terms)
+   Inherits tokens from style.css. Long-form reading layout.
+   =========================================================== */
+
+.legal-main {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: clamp(120px, 18vh, 200px) var(--gutter, 24px) clamp(80px, 12vh, 140px);
+}
+
+/* ── Masthead ── */
+.legal-head {
+  border-bottom: 1px solid var(--gold-line);
+  padding-bottom: clamp(36px, 5vw, 56px);
+  margin-bottom: clamp(44px, 6vw, 72px);
+}
+.legal-eyebrow {
+  display: inline-flex; align-items: center; gap: 14px;
+  font: 700 11px/1 var(--sans); letter-spacing: .28em;
+  color: var(--gold); text-transform: uppercase; margin-bottom: 26px;
+}
+.legal-eyebrow::before { content: ""; width: 36px; height: 1px; background: var(--gold-dim); }
+.legal-head h1 {
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(46px, 8vw, 92px); line-height: .94; letter-spacing: -.02em;
+  color: var(--cream); margin: 0 0 24px;
+}
+.legal-head h1 .italic { font-style: italic; color: var(--gold); }
+.legal-meta {
+  display: flex; flex-wrap: wrap; gap: 10px 28px;
+  font: 400 13px/1.5 var(--sans); color: var(--mute-2);
+}
+.legal-meta strong { color: var(--cream-2); font-weight: 600; }
+.legal-lede {
+  margin: 30px 0 0; max-width: 60ch;
+  font: 400 17px/1.7 var(--sans); color: var(--mute);
+}
+
+/* ── Body sections ── */
+.legal-body { display: flex; flex-direction: column; gap: clamp(36px, 4.5vw, 52px); }
+.legal-section { scroll-margin-top: 120px; }
+.legal-section > h2 {
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(26px, 3.4vw, 38px); line-height: 1.08; letter-spacing: -.01em;
+  color: var(--cream); margin: 0 0 18px;
+  display: flex; align-items: baseline; gap: 16px;
+}
+.legal-section > h2 .sec-no {
+  font: 700 12px/1 var(--sans); letter-spacing: .2em;
+  color: var(--gold); flex: none; transform: translateY(-2px);
+}
+.legal-section h3 {
+  font: 600 14px/1.4 var(--sans); letter-spacing: .04em;
+  color: var(--cream-2); text-transform: uppercase;
+  margin: 28px 0 12px;
+}
+.legal-section p {
+  font: 400 16px/1.78 var(--sans); color: var(--mute);
+  margin: 0 0 16px; max-width: 68ch; text-wrap: pretty;
+}
+.legal-section p:last-child { margin-bottom: 0; }
+.legal-section a { color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--gold-dim); transition: color .3s; }
+.legal-section a:hover { color: var(--cream); }
+.legal-section ul { margin: 4px 0 18px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 11px; }
+.legal-section li {
+  position: relative; padding-left: 26px;
+  font: 400 16px/1.7 var(--sans); color: var(--mute); max-width: 66ch;
+}
+.legal-section li::before {
+  content: ""; position: absolute; left: 4px; top: 12px;
+  width: 5px; height: 5px; background: var(--gold); border-radius: 50%;
+}
+.legal-section strong { color: var(--cream-2); font-weight: 600; }
+
+/* Highlight callout */
+.legal-callout {
+  border: 1px solid var(--gold-line); background: var(--card);
+  padding: 24px 28px; margin: 8px 0 4px;
+}
+.legal-callout p { color: var(--cream-2); margin: 0; font-size: 15px; }
+.legal-callout .ck {
+  font: 700 9px/1 var(--sans); letter-spacing: .24em; text-transform: uppercase;
+  color: var(--gold); display: block; margin-bottom: 12px;
+}
+
+/* ── Foot of legal doc ── */
+.legal-foot {
+  margin-top: clamp(48px, 6vw, 80px); padding-top: 36px;
+  border-top: 1px solid var(--gold-line);
+  display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between;
+}
+.legal-foot p { font: 400 14px/1.6 var(--sans); color: var(--mute-2); margin: 0; max-width: 46ch; }
+.legal-foot .back {
+  display: inline-flex; align-items: center; gap: 10px;
+  font: 700 10px/1 var(--sans); letter-spacing: .24em; text-transform: uppercase;
+  color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--gold-dim);
+  padding-bottom: 8px; transition: gap .3s, color .3s;
+}
+.legal-foot .back:hover { gap: 16px; color: var(--cream); }
+
+@media (max-width: 640px) {
+  .legal-section > h2 { flex-direction: column; gap: 8px; }
+  .legal-section > h2 .sec-no { transform: none; }
+}

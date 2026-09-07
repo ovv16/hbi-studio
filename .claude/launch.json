@@ -6,6 +6,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["serve", "-p", "3000", "site"],
       "port": 3000
+    },
+    {
+      "name": "hbi-studio-light",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-p", "3001", "light"],
+      "port": 3001
     }
   ]
 }

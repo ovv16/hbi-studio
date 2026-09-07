@@ -42,6 +42,8 @@ design_handoff_hbi_studio_site/
 │   ├── favicon.svg, robots.txt, sitemap.xml, .nojekyll
 │   ├── assets/            (logo, hero video + WebP fallbacks, portraits)
 │   └── logo/              (social-share logo, PNG + SVG)
+├── light/                 ← second version: the same site on a light palette
+│   └── (mirrors site/, plus assets/logo-bronze.svg and logo-ink.svg)
 └── reference/
     ├── Site Audit.html
     └── Brand Guidelines.html
@@ -60,7 +62,22 @@ python3 -m http.server 8000
 A plain server is required (not `file://`) because the hero video is fetched by
 JS and the form posts cross-origin.
 
+## The light variant
+
+`light/` is a second, self-contained version of the site on a warm light
+palette — cream grounds (`--ink: #F6F1E8`) with bronze as the single accent
+(`--gold: #82602F`, dark enough to carry 11px eyebrow type on both grounds).
+It also drops the custom cursor and adds bronze/ink logo variants.
+
+Both versions share the same markup, components and copy; they differ only in
+the token block, the scattered colour rules that follow from it, and their
+before/after photography, which is graded lighter to suit the cream ground.
+
+Run it on its own port with the `hbi-studio-light` launch config (port 3001).
+Only `site/` is deployed — see below.
+
 ## Deploying
+
 
 GitHub Pages, deployed by `.github/workflows/pages.yml`. The workflow uploads
 the contents of `site/` as the Pages artifact so it is served at the root of the
