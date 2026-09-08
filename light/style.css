@@ -473,22 +473,9 @@ body[data-hero="editorial"] .hero-editorial { display: grid; }
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover;
 }
-.hero-split .hero-photo .photo-grad-l {
-  position: absolute; inset: 0; z-index: 2; pointer-events: none;
-  background:
-    linear-gradient(90deg,
-      var(--ink) 0%,
-      var(--ink) 22%,
-      rgba(246,241,232,.94) 38%,
-      rgba(246,241,232,.62) 58%,
-      rgba(246,241,232,.20) 78%,
-      transparent 95%);
-}
-.hero-split .hero-photo .photo-grad-v {
-  position: absolute; inset: 0; z-index: 2; pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(246,241,232,.55) 0%, transparent 25%, transparent 70%, rgba(246,241,232,.6) 100%);
-}
+/* The cream washes that used to sit over the hero footage are gone: the clip
+   is already bright behind the copy (darkest region 209/255 across the whole
+   loop, ~10:1 against the ink text), so they only milked out the photograph. */
 .hero-split .hero-copy {
   position: relative;
   z-index: 3;
@@ -496,6 +483,26 @@ body[data-hero="editorial"] .hero-editorial { display: grid; }
   display: flex; flex-direction: column; justify-content: center;
   max-width: 720px;
   height: 100%;
+}
+/* Backing for the copy, bounded to the copy column instead of washing the whole
+   frame. The text overlaps the hair at the right end of its lines at every
+   width — measured 1.1:1 on the eyebrow at 1024px and 4.2:1 at 1280px, against
+   a 4.5:1 floor — so this stays on. Over the bright wall that fills the left of
+   the clip it is all but invisible; it never reaches the right half of the
+   photograph, which the old full-bleed washes did. */
+.hero-split .hero-copy::after {
+  content: ""; position: absolute; z-index: -1;
+  /* Runs past the copy on the right so the mask has room to fade out there;
+     ending it flush with the column left a visible vertical seam. */
+  top: 0; bottom: 0; left: 0; right: -140px;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(246,241,232,.96) 0%,
+    rgba(246,241,232,.92) 62%,
+    rgba(246,241,232,.74) 84%,
+    rgba(246,241,232,0) 100%);
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 84%, transparent 100%);
+          mask-image: linear-gradient(90deg, #000 0%, #000 84%, transparent 100%);
 }
 .hero-split .hero-copy::before {
   content: ""; position: absolute;
