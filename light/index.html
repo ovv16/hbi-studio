@@ -358,10 +358,10 @@
           <div class="hero-cine" id="heroCine">
             <!-- Slow-motion VIDEO: drop a <source> in here (back-facing, long-hair
                  slow-mo clip) and it auto-plays over the still. muted+loop+playsinline. -->
-            <video class="cine-video" muted loop playsinline preload="none" data-src="assets/hero-luxe.webm" data-src-mobile="assets/hero-ad-natural-720.webm"></video>
+            <video class="cine-video" muted loop playsinline preload="none" width="1920" height="1080" data-src="assets/hero-ad-light.webm" data-src-mp4="assets/hero-ad-light.mp4" data-src-mobile="assets/hero-ad-light-720.webm" data-src-mobile-mp4="assets/hero-ad-light-720.mp4"></video>
             <!-- Animated still fallback — shows instantly and whenever the video is skipped (save-data / 2G) -->
-            <img class="cine-img" src="assets/hero-fallback.webp" srcset="assets/hero-fallback-800.webp 800w, assets/hero-fallback.webp 1920w" sizes="(max-width: 980px) 100vw, 62vw" alt="Back view of long, flowing Micro K-Tip hair extensions in premium Slavic hair — Austin, TX" loading="eager" />
-            <img class="cine-hair" src="assets/hero-fallback.webp" srcset="assets/hero-fallback-800.webp 800w, assets/hero-fallback.webp 1920w" sizes="(max-width: 980px) 100vw, 62vw" alt="" aria-hidden="true" loading="lazy" />
+            <img class="cine-img" src="assets/hero-light-fallback.webp" srcset="assets/hero-light-fallback-800.webp 800w, assets/hero-light-fallback.webp 1920w" sizes="(max-width: 980px) 100vw, 62vw" width="1920" height="1080" alt="Back view of long, flowing Micro K-Tip hair extensions in premium Slavic hair — Austin, TX" loading="eager" />
+            <img class="cine-hair" src="assets/hero-light-fallback.webp" srcset="assets/hero-light-fallback-800.webp 800w, assets/hero-light-fallback.webp 1920w" sizes="(max-width: 980px) 100vw, 62vw" width="1920" height="1080" alt="" aria-hidden="true" loading="lazy" />
             <span class="cine-tone" aria-hidden="true"></span>
             <span class="cine-sweep" aria-hidden="true"></span>
             <span class="cine-vig" aria-hidden="true"></span>
@@ -392,7 +392,7 @@
       <!-- Variant B: Full-bleed -->
       <div class="hero-bleed">
         <div class="bleed-photo">
-          <img src="assets/results/ba-03-after-1400.webp" srcset="assets/results/ba-03-after-700.webp 700w, assets/results/ba-03-after-1000.webp 1000w, assets/results/ba-03-after-1400.webp 1400w" sizes="(max-width: 980px) 100vw, 62vw" width="1400" height="2488" alt="Back view of long, flowing Micro K-Tip hair extensions — Austin, TX" loading="lazy" />
+          <img src="assets/results/ba-02-after-1400.webp" srcset="assets/results/ba-02-after-700.webp 700w, assets/results/ba-02-after-1000.webp 1000w, assets/results/ba-02-after-1400.webp 1400w" sizes="(max-width: 980px) 100vw, 62vw" width="1400" height="2488" alt="Back view of long, flowing Micro K-Tip hair extensions — Austin, TX" loading="lazy" />
         </div>
         <div class="bleed-content">
           <span class="eyebrow center reveal">Micro K-Tip Hair Extensions · Austin, Texas</span>
@@ -502,26 +502,23 @@
             </div>
           </div>
           <div class="ba-dots" id="baDots" role="tablist" aria-label="Before-after pairs">
-            <button class="ba-dot is-active" data-pair="0" role="tab" aria-selected="true" aria-controls="baStage" tabindex="0" aria-label="Result 1 of 7 &#8212; blonde, added length and volume">
+            <button class="ba-dot is-active" data-pair="0" role="tab" aria-selected="true" aria-controls="baStage" tabindex="0" aria-label="Result 1 of 6 &#8212; blonde, long waves">
               <img src="assets/results/ba-01-after-400.webp" width="400" height="712" alt="" loading="lazy" />
             </button>
-            <button class="ba-dot" data-pair="1" role="tab" aria-selected="false" aria-controls="baStage" tabindex="-1" aria-label="Result 2 of 7 &#8212; blonde, long waves">
+            <button class="ba-dot" data-pair="1" role="tab" aria-selected="false" aria-controls="baStage" tabindex="-1" aria-label="Result 2 of 6 &#8212; copper, full length">
               <img src="assets/results/ba-02-after-400.webp" width="400" height="712" alt="" loading="lazy" />
             </button>
-            <button class="ba-dot" data-pair="2" role="tab" aria-selected="false" aria-controls="baStage" tabindex="-1" aria-label="Result 3 of 7 &#8212; copper, full length">
+            <button class="ba-dot" data-pair="2" role="tab" aria-selected="false" aria-controls="baStage" tabindex="-1" aria-label="Result 3 of 6 &#8212; black, long waves">
               <img src="assets/results/ba-03-after-400.webp" width="400" height="712" alt="" loading="lazy" />
             </button>
-            <button class="ba-dot" data-pair="3" role="tab" aria-selected="false" aria-controls="baStage" tabindex="-1" aria-label="Result 4 of 7 &#8212; black, long waves">
+            <button class="ba-dot" data-pair="3" role="tab" aria-selected="false" aria-controls="baStage" tabindex="-1" aria-label="Result 4 of 6 &#8212; platinum blonde, sleek finish">
               <img src="assets/results/ba-04-after-400.webp" width="400" height="712" alt="" loading="lazy" />
             </button>
-            <button class="ba-dot" data-pair="4" role="tab" aria-selected="false" aria-controls="baStage" tabindex="-1" aria-label="Result 5 of 7 &#8212; platinum blonde, sleek finish">
+            <button class="ba-dot" data-pair="4" role="tab" aria-selected="false" aria-controls="baStage" tabindex="-1" aria-label="Result 5 of 6 &#8212; ash blonde, long waves">
               <img src="assets/results/ba-05-after-400.webp" width="400" height="712" alt="" loading="lazy" />
             </button>
-            <button class="ba-dot" data-pair="5" role="tab" aria-selected="false" aria-controls="baStage" tabindex="-1" aria-label="Result 6 of 7 &#8212; ash blonde, long waves">
+            <button class="ba-dot" data-pair="5" role="tab" aria-selected="false" aria-controls="baStage" tabindex="-1" aria-label="Result 6 of 6 &#8212; auburn, long waves">
               <img src="assets/results/ba-06-after-400.webp" width="400" height="712" alt="" loading="lazy" />
-            </button>
-            <button class="ba-dot" data-pair="6" role="tab" aria-selected="false" aria-controls="baStage" tabindex="-1" aria-label="Result 7 of 7 &#8212; auburn, long waves">
-              <img src="assets/results/ba-07-after-400.webp" width="400" height="712" alt="" loading="lazy" />
             </button>
           </div>
         </div>
@@ -713,32 +710,28 @@
         </div>
       </div>
       <div class="gallery-rail" id="galleryRail">
-        <a class="gallery-tile" href="#" aria-label="Blonde, added length and volume">
-          <img src="assets/results/ba-01-after-700.webp" srcset="assets/results/ba-01-after-400.webp 400w, assets/results/ba-01-after-700.webp 700w, assets/results/ba-01-after-1000.webp 1000w" sizes="(max-width: 700px) 80vw, 360px" width="700" height="1244" alt="Blonde, added length and volume Micro K-Tip result" loading="lazy"/>
-          <span class="tag">Blonde, added length and volume</span>
-        </a>
         <a class="gallery-tile" href="#" aria-label="Blonde, long waves">
-          <img src="assets/results/ba-02-after-700.webp" srcset="assets/results/ba-02-after-400.webp 400w, assets/results/ba-02-after-700.webp 700w, assets/results/ba-02-after-1000.webp 1000w" sizes="(max-width: 700px) 80vw, 360px" width="700" height="1244" alt="Blonde, long waves Micro K-Tip result" loading="lazy"/>
+          <img src="assets/results/ba-01-after-700.webp" srcset="assets/results/ba-01-after-400.webp 400w, assets/results/ba-01-after-700.webp 700w, assets/results/ba-01-after-1000.webp 1000w" sizes="(max-width: 700px) 80vw, 360px" width="700" height="1244" alt="Blonde, long waves Micro K-Tip result" loading="lazy"/>
           <span class="tag">Blonde, long waves</span>
         </a>
         <a class="gallery-tile" href="#" aria-label="Copper, full length">
-          <img src="assets/results/ba-03-after-700.webp" srcset="assets/results/ba-03-after-400.webp 400w, assets/results/ba-03-after-700.webp 700w, assets/results/ba-03-after-1000.webp 1000w" sizes="(max-width: 700px) 80vw, 360px" width="700" height="1244" alt="Copper, full length Micro K-Tip result" loading="lazy"/>
+          <img src="assets/results/ba-02-after-700.webp" srcset="assets/results/ba-02-after-400.webp 400w, assets/results/ba-02-after-700.webp 700w, assets/results/ba-02-after-1000.webp 1000w" sizes="(max-width: 700px) 80vw, 360px" width="700" height="1244" alt="Copper, full length Micro K-Tip result" loading="lazy"/>
           <span class="tag">Copper, full length</span>
         </a>
         <a class="gallery-tile" href="#" aria-label="Black, long waves">
-          <img src="assets/results/ba-04-after-700.webp" srcset="assets/results/ba-04-after-400.webp 400w, assets/results/ba-04-after-700.webp 700w, assets/results/ba-04-after-1000.webp 1000w" sizes="(max-width: 700px) 80vw, 360px" width="700" height="1244" alt="Black, long waves Micro K-Tip result" loading="lazy"/>
+          <img src="assets/results/ba-03-after-700.webp" srcset="assets/results/ba-03-after-400.webp 400w, assets/results/ba-03-after-700.webp 700w, assets/results/ba-03-after-1000.webp 1000w" sizes="(max-width: 700px) 80vw, 360px" width="700" height="1244" alt="Black, long waves Micro K-Tip result" loading="lazy"/>
           <span class="tag">Black, long waves</span>
         </a>
         <a class="gallery-tile" href="#" aria-label="Platinum blonde, sleek finish">
-          <img src="assets/results/ba-05-after-700.webp" srcset="assets/results/ba-05-after-400.webp 400w, assets/results/ba-05-after-700.webp 700w, assets/results/ba-05-after-1000.webp 1000w" sizes="(max-width: 700px) 80vw, 360px" width="700" height="1244" alt="Platinum blonde, sleek finish Micro K-Tip result" loading="lazy"/>
+          <img src="assets/results/ba-04-after-700.webp" srcset="assets/results/ba-04-after-400.webp 400w, assets/results/ba-04-after-700.webp 700w, assets/results/ba-04-after-1000.webp 1000w" sizes="(max-width: 700px) 80vw, 360px" width="700" height="1244" alt="Platinum blonde, sleek finish Micro K-Tip result" loading="lazy"/>
           <span class="tag">Platinum blonde, sleek finish</span>
         </a>
         <a class="gallery-tile" href="#" aria-label="Ash blonde, long waves">
-          <img src="assets/results/ba-06-after-700.webp" srcset="assets/results/ba-06-after-400.webp 400w, assets/results/ba-06-after-700.webp 700w, assets/results/ba-06-after-1000.webp 1000w" sizes="(max-width: 700px) 80vw, 360px" width="700" height="1244" alt="Ash blonde, long waves Micro K-Tip result" loading="lazy"/>
+          <img src="assets/results/ba-05-after-700.webp" srcset="assets/results/ba-05-after-400.webp 400w, assets/results/ba-05-after-700.webp 700w, assets/results/ba-05-after-1000.webp 1000w" sizes="(max-width: 700px) 80vw, 360px" width="700" height="1244" alt="Ash blonde, long waves Micro K-Tip result" loading="lazy"/>
           <span class="tag">Ash blonde, long waves</span>
         </a>
         <a class="gallery-tile" href="#" aria-label="Auburn, long waves">
-          <img src="assets/results/ba-07-after-700.webp" srcset="assets/results/ba-07-after-400.webp 400w, assets/results/ba-07-after-700.webp 700w, assets/results/ba-07-after-1000.webp 1000w" sizes="(max-width: 700px) 80vw, 360px" width="700" height="1244" alt="Auburn, long waves Micro K-Tip result" loading="lazy"/>
+          <img src="assets/results/ba-06-after-700.webp" srcset="assets/results/ba-06-after-400.webp 400w, assets/results/ba-06-after-700.webp 700w, assets/results/ba-06-after-1000.webp 1000w" sizes="(max-width: 700px) 80vw, 360px" width="700" height="1244" alt="Auburn, long waves Micro K-Tip result" loading="lazy"/>
           <span class="tag">Auburn, long waves</span>
         </a>
       </div>
@@ -884,7 +877,7 @@
         </div>
 
         <div class="contact-media reveal" data-delay="200">
-          <img src="assets/results/ba-05-after-1400.webp" srcset="assets/results/ba-05-after-700.webp 700w, assets/results/ba-05-after-1000.webp 1000w, assets/results/ba-05-after-1400.webp 1400w" sizes="(max-width: 900px) 92vw, 46vw" width="1400" height="2488" alt="Inside HBI Studio — a finished Micro K-Tip result" loading="lazy" />
+          <img src="assets/results/ba-04-after-1400.webp" srcset="assets/results/ba-04-after-700.webp 700w, assets/results/ba-04-after-1000.webp 1000w, assets/results/ba-04-after-1400.webp 1400w" sizes="(max-width: 900px) 92vw, 46vw" width="1400" height="2488" alt="Inside HBI Studio — a finished Micro K-Tip result" loading="lazy" />
         </div>
       </div>
 
@@ -1044,11 +1037,16 @@
       if (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '')) return;
       var small = window.matchMedia('(max-width: 700px)').matches;
       var tabletOrLess = window.matchMedia('(max-width: 1024px)').matches;
-      var src = (tabletOrLess && v.dataset.srcMobile) ? v.dataset.srcMobile : v.dataset.src;
+      var mobile = tabletOrLess && v.dataset.srcMobile;
+      var src = mobile ? v.dataset.srcMobile : v.dataset.src;
+      var srcMp4 = mobile ? v.dataset.srcMobileMp4 : v.dataset.srcMp4;
       function attach() {
-        var s = document.createElement('source');
-        s.src = src; s.type = 'video/webm';
-        v.appendChild(s);
+        [[src, 'video/webm'], [srcMp4, 'video/mp4']].forEach(function (pair) {
+          if (!pair[0]) return;
+          var s = document.createElement('source');
+          s.src = pair[0]; s.type = pair[1];
+          v.appendChild(s);
+        });
         v.load();
         v.addEventListener('loadeddata', function () {
           cine.classList.add('has-video');
