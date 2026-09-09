@@ -349,17 +349,9 @@
             <li class="hero-pill"><span class="pip"></span>Color Match</li>
           </ul>
         </div>
-        <div class="hero-photo">
-          <div class="hero-cine" id="heroCine">
-            <!-- Slow-motion VIDEO: drop a <source> in here (back-facing, long-hair
-                 slow-mo clip) and it auto-plays over the still. muted+loop+playsinline. -->
-            <video class="cine-video" muted loop playsinline preload="none" width="1920" height="1080" data-src="assets/hero-ad-light.webm" data-src-mp4="assets/hero-ad-light.mp4" data-src-mobile="assets/hero-ad-light-720.webm" data-src-mobile-mp4="assets/hero-ad-light-720.mp4"></video>
-            <!-- Animated still fallback — shows instantly and whenever the video is skipped (save-data / 2G) -->
-            <img class="cine-img" src="assets/hero-light-fallback.webp" srcset="assets/hero-light-fallback-800.webp 800w, assets/hero-light-fallback.webp 1920w" sizes="(max-width: 980px) 100vw, 62vw" width="1920" height="1080" alt="Back view of long, flowing Micro K-Tip hair extensions in premium Slavic hair — Austin, TX" loading="eager" />
-            <img class="cine-hair" src="assets/hero-light-fallback.webp" srcset="assets/hero-light-fallback-800.webp 800w, assets/hero-light-fallback.webp 1920w" sizes="(max-width: 980px) 100vw, 62vw" width="1920" height="1080" alt="" aria-hidden="true" loading="lazy" />
-            <span class="cine-tone" aria-hidden="true"></span>
-            <span class="cine-sweep" aria-hidden="true"></span>
-          </div>
+        <!-- Sits outside .hero-photo: that layer is below .hero-copy, and on
+             narrow screens the copy spans the whole hero, so the seal was
+             painted over by the copy's backing. -->
           <div class="seal" aria-hidden="true" data-om-id="888474fa:87">
             <svg viewBox="0 0 200 200" class="seal-svg">
               <defs>
@@ -373,6 +365,17 @@
                   points="100,68 107.3,90.5 130.9,90.5 111.8,104.5 119.1,127 100,113 80.9,127 88.2,104.5 69.1,90.5 92.7,90.5" />
               </g>
             </svg>
+          </div>
+        <div class="hero-photo">
+          <div class="hero-cine" id="heroCine">
+            <!-- Slow-motion VIDEO: drop a <source> in here (back-facing, long-hair
+                 slow-mo clip) and it auto-plays over the still. muted+loop+playsinline. -->
+            <video class="cine-video" muted loop playsinline preload="none" width="1920" height="1080" data-src="assets/hero-ad-light.webm" data-src-mp4="assets/hero-ad-light.mp4" data-src-mobile="assets/hero-ad-light-720.webm" data-src-mobile-mp4="assets/hero-ad-light-720.mp4"></video>
+            <!-- Animated still fallback — shows instantly and whenever the video is skipped (save-data / 2G) -->
+            <img class="cine-img" src="assets/hero-light-fallback.webp" srcset="assets/hero-light-fallback-800.webp 800w, assets/hero-light-fallback.webp 1920w" sizes="(max-width: 980px) 100vw, 62vw" width="1920" height="1080" alt="Back view of long, flowing Micro K-Tip hair extensions in premium Slavic hair — Austin, TX" loading="eager" />
+            <img class="cine-hair" src="assets/hero-light-fallback.webp" srcset="assets/hero-light-fallback-800.webp 800w, assets/hero-light-fallback.webp 1920w" sizes="(max-width: 980px) 100vw, 62vw" width="1920" height="1080" alt="" aria-hidden="true" loading="lazy" />
+            <span class="cine-tone" aria-hidden="true"></span>
+            <span class="cine-sweep" aria-hidden="true"></span>
           </div>
           <div class="scroll-cue" aria-hidden="true">
             <span class="line"></span>
