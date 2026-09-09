@@ -592,14 +592,16 @@ body[data-hero="editorial"] .hero-editorial { display: grid; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .hero-split .seal { right: clamp(30px, 5vw, 80px); top: clamp(110px, 12vw, 180px); }
 
-/* The split hero's seal sits at the far right, where the ivory veil is
-   thinnest and the footage is near-black — so it stays light, with a shadow
-   for the frames where the footage brightens. The bleed hero's seal sits on a
-   heavy ivory veil and keeps the bronze. */
-.hero-split .seal-svg { filter: drop-shadow(0 1px 4px rgba(24,14,0,.55)); }
-.hero-split .seal-svg .seal-text,
-.hero-split .seal-svg .seal-dot,
-.hero-split .seal-svg .seal-star { fill: #FFF8EA; }
+/* The seal was cream with a dark shadow because it used to sit over the dark
+   site's near-black footage. The light clip runs 132-241 behind it for the
+   whole loop, so cream disappeared into it. Bronze reads at 5.2:1 on the wall,
+   and the shadow flips to a cream halo, which is what carries it through the
+   frames where the hair sweeps past. Fills come from the base .seal rules. */
+.hero-split .seal-svg {
+  filter:
+    drop-shadow(0 0 2px rgba(255,252,246,.95))
+    drop-shadow(0 1px 4px rgba(255,252,246,.75));
+}
 
 /* Scroll cue */
 .scroll-cue {
@@ -2228,3 +2230,27 @@ a.score:hover { border-color: var(--gold-line); background: var(--gold-glow); }
 }
 .tweak-toggle[data-on="true"] .knob::after { left: 16px; background: var(--gold); }
 
+
+/* ===========================================================
+   CURSOR
+   =========================================================== */
+/* The system arrow is white-on-thin-outline and gets lost on the ivory
+   grounds. These are real CSS cursors rather than a JS follower with
+   `cursor: none` — the pointer keeps its own position and never lags, and it
+   still exists for anyone relying on it. Both fall back to the system cursor
+   if the SVG is refused, and only apply to a real pointing device. */
+@media (hover: hover) and (pointer: fine) {
+  :root {
+    --cur-arrow: url("data:image/svg+xml;utf8,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='24'%20height='24'><path%20d='M3%202%20L3%2018.5%20L7.6%2014.2%20L10.7%2021%20L13.8%2019.5%20L10.8%2013.2%20L16.4%2013%20Z'%20fill='%2382602F'%20stroke='%23FFFCF6'%20stroke-width='1.3'%20stroke-linejoin='round'/></svg>") 3 2, auto;
+    --cur-point: url("data:image/svg+xml;utf8,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='26'%20height='26'><circle%20cx='13'%20cy='13'%20r='9.2'%20fill='rgba(255,252,246,.55)'%20stroke='%2382602F'%20stroke-width='1.4'/><circle%20cx='13'%20cy='13'%20r='2.6'%20fill='%2382602F'/></svg>") 13 13, pointer;
+  }
+  body { cursor: var(--cur-arrow); }
+  /* Class-level specificity so this lands on top of the existing
+     `cursor: pointer` rules, which it follows in the sheet. */
+  :is(a, button, summary, label, select, [role="button"], [role="tab"],
+      .gallery-tile, .ba-dot, .svc2-card, .tweak-swatch, .faq-q) {
+    cursor: var(--cur-point);
+  }
+  /* Text still deserves a text cursor. */
+  input, textarea { cursor: text; }
+}
