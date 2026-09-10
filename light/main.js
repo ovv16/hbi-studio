@@ -263,7 +263,8 @@
       { before: 'assets/results/ba-03-before', after: 'assets/results/ba-03-after' },
       { before: 'assets/results/ba-04-before', after: 'assets/results/ba-04-after' },
       { before: 'assets/results/ba-05-before', after: 'assets/results/ba-05-after' },
-      { before: 'assets/results/ba-06-before', after: 'assets/results/ba-06-after' }
+      { before: 'assets/results/ba-06-before', after: 'assets/results/ba-06-after' },
+      { before: 'assets/results/ba-07-before', after: 'assets/results/ba-07-after' }
     ];
 
     /* Warm the cache so a switch crossfades instead of flashing an empty stage */
