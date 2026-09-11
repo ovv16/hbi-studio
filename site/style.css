@@ -896,7 +896,7 @@ body[data-marquee="off"] .marquee { display: none; }
   /* Tall portrait frame: runs nearly the full screen height, width follows.
      The 260px reserve covers section padding, the gap and the thumb strip,
      so the whole group still lands within one screen. */
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 2 / 3;
   height: min(calc(100vh - 260px), 820px);
   width: auto;
   max-width: 100%;
@@ -908,8 +908,9 @@ body[data-marquee="off"] .marquee { display: none; }
 }
 .ba-stage img {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-  /* Bias the crop upward: drop more ceiling than chair, never hair */
-  object-position: 50% 38%;
+  /* Crop bias: the 2:3 frame shows 84% of the 9:16 photo; sitting the
+     window at 45% keeps the crown in and lets the ends clear the bottom. */
+  object-position: 50% 45%;
   pointer-events: none;
 }
 .ba-after {
@@ -963,7 +964,7 @@ body[data-marquee="off"] .marquee { display: none; }
   gap: 16px;
   aspect-ratio: auto;
   width: 100%;
-  max-width: calc((100vh - 300px) * 1.5 + 16px);
+  max-width: calc((100vh - 300px) * 1.3334 + 16px);
   height: auto;
   border: none;
   background: none;
@@ -975,7 +976,7 @@ body[data-marquee="off"] .marquee { display: none; }
   inset: auto;
   flex: 1 1 0;
   width: auto; height: auto;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 2 / 3;
   background: var(--warm);
   border: 1px solid var(--gold-line);
   overflow: hidden;
@@ -1011,7 +1012,7 @@ body[data-marquee="off"] .marquee { display: none; }
   margin-top: 22px;
 }
 .ba-dot {
-  width: 52px; aspect-ratio: 3 / 4;
+  width: 52px; aspect-ratio: 2 / 3;
   padding: 0; background: var(--warm);
   border: 1px solid transparent;
   overflow: hidden; cursor: pointer;
@@ -1022,7 +1023,7 @@ body[data-marquee="off"] .marquee { display: none; }
 }
 .ba-dot img {
   display: block; width: 100%; height: 100%;
-  object-fit: cover; object-position: 50% 38%;
+  object-fit: cover; object-position: 50% 45%;
 }
 .ba-dot:hover { opacity: .8; transform: translateY(-3px); }
 .ba-dot.is-active { opacity: 1; border-color: var(--gold); }
