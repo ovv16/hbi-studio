@@ -57,9 +57,14 @@
     let raf = null;
     let animating = false;
     let lockedUntil = 0;
+    /* The reveal code listens: while the page glides it holds new blocks
+       back, and lets them rise once the page has come to rest. */
+    const root = document.documentElement;
+    const settled = () => { root.classList.remove('is-gliding'); window.dispatchEvent(new CustomEvent('hbi:glide-end')); };
     const cancel = () => {
       if (raf) cancelAnimationFrame(raf);
-      raf = null; animating = false;
+      raf = null;
+      if (animating) { animating = false; settled(); }
     };
     const glideTo = (target, duration = DURATION) => {
       cancel();
@@ -68,12 +73,13 @@
       if (Math.abs(distance) < 2) return;
       if (reduced.matches) { window.scrollTo(0, target); return; }
       animating = true;
+      root.classList.add('is-gliding');
       const startT = performance.now();
       const tick = (t) => {
         const k = Math.min(1, (t - startT) / duration);
         window.scrollTo(0, startY + distance * ease(k));
         if (k < 1) { raf = requestAnimationFrame(tick); }
-        else { raf = null; animating = false; lockedUntil = performance.now() + COOLDOWN; }
+        else { raf = null; animating = false; lockedUntil = performance.now() + COOLDOWN; settled(); }
       };
       raf = requestAnimationFrame(tick);
     };
@@ -224,13 +230,13 @@
     el.style.transform = 'none';
     el.classList.add('is-in');
     // Use Web Animations API for the fade — survives external CSS mutations
-    /* 650ms with the stagger capped at 220ms: a settle you can feel, never a
+    /* 750ms with the stagger capped at 260ms: a rise you can feel, never a
        wait. Under reduced motion the element is already visible via CSS. */
     if (animate && el.animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       try {
         el.animate(
           [{ opacity: 0, transform: 'translateY(18px)' }, { opacity: 1, transform: 'none' }],
-          { duration: 650, delay: Math.min(d, 220), easing: 'cubic-bezier(.2,.7,.15,1)', fill: 'both' }
+          { duration: 750, delay: Math.min(d, 260), easing: 'cubic-bezier(.2,.7,.15,1)', fill: 'both' }
         );
       } catch (_) {}
     }
@@ -239,12 +245,26 @@
     // Reveal slightly BEFORE the element enters the viewport (positive bottom
     // margin) so fast momentum scrolling on phones never catches un-revealed
     // text popping in late.
+    /* During a sectional glide the observer would fire while the page is
+       still moving, and the blocks would be fully in by the time it lands —
+       no arrival at all. So while the page glides, newly intersecting blocks
+       are held; when it comes to rest they rise together, with a short pause
+       first so the landing registers before anything moves. */
+    const held = new Set();
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => {
-        if (e.isIntersecting) { revealEl(e.target); io.unobserve(e.target); }
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        if (document.documentElement.classList.contains('is-gliding')) held.add(e.target);
+        else revealEl(e.target);
       });
     }, { threshold: 0, rootMargin: '0px 0px 20% 0px' });
     reveals.forEach(el => io.observe(el));
+    window.addEventListener('hbi:glide-end', () => {
+      if (!held.size) return;
+      const batch = [...held]; held.clear();
+      setTimeout(() => batch.forEach(el => revealEl(el)), 120);
+    });
     // Anything already in viewport on load — reveal it right away
     requestAnimationFrame(() => {
       reveals.forEach(el => {
