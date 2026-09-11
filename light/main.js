@@ -235,20 +235,20 @@
     el.style.transform = 'none';
     el.classList.add('is-in');
     // Use Web Animations API for the fade — survives external CSS mutations
-    /* 800ms with the stagger capped at 200ms: the rise overlaps the end of
+    /* 1100ms with the stagger capped at 220ms: the rise overlaps the end of
        the glide rather than following it. Under reduced motion the element is
        already visible via CSS. */
     if (animate && el.animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       try {
         /* A rise, not a fade: 56px of travel, and the block is fully opaque
-           by 40% of the way so most of the movement is seen in the open. */
+           by 50% of the way so most of the movement is seen in the open. */
         el.animate(
           [
             { opacity: 0, transform: 'translateY(56px)' },
-            { opacity: 1, transform: 'translateY(30px)', offset: 0.4 },
+            { opacity: 1, transform: 'translateY(26px)', offset: 0.5 },
             { opacity: 1, transform: 'none' }
           ],
-          { duration: 800, delay: Math.min(d, 200), easing: 'cubic-bezier(.2,.7,.15,1)', fill: 'both' }
+          { duration: 1100, delay: Math.min(d, 220), easing: 'cubic-bezier(.16,.6,.1,1)', fill: 'both' }
         );
       } catch (_) {}
     }
