@@ -186,7 +186,7 @@ body[data-grain="off"] .grain { display: none; }
 .js .reveal { will-change: opacity, transform; }
 .js .reveal:not(.is-in) {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(56px);   /* matches the rise's starting point */
 }
 
 @media (prefers-reduced-motion: reduce) {
