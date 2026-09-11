@@ -256,7 +256,10 @@
     });
 
     /* Pairs — real client results, base paths into assets/results/ */
-    const baSrcset = (base) => [700, 1000, 1400].map(w => `${base}-${w}.webp ${w}w`).join(', ');
+    /* Photographs get regenerated in place; the version keeps a returning
+       browser from showing last week's crop. Bump it whenever they change. */
+    const IMG_V = '20260912-1';
+    const baSrcset = (base) => [700, 1000, 1400].map(w => `${base}-${w}.webp?v=${IMG_V} ${w}w`).join(', ');
     const pairs = [
       { before: 'assets/results/ba-01-before', after: 'assets/results/ba-01-after' },
       { before: 'assets/results/ba-02-before', after: 'assets/results/ba-02-after' },
@@ -268,7 +271,7 @@
     ];
 
     /* Warm the cache so a switch crossfades instead of flashing an empty stage */
-    const warm = (base) => { const i = new Image(); i.srcset = baSrcset(base); i.src = base + '-1400.webp'; };
+    const warm = (base) => { const i = new Image(); i.srcset = baSrcset(base); i.src = base + '-1400.webp?v=' + IMG_V; };
     const warmPair = (idx) => { const p = pairs[idx]; if (p) { warm(p.before); warm(p.after); } };
 
     let current = 0;
@@ -291,8 +294,8 @@
       stage.style.transition = 'opacity .4s';
       stage.style.opacity = '0';
       setTimeout(() => {
-        if (beforeImg) { beforeImg.srcset = baSrcset(p.before); beforeImg.src = p.before + '-1400.webp'; }
-        if (afterImg) { afterImg.srcset = baSrcset(p.after); afterImg.src = p.after + '-1400.webp'; }
+        if (beforeImg) { beforeImg.srcset = baSrcset(p.before); beforeImg.src = p.before + '-1400.webp?v=' + IMG_V; }
+        if (afterImg) { afterImg.srcset = baSrcset(p.after); afterImg.src = p.after + '-1400.webp?v=' + IMG_V; }
         stage.style.opacity = '1';
         setPos(50);
         /* Neighbours are the likeliest next click */
@@ -386,7 +389,7 @@
     const lbClose = $('#lbClose');
     const tiles = $$('.gallery-tile', rail);
     let idx = 0, lastFocus = null;
-    const hiRes = (src) => src ? src.replace(/-(?:400|700|1000)\.webp$/, '-1400.webp') : src;
+    const hiRes = (src) => src ? src.replace(/-(?:400|700|1000)\.webp(\?[^#]*)?$/, '-1400.webp$1') : src;
 
     function show(i) {
       idx = (i + tiles.length) % tiles.length;
