@@ -58,12 +58,11 @@
 html, body { margin: 0; padding: 0; }
 html {
   scroll-behavior: auto;
-  /* Anchor jumps and scrollIntoView stop short of the fixed header. The JS
-     sectional scroll uses the same offset, so both agree on where a section
-     starts. The hero is the exception and stays at the very top. */
-  scroll-padding-top: var(--header-height);
 }
-main > section:not(.hero) { scroll-margin-top: var(--header-height); }
+/* No scroll-padding for sections on purpose: each carries 110-140px of top
+   padding, more than the fixed header, so it lands at the top of the viewport
+   with the header floating over padding. Offsetting by the header pushed 100vh
+   sections 85px past the fold and cut their bottom edge. */
 
 body {
   font-family: var(--sans);

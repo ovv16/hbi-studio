@@ -43,12 +43,12 @@
     const engineOn = () => desktop.matches && !reduced.matches;
 
     const sections = () => Array.from(document.querySelectorAll('main > section[id]'));
-    /* Where a section's top should land: flush under the fixed header, except
-       the hero, which the header is designed to float over. */
-    const targetFor = (sec) => {
-      const top = sec.getBoundingClientRect().top + window.scrollY;
-      return sec.classList.contains('hero') ? 0 : Math.max(0, top - HEADER());
-    };
+    /* Where a section's top should land: the top of the viewport. Every
+       section carries 110-140px of top padding, more than the 85px header, so
+       the header floats over padding and never over content. Landing a section
+       lower than that pushed its bottom 85px past the fold — which cut the
+       gallery tiles and the before/after thumb strip on 100vh sections. */
+    const targetFor = (sec) => Math.max(0, sec.getBoundingClientRect().top + window.scrollY);
     const overlayOpen = () =>
       document.body.style.overflow === 'hidden' ||
       document.documentElement.style.overflow === 'hidden';
@@ -80,7 +80,7 @@
 
     /* --- where we are --- */
     const currentSection = () => {
-      const probe = HEADER() + 1;
+      const probe = 1;
       const list = sections();
       for (const s of list) {
         const r = s.getBoundingClientRect();
@@ -88,15 +88,14 @@
       }
       return list[0] || null;
     };
-    /* "Tall" means taller than the viewport itself. A 100vh section that lands
-       under the header runs 85px past the fold, but that is bottom padding, and
-       treating it as tall would turn one glide into two gestures. */
+    /* "Tall" means taller than the viewport, with a little slack for bottom
+       padding, so a 100vh section stays a single glide. */
     const isTall = (sec) => sec.offsetHeight > window.innerHeight + 24;
     /* For a tall section: may we leave it in this direction yet? */
     const atEdge = (sec, dir) => {
       const r = sec.getBoundingClientRect();
       return dir > 0 ? r.bottom <= window.innerHeight + 2
-                     : r.top >= HEADER() - 2;
+                     : r.top >= -2;
     };
     /* Is the wheel over something that scrolls on its own and still can? */
     const innerScrollable = (el, dir) => {
@@ -155,11 +154,10 @@
       clearTimeout(settleTimer);
       settleTimer = setTimeout(() => {
         if (!engineOn() || overlayOpen() || animating) return;
-        const h = HEADER();
         const limit = window.innerHeight * 0.34;
         for (const s of sections()) {
           const top = s.getBoundingClientRect().top;
-          if (top - h > 2 && top - h <= limit) { glideTo(targetFor(s), SETTLE_DURATION); return; }
+          if (top > 2 && top <= limit) { glideTo(targetFor(s), SETTLE_DURATION); return; }
         }
       }, 200);
     };
