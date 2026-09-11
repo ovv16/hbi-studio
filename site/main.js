@@ -5,105 +5,170 @@
 (() => {
   'use strict';
 
+  /* The head marks <html class="js"> before first paint; this tells it the
+     script really arrived, so it can stop its fallback timer. */
+  window.__hbiJs = true;
+
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
-  /* ============== Smooth cinematic snap-scroll ============== */
+  /* ============== Smooth sectional scroll ============== */
+  /* Desktop only, pointer + wheel, and only when the visitor has not asked
+     for reduced motion. One deliberate wheel gesture moves one section; the
+     stream of small events a trackpad or an inertial wheel emits during that
+     gesture is treated as the same gesture, not as several. Sections taller
+     than the viewport scroll natively inside; the engine only steps on from a
+     tall section once its edge has been reached. Keys, anchors, forms,
+     overlays and inner scroll containers are never intercepted. */
   (() => {
-    const SNAP_SELECTOR = 'section';
-    const DURATION = 1100; // ms — cinematic, not jarring
+    const HEADER = () => {
+      const v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height'));
+      return Number.isFinite(v) ? v : 85;
+    };
+    const DURATION = 800;              // ms — the premium glide
+    const SETTLE_DURATION = 550;       // ms — nudging a small overshoot home
+    const GESTURE_GAP = 140;           // ms of wheel silence that ends a gesture
+    const COOLDOWN = 260;              // ms after a glide before the next may start
+    const TRIGGER = 24;                // px of accumulated delta that counts as intent
     const easeInOutCubic = (t) => t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
 
-    let animating = false;
-    let lastWheelTime = 0;
-    let touchStartY = 0;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const desktop = window.matchMedia('(min-width: 1081px) and (hover: hover) and (pointer: fine)');
+    const engineOn = () => desktop.matches && !reduced.matches;
 
-    const getSnapPoints = () => {
-      const els = Array.from(document.querySelectorAll(SNAP_SELECTOR));
-      return els.map(el => Math.round(el.getBoundingClientRect().top + window.scrollY)).sort((a,b)=>a-b);
+    const sections = () => Array.from(document.querySelectorAll('main > section[id]'));
+    /* Where a section's top should land: flush under the fixed header, except
+       the hero, which the header is designed to float over. */
+    const targetFor = (sec) => {
+      const top = sec.getBoundingClientRect().top + window.scrollY;
+      return sec.classList.contains('hero') ? 0 : Math.max(0, top - HEADER());
     };
+    const overlayOpen = () =>
+      document.body.style.overflow === 'hidden' ||
+      document.documentElement.style.overflow === 'hidden';
 
-    const animateScrollTo = (target) => {
-      animating = true;
+    /* --- the glide --- */
+    let raf = null;
+    let animating = false;
+    let lockedUntil = 0;
+    const cancel = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = null; animating = false;
+    };
+    const glideTo = (target, duration = DURATION) => {
+      cancel();
       const startY = window.scrollY;
       const distance = target - startY;
-      if (Math.abs(distance) < 4) { animating = false; return; }
+      if (Math.abs(distance) < 2) return;
+      if (reduced.matches) { window.scrollTo(0, target); return; }
+      animating = true;
       const startT = performance.now();
       const tick = (t) => {
-        const k = Math.min(1, (t - startT) / DURATION);
-        const eased = easeInOutCubic(k);
-        window.scrollTo(0, startY + distance * eased);
-        if (k < 1) requestAnimationFrame(tick);
-        else { animating = false; }
+        const k = Math.min(1, (t - startT) / duration);
+        window.scrollTo(0, startY + distance * easeInOutCubic(k));
+        if (k < 1) { raf = requestAnimationFrame(tick); }
+        else { raf = null; animating = false; lockedUntil = performance.now() + COOLDOWN; }
       };
-      requestAnimationFrame(tick);
+      raf = requestAnimationFrame(tick);
     };
 
-    const findNext = (direction) => {
-      const points = getSnapPoints();
-      const y = window.scrollY;
-      const vh = window.innerHeight;
-      if (direction > 0) {
-        // next section start that is below current viewport top by > 20px
-        for (const p of points) if (p > y + 20) return p;
-        // already at/past the last section: scroll to bottom (footer)
-        return Math.max(...points, document.documentElement.scrollHeight - vh);
-      } else {
-        const reversed = [...points].reverse();
-        for (const p of reversed) if (p < y - 20) return p;
-        return 0;
-      }
-    };
-
-    const handleWheel = (e) => {
-      if (Math.abs(e.deltaY) < 8) return;
-      // Allow free scrolling inside very tall sections — but at boundaries, snap
-      const direction = e.deltaY > 0 ? 1 : -1;
-      const target = findNext(direction);
-      const dist = Math.abs(target - window.scrollY);
-      // If next snap point is more than one viewport away (long section), let native scroll work
-      const vh = window.innerHeight;
-      const currentSec = [...document.querySelectorAll(SNAP_SELECTOR)].find(s => {
+    /* --- where we are --- */
+    const currentSection = () => {
+      const probe = HEADER() + 1;
+      const list = sections();
+      for (const s of list) {
         const r = s.getBoundingClientRect();
-        return r.top <= 80 && r.bottom > 80;
-      });
-      if (currentSec && currentSec.offsetHeight > vh + 40) {
-        // Inside a tall section — only snap when near its end/start
-        const r = currentSec.getBoundingClientRect();
-        if (direction > 0 && r.bottom > vh + 40) return; // more content below — native scroll
-        if (direction < 0 && r.top < -40) return; // more content above — native scroll
+        if (r.top <= probe && r.bottom > probe) return s;
       }
-      if (animating) { e.preventDefault(); return; }
-      const now = Date.now();
-      if (now - lastWheelTime < 200) { e.preventDefault(); return; }
-      lastWheelTime = now;
-      e.preventDefault();
-      animateScrollTo(target);
+      return list[0] || null;
+    };
+    /* "Tall" means taller than the viewport itself. A 100vh section that lands
+       under the header runs 85px past the fold, but that is bottom padding, and
+       treating it as tall would turn one glide into two gestures. */
+    const isTall = (sec) => sec.offsetHeight > window.innerHeight + 24;
+    /* For a tall section: may we leave it in this direction yet? */
+    const atEdge = (sec, dir) => {
+      const r = sec.getBoundingClientRect();
+      return dir > 0 ? r.bottom <= window.innerHeight + 2
+                     : r.top >= HEADER() - 2;
+    };
+    /* Is the wheel over something that scrolls on its own and still can? */
+    const innerScrollable = (el, dir) => {
+      for (let n = el; n && n !== document.body && n !== document.documentElement; n = n.parentElement) {
+        const cs = getComputedStyle(n);
+        if (/(auto|scroll)/.test(cs.overflowY) && n.scrollHeight > n.clientHeight + 1) {
+          if (dir > 0 && n.scrollTop + n.clientHeight < n.scrollHeight - 1) return true;
+          if (dir < 0 && n.scrollTop > 0) return true;
+        }
+      }
+      return false;
     };
 
-    // Cinematic wheel/touch snapping is a desktop-only affordance.
-    // On touch devices and small screens it fights native momentum scroll and
-    // jumps past tall sections before they can be read — so we skip it there and
-    // let the browser scroll naturally. Anchor-link smooth scrolling still works.
-    const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches
-      || window.matchMedia('(max-width: 1024px)').matches;
+    /* --- wheel: gestures, not events --- */
+    let acc = 0, lastWheel = 0, gestureSpent = false, settleTimer = null;
+    const onWheel = (e) => {
+      if (!engineOn() || overlayOpen()) return;
+      const dir = e.deltaY > 0 ? 1 : e.deltaY < 0 ? -1 : 0;
+      if (!dir) return;
+      if (innerScrollable(e.target, dir)) return;
 
-    if (!isTouch) {
-      // Only on devices with a real wheel
-      window.addEventListener('wheel', handleWheel, { passive: false });
+      const cur = currentSection();
+      if (!cur) return;
+      const tall = isTall(cur);
+      /* Inside a tall section, away from its edge: native scroll, untouched. */
+      if (tall && !atEdge(cur, dir)) { scheduleSettle(); return; }
 
-      window.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; }, { passive: true });
-      window.addEventListener('touchend', (e) => {
-        if (animating) return;
-        const endY = e.changedTouches[0].clientY;
-        const dy = touchStartY - endY;
-        if (Math.abs(dy) < 50) return;
-        const target = findNext(dy > 0 ? 1 : -1);
-        animateScrollTo(target);
-      });
-    }
+      /* From here on the page is ours: a glide is running, cooling down, or
+         about to start. Native scroll would fight it or drift off the section. */
+      e.preventDefault();
 
-    // Anchor links — smooth animate
+      const now = performance.now();
+      const dm = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1;
+      if (now - lastWheel > GESTURE_GAP) { acc = 0; gestureSpent = false; }
+      lastWheel = now;
+      acc += e.deltaY * dm;
+
+      if (animating || now < lockedUntil || gestureSpent) return;
+      if (Math.abs(acc) < TRIGGER) return;
+
+      const list = sections();
+      const idx = list.indexOf(cur);
+      const next = list[idx + dir];
+      gestureSpent = true;              // this gesture has had its one move
+      if (!next) return;
+      glideTo(targetFor(next));
+    };
+
+    /* --- settling a small overshoot ---
+       Native scrolling out of a tall section can leave a sliver of it above
+       the next section's top. Once the wheel goes quiet, if a section's top is
+       just below the header, ease it into place. Interiors are never touched:
+       the rule only fires when a section top sits between the header and a
+       third of the viewport below it. */
+    const scheduleSettle = () => {
+      clearTimeout(settleTimer);
+      settleTimer = setTimeout(() => {
+        if (!engineOn() || overlayOpen() || animating) return;
+        const h = HEADER();
+        const limit = window.innerHeight * 0.34;
+        for (const s of sections()) {
+          const top = s.getBoundingClientRect().top;
+          if (top - h > 2 && top - h <= limit) { glideTo(targetFor(s), SETTLE_DURATION); return; }
+        }
+      }, 200);
+    };
+
+    /* --- a new explicit action ends a glide cleanly --- */
+    const NAV_KEYS = new Set(['PageUp','PageDown','Home','End','ArrowUp','ArrowDown',' ','Spacebar','Tab']);
+    window.addEventListener('keydown', (e) => {
+      if (animating && NAV_KEYS.has(e.key)) cancel();   // never preventDefault: keys stay native
+    }, { passive: true });
+    window.addEventListener('mousedown', () => { if (animating) cancel(); }, { passive: true });
+    window.addEventListener('touchstart', () => { if (animating) cancel(); }, { passive: true });
+
+    window.addEventListener('wheel', onWheel, { passive: false });
+
+    /* --- anchors: glide on desktop, native smooth elsewhere, instant if reduced --- */
     document.addEventListener('click', (e) => {
       const a = e.target.closest('a[href^="#"]');
       if (!a) return;
@@ -112,11 +177,14 @@
       const target = document.getElementById(id);
       if (!target) return;
       e.preventDefault();
-      const top = target.getBoundingClientRect().top + window.scrollY;
-      animateScrollTo(top);
+      if (engineOn()) {
+        const sec = target.closest('main > section[id]') || target;
+        const y = sec === target ? targetFor(target) : target.getBoundingClientRect().top + window.scrollY - HEADER();
+        glideTo(y);
+      } else {
+        target.scrollIntoView({ behavior: reduced.matches ? 'auto' : 'smooth', block: 'start' });
+      }
     });
-
-    window.__animateScrollTo = animateScrollTo;
   })();
 
   /* ============== Sticky nav ============== */  const header = $('#siteHeader');
@@ -152,11 +220,13 @@
     el.style.transform = 'none';
     el.classList.add('is-in');
     // Use Web Animations API for the fade — survives external CSS mutations
-    if (animate && el.animate) {
+    /* 450ms with the stagger capped: enough to read as a settle, never a
+       wait. Under reduced motion the element is already visible via CSS. */
+    if (animate && el.animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       try {
         el.animate(
           [{ opacity: 0, transform: 'translateY(18px)' }, { opacity: 1, transform: 'none' }],
-          { duration: 900, delay: d, easing: 'cubic-bezier(.2,.7,.15,1)', fill: 'both' }
+          { duration: 450, delay: Math.min(d, 180), easing: 'cubic-bezier(.2,.7,.15,1)', fill: 'both' }
         );
       } catch (_) {}
     }
@@ -284,7 +354,7 @@
     /* Pairs — real client results, base paths into assets/results/ */
     /* Photographs get regenerated in place; the version keeps a returning
        browser from showing last week's crop. Bump it whenever they change. */
-    const IMG_V = '20260912-1';
+    const IMG_V = '20260912-2';
     const baSrcset = (base) => [700, 1000, 1400].map(w => `${base}-${w}.webp?v=${IMG_V} ${w}w`).join(', ');
     const pairs = [
       { before: 'assets/results/ba-01-before', after: 'assets/results/ba-01-after' },

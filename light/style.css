@@ -42,6 +42,9 @@
 
   /* Layout */
   --maxw: 1440px;
+  /* .nav-wrap is 84px plus the header's 1px rule. Scroll offsets and the
+     sectional scroll read this, so it is the one place to change it. */
+  --header-height: 85px;
   --gutter: clamp(20px, 4vw, 80px);
   --section-y: clamp(60px, 7vw, 110px);
 
@@ -55,7 +58,12 @@
 html, body { margin: 0; padding: 0; }
 html {
   scroll-behavior: auto;
+  /* Anchor jumps and scrollIntoView stop short of the fixed header. The JS
+     sectional scroll uses the same offset, so both agree on where a section
+     starts. The hero is the exception and stays at the very top. */
+  scroll-padding-top: var(--header-height);
 }
+main > section:not(.hero) { scroll-margin-top: var(--header-height); }
 
 body {
   font-family: var(--sans);
@@ -166,19 +174,22 @@ ul { list-style: none; padding: 0; margin: 0; }
 body[data-grain="off"] .grain { display: none; }
 
 /* ───────────────────── Reveals ─────────────────── */
+/* Progressive enhancement: nothing is hidden unless the head has stamped
+   <html class="js"> (and, if main.js never arrives, it unstamps it again).
+   Without JavaScript every block is simply there. */
 .reveal {
+  opacity: 1;
+  transform: none;
+}
+.js .reveal:not(.is-in) {
   opacity: 0;
   transform: translateY(18px);
   will-change: opacity, transform;
 }
-.reveal.is-in {
-  opacity: 1;
-  transform: none;
-}
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal, .reveal.is-in {
-    opacity: 1; transform: none;
+  .js .reveal:not(.is-in) {
+    opacity: 1; transform: none; will-change: auto;
   }
   html { scroll-behavior: auto; }
 }
