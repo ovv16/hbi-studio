@@ -74,10 +74,15 @@
       if (reduced.matches) { window.scrollTo(0, target); return; }
       animating = true;
       root.classList.add('is-gliding');
+      let landing = false;
       const startT = performance.now();
       const tick = (t) => {
         const k = Math.min(1, (t - startT) / duration);
         window.scrollTo(0, startY + distance * ease(k));
+        /* Past 65% the sine curve is decelerating and the last fifth of the
+           distance remains: release the held blocks now, so they rise while
+           the page settles and finish just after it stops. */
+        if (!landing && k >= 0.65) { landing = true; window.dispatchEvent(new CustomEvent('hbi:glide-landing')); }
         if (k < 1) { raf = requestAnimationFrame(tick); }
         else { raf = null; animating = false; lockedUntil = performance.now() + COOLDOWN; settled(); }
       };
@@ -230,13 +235,14 @@
     el.style.transform = 'none';
     el.classList.add('is-in');
     // Use Web Animations API for the fade — survives external CSS mutations
-    /* 750ms with the stagger capped at 260ms: a rise you can feel, never a
-       wait. Under reduced motion the element is already visible via CSS. */
+    /* 650ms with the stagger capped at 160ms: the rise overlaps the end of
+       the glide rather than following it. Under reduced motion the element is
+       already visible via CSS. */
     if (animate && el.animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       try {
         el.animate(
           [{ opacity: 0, transform: 'translateY(18px)' }, { opacity: 1, transform: 'none' }],
-          { duration: 750, delay: Math.min(d, 260), easing: 'cubic-bezier(.2,.7,.15,1)', fill: 'both' }
+          { duration: 650, delay: Math.min(d, 160), easing: 'cubic-bezier(.2,.7,.15,1)', fill: 'both' }
         );
       } catch (_) {}
     }
@@ -248,8 +254,8 @@
     /* During a sectional glide the observer would fire while the page is
        still moving, and the blocks would be fully in by the time it lands —
        no arrival at all. So while the page glides, newly intersecting blocks
-       are held; when it comes to rest they rise together, with a short pause
-       first so the landing registers before anything moves. */
+       are held and released as the glide enters its final stretch, so they
+       rise while the page settles instead of after it. */
     const held = new Set();
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => {
@@ -260,11 +266,13 @@
       });
     }, { threshold: 0, rootMargin: '0px 0px 20% 0px' });
     reveals.forEach(el => io.observe(el));
-    window.addEventListener('hbi:glide-end', () => {
+    const release = () => {
       if (!held.size) return;
       const batch = [...held]; held.clear();
-      setTimeout(() => batch.forEach(el => revealEl(el)), 120);
-    });
+      batch.forEach(el => revealEl(el));
+    };
+    window.addEventListener('hbi:glide-landing', release);   // the page is settling
+    window.addEventListener('hbi:glide-end', release);       // cancelled or already home
     // Anything already in viewport on load — reveal it right away
     requestAnimationFrame(() => {
       reveals.forEach(el => {
