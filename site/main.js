@@ -79,10 +79,10 @@
       const tick = (t) => {
         const k = Math.min(1, (t - startT) / duration);
         window.scrollTo(0, startY + distance * ease(k));
-        /* Past 65% the sine curve is decelerating and the last fifth of the
-           distance remains: release the held blocks now, so they rise while
-           the page settles and finish just after it stops. */
-        if (!landing && k >= 0.65) { landing = true; window.dispatchEvent(new CustomEvent('hbi:glide-landing')); }
+        /* Past 55% the sine curve is into its deceleration with a third of the
+           distance still to run: release the held blocks now, so they rise
+           with the page as it settles and are home by the time it stops. */
+        if (!landing && k >= 0.55) { landing = true; window.dispatchEvent(new CustomEvent('hbi:glide-landing')); }
         if (k < 1) { raf = requestAnimationFrame(tick); }
         else { raf = null; animating = false; lockedUntil = performance.now() + COOLDOWN; settled(); }
       };
