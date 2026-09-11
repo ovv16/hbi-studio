@@ -46,7 +46,7 @@
       "https://www.instagram.com/__hair_by_inna__/",
       "https://maps.app.goo.gl/on6bKGeQYGcoW2rF8"
     ],
-    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "reviewCount": "13" }
+    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "reviewCount": "14" }
   }
   </script>
   <script type="application/ld+json">
@@ -67,7 +67,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20260911-1" />
+  <link rel="stylesheet" href="style.css?v=20260911-2" />
 
   <!-- ===== Micro K-Tip additions: USP strip + FAQ (scoped, reuses Dark Couture tokens) ===== -->
   <style>
@@ -753,38 +753,177 @@
 
     <!-- ============================ REVIEWS ============================ -->
     <section class="reviews" id="reviews" aria-label="Reviews">
+      <!-- Google's own mark, used only to say where a review lives. Its four
+           colours are Google's, not ours, and its guidelines do not allow
+           recolouring, so this is the one place the token rule does not apply. -->
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <symbol id="g-mark" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"/>
+          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09C3.26 21.3 7.31 24 12 24z"/>
+          <path fill="#FBBC05" d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.98-3.09z"/>
+          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.98 3.09C6.22 6.86 8.87 4.75 12 4.75z"/>
+        </symbol>
+      </svg>
+
       <div class="reviews-wrap">
         <div class="reviews-head">
           <span class="eyebrow center reveal">Reviews</span>
           <h2 class="reveal" data-delay="100">What My Clients <span class="italic">Say.</span></h2>
-          <a class="score reveal" data-delay="200" href="https://maps.app.goo.gl/on6bKGeQYGcoW2rF8" target="_blank" rel="noopener" aria-label="HBI Studio on Google — 5.0 stars, 13 reviews">
+          <!-- Count and rating are read from the live Google profile. Last checked 11 Sep 2026. -->
+          <a class="score reveal" data-delay="200" href="https://search.google.com/local/reviews?placeid=ChIJ2fm51yAzW4YRcansoLvnxGI" target="_blank" rel="noopener" aria-label="HBI Studio on Google: 5.0 stars from 14 reviews">
+            <svg class="g-mark" aria-hidden="true"><use href="#g-mark"/></svg>
             <span class="num" id="scoreNum">5.0</span>
-            <span class="stars" aria-label="5 out of 5">★★★★★</span>
-            <span class="sub">Based on <strong>13</strong> Google reviews</span>
+            <span class="stars" aria-hidden="true">★★★★★</span>
+            <span class="sub">Based on <strong>14</strong> Google reviews</span>
           </a>
-          <a class="link-gold reveal" data-delay="260" href="https://maps.app.goo.gl/on6bKGeQYGcoW2rF8" target="_blank" rel="noopener" style="margin-top: 16px;">Leave a Review <span class="arrow">→</span></a>
         </div>
 
-        <div class="review-grid">
-          <article class="review-card reveal" data-delay="120">
-            <span class="quote" aria-hidden="true">“</span>
-            <span class="stars-sm" aria-hidden="true">★★★★★</span>
-            <p>Inna is a true professional. When it comes to extensions you have to have quality and perfect color match. Inna matched me perfectly, answered all my questions and the process was so easy. I LOVE my hair now and I get so many compliments!</p>
-            <cite>— Oriana F. <span class="g" aria-hidden="true">G</span></cite>
-          </article>
-          <article class="review-card reveal" data-delay="200">
-            <span class="quote" aria-hidden="true">“</span>
-            <span class="stars-sm" aria-hidden="true">★★★★★</span>
-            <p>Inna is incredibly professional and very experienced with hair extensions. The quality is top-notch, the blend looks completely natural and the whole process was smooth and comfortable. I&rsquo;m so happy with the results and would highly recommend her to anyone looking to transform their hair!</p>
-            <cite>— Anastasiia P. <span class="g" aria-hidden="true">G</span></cite>
-          </article>
-          <article class="review-card reveal" data-delay="280">
-            <span class="quote" aria-hidden="true">“</span>
-            <span class="stars-sm" aria-hidden="true">★★★★★</span>
-            <p>To find that quality of hair extensions in Austin is a blessing! I got mine done by Inna recently and I absolutely love them. She did such a great job matching the color and making everything look super natural. The whole process was easy, comfortable, and quicker than expected. I highly recommend Inna&mdash;she&rsquo;s your girl!</p>
-            <cite>— Natalie P. <span class="g" aria-hidden="true">G</span></cite>
-          </article>
+        <div class="reviews-controls reveal" data-delay="240">
+          <a class="btn btn-ghost" href="https://search.google.com/local/reviews?placeid=ChIJ2fm51yAzW4YRcansoLvnxGI" target="_blank" rel="noopener">See all reviews on Google <span class="arrow">→</span></a>
+          <div class="pager">
+            <button class="page-btn" id="revPrev" aria-label="Previous reviews">‹</button>
+            <button class="page-btn" id="revNext" aria-label="Next reviews">›</button>
+          </div>
         </div>
+      </div>
+
+      <!-- The ten most recent of the 14, newest first, in Google's own order.
+           Names are exactly as they appear on Google. Quotes are verbatim; a long
+           one is cut at a sentence end and marked with an ellipsis, never reworded.
+           Google only publishes relative dates ("3 months ago"), so the dates
+           here are month-level. -->
+      <div class="reviews-rail reveal" data-delay="200" id="reviewsRail" role="list" aria-label="Google reviews">
+
+        <article class="review-card" role="listitem">
+          <span class="stars-sm" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>Inna has golden hands! One of the best hair extensions I ever had!</blockquote>
+          <div class="review-meta">
+            <span class="avatar" aria-hidden="true">CG</span>
+            <div class="who">
+              <span class="name">Christina Grytsiouk</span>
+              <span class="src"><svg class="g-mark" aria-hidden="true"><use href="#g-mark"/></svg> Google Review · September 2026</span>
+            </div>
+          </div>
+          <a class="review-link" href="https://search.google.com/local/reviews?placeid=ChIJ2fm51yAzW4YRcansoLvnxGI" target="_blank" rel="noopener" aria-label="Read Christina Grytsiouk’s review on Google">Read on Google <span class="arrow">→</span></a>
+        </article>
+
+        <article class="review-card" role="listitem">
+          <span class="stars-sm" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>I've been going to Inna and Yulia for over a year and a half, and I wouldn't trust my hair to anyone else. My extensions always look natural, blend perfectly, and feel comfortable to wear…</blockquote>
+          <div class="review-meta">
+            <span class="avatar" aria-hidden="true">IG</span>
+            <div class="who">
+              <span class="name">Inna Gri</span>
+              <span class="src"><svg class="g-mark" aria-hidden="true"><use href="#g-mark"/></svg> Google Review · June 2026</span>
+            </div>
+          </div>
+          <a class="review-link" href="https://search.google.com/local/reviews?placeid=ChIJ2fm51yAzW4YRcansoLvnxGI" target="_blank" rel="noopener" aria-label="Read Inna Gri’s review on Google">Read on Google <span class="arrow">→</span></a>
+        </article>
+
+        <article class="review-card" role="listitem">
+          <span class="stars-sm" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>10/10 experience! Inna is so sweet and knows her stuff and she slayed my hair!! Ive had so many different types of extentions and extension stylists over the years and this was by far the most relaxing appointment ive ever had. It looks so natural too. Definitely recommend!</blockquote>
+          <div class="review-meta">
+            <span class="avatar" aria-hidden="true">DT</span>
+            <div class="who">
+              <span class="name">Dani Turpin</span>
+              <span class="src"><svg class="g-mark" aria-hidden="true"><use href="#g-mark"/></svg> Google Review · June 2026</span>
+            </div>
+          </div>
+          <a class="review-link" href="https://search.google.com/local/reviews?placeid=ChIJ2fm51yAzW4YRcansoLvnxGI" target="_blank" rel="noopener" aria-label="Read Dani Turpin’s review on Google">Read on Google <span class="arrow">→</span></a>
+        </article>
+
+        <article class="review-card" role="listitem">
+          <span class="stars-sm" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>THE. BEST. EXTENSIONIST. EVERRRRRR!!!! I have baby fine extremely thin hair and have been so self conscious my entire adult life. I’ve worn hair extensions for over 20 years and Inna’s Italian microcapsule k-tips are THE BEST I have ever worn…</blockquote>
+          <div class="review-meta">
+            <span class="avatar" aria-hidden="true">AD</span>
+            <div class="who">
+              <span class="name">APRIL D</span>
+              <span class="src"><svg class="g-mark" aria-hidden="true"><use href="#g-mark"/></svg> Google Review · April 2026</span>
+            </div>
+          </div>
+          <a class="review-link" href="https://search.google.com/local/reviews?placeid=ChIJ2fm51yAzW4YRcansoLvnxGI" target="_blank" rel="noopener" aria-label="Read APRIL D’s review on Google">Read on Google <span class="arrow">→</span></a>
+        </article>
+
+        <article class="review-card" role="listitem">
+          <span class="stars-sm" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>Inna is a true professional. When it comes to extensions you have to have quality and perfect color match. Inna matched me perfectly, answered all my questions and the process was so easy. I LOVE my hair now and I get so many compliments!</blockquote>
+          <div class="review-meta">
+            <span class="avatar" aria-hidden="true">OF</span>
+            <div class="who">
+              <span class="name">Oriana Faruqi</span>
+              <span class="src"><svg class="g-mark" aria-hidden="true"><use href="#g-mark"/></svg> Google Review · January 2026</span>
+            </div>
+          </div>
+          <a class="review-link" href="https://search.google.com/local/reviews?placeid=ChIJ2fm51yAzW4YRcansoLvnxGI" target="_blank" rel="noopener" aria-label="Read Oriana Faruqi’s review on Google">Read on Google <span class="arrow">→</span></a>
+        </article>
+
+        <article class="review-card" role="listitem">
+          <span class="stars-sm" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>I cannot say enough amazing things about Inna and Julia. They did an incredible job on my hair extensions, my hair is very difficult to work with, yet they made the entire process look completely flawless…</blockquote>
+          <div class="review-meta">
+            <span class="avatar" aria-hidden="true">M</span>
+            <div class="who">
+              <span class="name">Maya</span>
+              <span class="src"><svg class="g-mark" aria-hidden="true"><use href="#g-mark"/></svg> Google Review · January 2026</span>
+            </div>
+          </div>
+          <a class="review-link" href="https://search.google.com/local/reviews?placeid=ChIJ2fm51yAzW4YRcansoLvnxGI" target="_blank" rel="noopener" aria-label="Read Maya’s review on Google">Read on Google <span class="arrow">→</span></a>
+        </article>
+
+        <article class="review-card" role="listitem">
+          <span class="stars-sm" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>I had an amazing experience getting my hair extensions done by Inna! She is incredibly skilled and attentive. The color match is perfect, the installation is seamless, and the extensions feel very comfortable…</blockquote>
+          <div class="review-meta">
+            <span class="avatar" aria-hidden="true">KA</span>
+            <div class="who">
+              <span class="name">Katsiaryna Aksionava</span>
+              <span class="src"><svg class="g-mark" aria-hidden="true"><use href="#g-mark"/></svg> Google Review · December 2025</span>
+            </div>
+          </div>
+          <a class="review-link" href="https://search.google.com/local/reviews?placeid=ChIJ2fm51yAzW4YRcansoLvnxGI" target="_blank" rel="noopener" aria-label="Read Katsiaryna Aksionava’s review on Google">Read on Google <span class="arrow">→</span></a>
+        </article>
+
+        <article class="review-card" role="listitem">
+          <span class="stars-sm" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>Inna is incredibly professional and very experienced with hair extensions. The quality is top-notch, the blend looks completely natural and the whole process was smooth and comfortable…</blockquote>
+          <div class="review-meta">
+            <span class="avatar" aria-hidden="true">AP</span>
+            <div class="who">
+              <span class="name">Anastasiia Pavlenko</span>
+              <span class="src"><svg class="g-mark" aria-hidden="true"><use href="#g-mark"/></svg> Google Review · 2025</span>
+            </div>
+          </div>
+          <a class="review-link" href="https://search.google.com/local/reviews?placeid=ChIJ2fm51yAzW4YRcansoLvnxGI" target="_blank" rel="noopener" aria-label="Read Anastasiia Pavlenko’s review on Google">Read on Google <span class="arrow">→</span></a>
+        </article>
+
+        <article class="review-card" role="listitem">
+          <span class="stars-sm" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>So happy with my hair extensions. Inna was amazing. Highly recommended</blockquote>
+          <div class="review-meta">
+            <span class="avatar" aria-hidden="true">ES</span>
+            <div class="who">
+              <span class="name">Ekaterina Salata</span>
+              <span class="src"><svg class="g-mark" aria-hidden="true"><use href="#g-mark"/></svg> Google Review · 2025</span>
+            </div>
+          </div>
+          <a class="review-link" href="https://search.google.com/local/reviews?placeid=ChIJ2fm51yAzW4YRcansoLvnxGI" target="_blank" rel="noopener" aria-label="Read Ekaterina Salata’s review on Google">Read on Google <span class="arrow">→</span></a>
+        </article>
+
+        <article class="review-card" role="listitem">
+          <span class="stars-sm" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>I am happy with my beautiful hair, they picked out several tails for me, 120 g on my head a very beautiful mane</blockquote>
+          <div class="review-meta">
+            <span class="avatar" aria-hidden="true">IK</span>
+            <div class="who">
+              <span class="name">Ilona Kharchylava</span>
+              <span class="src"><svg class="g-mark" aria-hidden="true"><use href="#g-mark"/></svg> Google Review · 2025</span>
+            </div>
+          </div>
+          <a class="review-link" href="https://search.google.com/local/reviews?placeid=ChIJ2fm51yAzW4YRcansoLvnxGI" target="_blank" rel="noopener" aria-label="Read Ilona Kharchylava’s review on Google">Read on Google <span class="arrow">→</span></a>
+        </article>
+
       </div>
     </section>
 
@@ -1073,7 +1212,7 @@
     })();
   </script>
 
-  <script src="main.js?v=20260911-1" defer></script>
+  <script src="main.js?v=20260911-2" defer></script>
 
   <script>
   (function () {

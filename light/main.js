@@ -325,6 +325,20 @@
     warmPair(1);
   }
 
+  /* ============== Reviews rail nav ============== */
+  (() => {
+    const rail = $('#reviewsRail');
+    const prev = $('#revPrev');
+    const next = $('#revNext');
+    if (!rail || !prev || !next) return;
+    const step = () => {
+      const card = rail.querySelector('.review-card');
+      return card ? card.offsetWidth + 20 : 340;
+    };
+    prev.addEventListener('click', () => rail.scrollBy({ left: -step(), behavior: 'smooth' }));
+    next.addEventListener('click', () => rail.scrollBy({ left: step(), behavior: 'smooth' }));
+  })();
+
   /* ============== Gallery rail nav ============== */
   const rail = $('#galleryRail');
   const prev = $('#galPrev');

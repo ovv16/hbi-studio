@@ -1827,16 +1827,16 @@ body[data-marquee="off"] .marquee { display: none; }
 .reviews {
   background: var(--ink);
   padding: clamp(110px, 13vw, 140px) 0 clamp(60px, 7vw, 100px);
-  display: flex; align-items: center;
+  display: flex; flex-direction: column; justify-content: center;
 }
-.reviews > .reviews-wrap { width: 100%; }
 .reviews-wrap {
+  width: 100%;
   max-width: var(--maxw); margin: 0 auto;
   padding: 0 var(--gutter);
 }
 .reviews-head {
   display: flex; flex-direction: column; align-items: center; text-align: center;
-  margin-bottom: 56px;
+  margin-bottom: 32px;
 }
 .reviews-head h2 {
   font-family: var(--serif); font-weight: 500;
@@ -1846,6 +1846,10 @@ body[data-marquee="off"] .marquee { display: none; }
   text-wrap: balance;
 }
 .reviews-head h2 .italic { color: var(--gold); }
+
+/* Google's mark: inline SVG so it scales with the type around it */
+.g-mark { width: 18px; height: 18px; flex: 0 0 auto; vertical-align: -3px; }
+
 .score {
   display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
   justify-content: center;
@@ -1854,6 +1858,7 @@ body[data-marquee="off"] .marquee { display: none; }
   transition: border-color .35s ease, background .35s ease;
 }
 a.score:hover { border-color: var(--gold-line); background: var(--gold-glow); }
+.score .g-mark { width: 22px; height: 22px; }
 .score .num {
   font-family: var(--serif); font-weight: 500;
   font-size: 40px; color: var(--gold); line-height: 1;
@@ -1862,48 +1867,95 @@ a.score:hover { border-color: var(--gold-line); background: var(--gold-glow); }
 .score .sub { font: 400 13px/1 var(--sans); color: var(--mute); }
 .score .sub strong { color: var(--cream); font-weight: 600; }
 
-.review-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+.reviews-controls {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  margin-bottom: 28px;
 }
+.reviews-controls .pager { display: flex; gap: 8px; }
+.reviews-controls .page-btn {
+  width: 44px; height: 44px;
+  background: transparent; border: 1px solid var(--gold-line);
+  color: var(--gold); font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .25s ease, border-color .25s ease, color .25s ease;
+}
+.reviews-controls .page-btn:hover { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+
+/* Rail: the same snap rail the gallery uses, so the two behave alike */
+.reviews-rail {
+  display: flex; gap: 20px;
+  padding: 8px var(--gutter) 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /* Snap points honour the gutter, so the first card sits flush with the copy above */
+  scroll-padding-inline: var(--gutter);
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.reviews-rail::-webkit-scrollbar { display: none; }
+
 .review-card {
+  flex: 0 0 clamp(300px, 30vw, 400px);
+  scroll-snap-align: start;
   background: var(--card);
   border: 1px solid var(--gold-line);
-  padding: 32px 28px 28px;
-  position: relative;
+  padding: 30px 28px 26px;
   display: flex; flex-direction: column;
+  transition: border-color .35s ease, transform .35s var(--reveal-ease);
 }
-.review-card .quote {
-  position: absolute; top: -8px; left: 22px;
-  font-family: var(--serif); font-style: italic; font-size: 64px;
-  color: var(--gold-dim); line-height: 1;
-}
+.review-card:hover { border-color: var(--gold-dim); transform: translateY(-3px); }
 .review-card .stars-sm {
-  color: var(--gold); letter-spacing: 3px; font-size: 12px;
+  color: var(--gold); letter-spacing: 3px; font-size: 13px;
   margin-bottom: 16px;
 }
-.review-card p {
+.review-card blockquote {
   font-family: var(--serif); font-style: italic; font-weight: 500;
   font-size: 19px; line-height: 1.45; color: var(--cream);
-  margin: 0 0 24px;
+  margin: 0 0 24px; quotes: "\201C" "\201D";
 }
-.review-card cite {
-  font: 700 10px/1 var(--sans); letter-spacing: var(--track-md);
-  color: var(--gold); text-transform: uppercase; font-style: normal;
-  margin-top: auto; padding-top: 18px;
-  border-top: 1px solid var(--gold-line);
-  display: flex; align-items: center; justify-content: space-between;
+.review-card blockquote::before { content: open-quote; }
+.review-card blockquote::after  { content: close-quote; }
+
+.review-meta {
+  margin-top: auto;
+  display: flex; align-items: center; gap: 14px;
+  padding-top: 18px; border-top: 1px solid var(--gold-line);
 }
-.review-card cite .g {
-  width: 22px; height: 22px; border-radius: 50%;
-  background: var(--white); border: 1px solid var(--gold-line);
+/* Initials rather than the reviewer's Google photo: those are private people's
+   pictures on Google's servers, and copying them here is not ours to do. */
+.review-meta .avatar {
+  width: 40px; height: 40px; border-radius: 50%; flex: 0 0 auto;
+  background: var(--gold); color: var(--ink);
+  font: 600 13px/1 var(--sans); letter-spacing: .04em;
   display: inline-flex; align-items: center; justify-content: center;
-  font-family: var(--serif); font-size: 12px; color: var(--gold);
-  font-style: italic; letter-spacing: 0;
 }
+.review-meta .who { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.review-meta .name {
+  font: 600 14px/1.2 var(--sans); color: var(--cream);
+}
+.review-meta .src {
+  font: 400 12px/1.2 var(--sans); color: var(--mute);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.review-meta .src .g-mark { width: 14px; height: 14px; }
+
+.review-link {
+  margin-top: 18px; align-self: flex-start;
+  font: 700 10px/1 var(--sans); letter-spacing: var(--track-md);
+  text-transform: uppercase; color: var(--gold); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding-bottom: 4px; border-bottom: 1px solid var(--gold-line);
+  transition: border-color .35s ease, color .35s ease;
+}
+.review-link:hover { border-color: var(--gold); color: var(--cream); }
+.review-link .arrow { transition: transform .35s var(--reveal-ease); }
+.review-link:hover .arrow { transform: translateX(4px); }
 
 @media (max-width: 880px) {
-  .review-grid { grid-template-columns: 1fr; }
+  .reviews-controls { flex-direction: column; align-items: stretch; }
+  .reviews-controls .pager { justify-content: flex-end; }
+  .review-card { flex-basis: min(340px, 84vw); }
 }
 
 /* ===========================================================
