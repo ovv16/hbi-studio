@@ -212,14 +212,17 @@ body[data-grain="off"] .grain { display: none; }
   opacity: 1;
   transform: none;
 }
+/* will-change stays on for the block's whole life, not just while hidden:
+   dropping it at the moment the rise begins tears the compositor layer down
+   mid-animation, which shows as a flicker. */
+.js .reveal { will-change: opacity, transform; }
 .js .reveal:not(.is-in) {
   opacity: 0;
   transform: translateY(18px);
-  will-change: opacity, transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .js .reveal:not(.is-in) {
+  .js .reveal, .js .reveal:not(.is-in) {
     opacity: 1; transform: none; will-change: auto;
   }
   html { scroll-behavior: auto; }
