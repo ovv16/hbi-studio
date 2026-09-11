@@ -25,12 +25,18 @@
       const v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height'));
       return Number.isFinite(v) ? v : 85;
     };
-    const DURATION = 800;              // ms — the premium glide
-    const SETTLE_DURATION = 550;       // ms — nudging a small overshoot home
+    const DURATION = 1100;             // ms — unhurried; the pace the site had before
+    const SETTLE_DURATION = 700;       // ms — nudging a small overshoot home
     const GESTURE_GAP = 140;           // ms of wheel silence that ends a gesture
-    const COOLDOWN = 260;              // ms after a glide before the next may start
-    const TRIGGER = 24;                // px of accumulated delta that counts as intent
-    const easeInOutCubic = (t) => t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+    const COOLDOWN = 180;              // ms after a glide before the next may start
+    const TRIGGER = 12;                // px of accumulated delta that counts as intent
+
+    /* Sine in-out. Measured against the alternatives for a 900px move: it
+       peaks at ~1300px/s where cubic in-out peaks at ~2450 and an ease-out
+       curve kicks off at 3000+. No shove at the start, no lurch in the middle,
+       and the last fifth of the time is spent settling the last tenth of the
+       distance — which is what reads as expensive. */
+    const ease = (t) => -(Math.cos(Math.PI * t) - 1) / 2;
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     const desktop = window.matchMedia('(min-width: 1081px) and (hover: hover) and (pointer: fine)');
@@ -65,7 +71,7 @@
       const startT = performance.now();
       const tick = (t) => {
         const k = Math.min(1, (t - startT) / duration);
-        window.scrollTo(0, startY + distance * easeInOutCubic(k));
+        window.scrollTo(0, startY + distance * ease(k));
         if (k < 1) { raf = requestAnimationFrame(tick); }
         else { raf = null; animating = false; lockedUntil = performance.now() + COOLDOWN; }
       };
@@ -220,13 +226,13 @@
     el.style.transform = 'none';
     el.classList.add('is-in');
     // Use Web Animations API for the fade — survives external CSS mutations
-    /* 450ms with the stagger capped: enough to read as a settle, never a
+    /* 650ms with the stagger capped at 220ms: a settle you can feel, never a
        wait. Under reduced motion the element is already visible via CSS. */
     if (animate && el.animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       try {
         el.animate(
           [{ opacity: 0, transform: 'translateY(18px)' }, { opacity: 1, transform: 'none' }],
-          { duration: 450, delay: Math.min(d, 180), easing: 'cubic-bezier(.2,.7,.15,1)', fill: 'both' }
+          { duration: 650, delay: Math.min(d, 220), easing: 'cubic-bezier(.2,.7,.15,1)', fill: 'both' }
         );
       } catch (_) {}
     }
