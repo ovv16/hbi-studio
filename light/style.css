@@ -2389,7 +2389,7 @@ a.score:hover { border-color: var(--gold-line); background: var(--gold-glow); }
   .cur-star.is-on::before { animation: cur-star-breathe 1.6s ease-in-out infinite; }
   @keyframes cur-star-breathe {
     0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.18); }
+    50% { transform: scale(.82); }
   }
   /* Inside the lightbox the backdrop is the page again and the close button
      is a button; the photo keeps its own directional cursors. */
