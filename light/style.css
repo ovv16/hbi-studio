@@ -159,6 +159,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .cur-star { transition: none; }
+  .cur-star.is-on::before { animation: none; }
   .pl-logo, .pl-logo-fill {
     animation-duration: .01s !important; animation-delay: 0s !important;
   }
@@ -2369,17 +2370,27 @@ a.score:hover { border-color: var(--gold-line); background: var(--gold-glow); }
       .ba-dot, .svc2-card, .tweak-swatch, .faq-q) {
     cursor: var(--cur-arrow);
   }
-  /* The seal's star, 18px, centred on the arrow's tip: outline only, so the
+  /* The seal's star, 24px, centred on the arrow's tip: outline only, so the
      tip stays visible through it. Its outline is the same polygon as .seal-star. */
   .cur-star {
     position: fixed; left: 0; top: 0; z-index: 9999; pointer-events: none;
-    width: 18px; height: 18px; margin: -9px 0 0 -9px;
-    background: url("data:image/svg+xml;utf8,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='63%2062%2074%2071'><polygon%20points='100,68%20107.3,90.5%20130.9,90.5%20111.8,104.5%20119.1,127%20100,113%2080.9,127%2088.2,104.5%2069.1,90.5%2092.7,90.5'%20fill='none'%20stroke='%2382602F'%20stroke-width='4'%20stroke-linejoin='round'/></svg>") center / contain no-repeat;
+    width: 24px; height: 24px; margin: -12px 0 0 -12px;
     opacity: 0; transform: translate3d(var(--x, -100px), var(--y, -100px), 0) scale(.4) rotate(-30deg);
     transition: opacity .28s ease, transform .32s cubic-bezier(.2,.7,.15,1);
     will-change: transform, opacity;
   }
   .cur-star.is-on { opacity: 1; transform: translate3d(var(--x), var(--y), 0) scale(1) rotate(0deg); }
+  /* The drawing sits on a pseudo-element so it can breathe on its own
+     transform while the element itself follows the pointer. */
+  .cur-star::before {
+    content: ""; position: absolute; inset: 0;
+    background: url("data:image/svg+xml;utf8,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='63%2062%2074%2071'><polygon%20points='100,68%20107.3,90.5%20130.9,90.5%20111.8,104.5%20119.1,127%20100,113%2080.9,127%2088.2,104.5%2069.1,90.5%2092.7,90.5'%20fill='none'%20stroke='%2382602F'%20stroke-width='4'%20stroke-linejoin='round'/></svg>") center / contain no-repeat;
+  }
+  .cur-star.is-on::before { animation: cur-star-breathe 1.6s ease-in-out infinite; }
+  @keyframes cur-star-breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.18); }
+  }
   /* Inside the lightbox the backdrop is the page again and the close button
      is a button; the photo keeps its own directional cursors. */
   /* Tiles are anchors, so the halo rule above would take them; they open a
