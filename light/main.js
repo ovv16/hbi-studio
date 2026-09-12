@@ -97,7 +97,8 @@
         const r = s.getBoundingClientRect();
         if (r.top <= probe && r.bottom > probe) return s;
       }
-      return list[0] || null;
+      /* Outside every section (the footer): the page is native there. */
+      return null;
     };
     /* "Tall" means taller than the viewport, with a little slack for bottom
        padding, so a 100vh section stays a single glide. */
@@ -134,6 +135,13 @@
       /* Inside a tall section, away from its edge: native scroll, untouched. */
       if (tall && !atEdge(cur, dir)) { scheduleSettle(); return; }
 
+      /* Nothing further in this direction: the last section gives way to the
+         footer natively, and the first one lets the browser bounce at the top. */
+      const list = sections();
+      const idx = list.indexOf(cur);
+      const next = list[idx + dir];
+      if (!next) { scheduleSettle(); return; }
+
       /* From here on the page is ours: a glide is running, cooling down, or
          about to start. Native scroll would fight it or drift off the section. */
       e.preventDefault();
@@ -147,11 +155,7 @@
       if (animating || now < lockedUntil || gestureSpent) return;
       if (Math.abs(acc) < TRIGGER) return;
 
-      const list = sections();
-      const idx = list.indexOf(cur);
-      const next = list[idx + dir];
       gestureSpent = true;              // this gesture has had its one move
-      if (!next) return;
       glideTo(targetFor(next));
     };
 
