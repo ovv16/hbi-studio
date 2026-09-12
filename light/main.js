@@ -503,7 +503,10 @@
     let idx = 0, lastFocus = null;
     const hiRes = (src) => src ? src.replace(/-(?:400|700|1000)\.webp(\?[^#]*)?$/, '-1400.webp$1') : src;
 
-    function show(i) {
+    const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const EASE = 'cubic-bezier(.2,.7,.15,1)';
+    let swapping = 0;
+    function place(i) {
       idx = (i + tiles.length) % tiles.length;
       const t = tiles[idx];
       const img = t.querySelector('img');
@@ -511,6 +514,29 @@
       lbImg.src = hiRes(img && (img.currentSrc || img.src));
       lbImg.alt = (tag && tag.textContent.trim()) || t.getAttribute('aria-label') || '';
       lbCap.textContent = (tag && tag.textContent.trim()) || '';
+    }
+    /* Stepping through the set: the current photo slips out the way it is
+       being pushed, the next one settles in from the other side once it has
+       decoded, so there is never a blank frame. Opening and reduced motion
+       swap instantly. */
+    function show(i, dir) {
+      if (!dir || !lb.classList.contains('is-open') || reduced() || !lbImg.animate) { place(i); return; }
+      const token = ++swapping;
+      const out = lbImg.animate(
+        [{ opacity: 1, transform: 'translateX(0)' }, { opacity: 0, transform: 'translateX(' + (-22 * dir) + 'px)' }],
+        { duration: 200, easing: 'ease-in', fill: 'forwards' });
+      out.finished.then(() => {
+        if (token !== swapping) return;
+        place(i);
+        const ready = lbImg.decode ? lbImg.decode().catch(() => {}) : Promise.resolve();
+        return ready.then(() => {
+          if (token !== swapping) return;
+          out.cancel();
+          lbImg.animate(
+            [{ opacity: 0, transform: 'translateX(' + (26 * dir) + 'px) scale(.985)' }, { opacity: 1, transform: 'none' }],
+            { duration: 460, easing: EASE });
+        });
+      });
     }
     function open(i) {
       lastFocus = document.activeElement;
@@ -533,8 +559,8 @@
     // Click the left / right half of the photo to step through the set
     lbImg.addEventListener('click', (e) => {
       const r = lbImg.getBoundingClientRect();
-      if ((e.clientX - r.left) < r.width / 2) show(idx - 1);
-      else show(idx + 1);
+      if ((e.clientX - r.left) < r.width / 2) show(idx - 1, -1);
+      else show(idx + 1, 1);
     });
     lbImg.addEventListener('mousemove', (e) => {
       const r = lbImg.getBoundingClientRect();
@@ -544,8 +570,8 @@
     document.addEventListener('keydown', (e) => {
       if (!lb.classList.contains('is-open')) return;
       if (e.key === 'Escape') close();
-      else if (e.key === 'ArrowLeft') show(idx - 1);
-      else if (e.key === 'ArrowRight') show(idx + 1);
+      else if (e.key === 'ArrowLeft') show(idx - 1, -1);
+      else if (e.key === 'ArrowRight') show(idx + 1, 1);
     });
   })();
 
