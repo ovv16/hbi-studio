@@ -15,7 +15,7 @@
   <meta name="robots" content="noindex, nofollow" />
   <link rel="canonical" href="https://ovv16.github.io/hbi-studio/light/" />
   <meta property="og:title" content="HBI Studio — Micro K-Tip Hair Extensions · Austin, TX" />
-  <meta property="og:description" content="A private hair extension studio in Austin, Texas. Micro K-Tip hot fusion, premium Slavic hair, custom color-matched. Invisible, damage-free, seamless blend." />
+  <meta property="og:description" content="A private hair extension studio in Austin, Texas. Micro K-Tip hot fusion, premium Slavic hair, custom color-matched. Discreet bonds. A seamless blend. Customized to your natural hair." />
   <meta property="og:image" content="https://ovv16.github.io/hbi-studio/light/logo/HBI-Studio-logo-gold.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="HBI Studio — Micro K-Tip Hair Extensions · Austin, TX" />
@@ -79,7 +79,7 @@
       if (!window.__hbiJs) document.documentElement.classList.remove('js');
     }, 4000);
   </script>
-  <link rel="stylesheet" href="style.css?v=20260912-11" />
+  <link rel="stylesheet" href="style.css?v=20260912-12" />
 
   <!-- ===== Micro K-Tip additions: USP strip + FAQ (scoped, reuses Dark Couture tokens) ===== -->
   <style>
@@ -347,12 +347,13 @@
             <span class="line italic">Only You&rsquo;ll<br/>Know.</span>
           </h1>
           <p class="hero-sub reveal" data-delay="320">
-            Micro K-Tip hot fusion. Premium Slavic hair, custom color-matched. Invisible, damage-free, seamless blend.
+            Micro K-Tip hot fusion. Premium Slavic hair, custom color-matched. Discreet bonds. A seamless blend. Customized to your natural hair.
           </p>
           <div class="hero-ctas reveal" data-delay="420">
-            <a href="#contact" class="btn btn-gold">Book Your Consultation <span class="arrow">→</span></a>
+            <a href="#contact" class="btn btn-gold">Book a Free Consultation <span class="arrow">→</span></a>
             <a href="sms:+17372885377" class="btn btn-ghost">Text Us</a>
           </div>
+          <p class="hero-note reveal" data-delay="470">20&ndash;30 minutes with Inna &middot; Pricing confirmed before you commit</p>
           <ul class="hero-pills reveal" data-delay="520" aria-label="Studio features">
             <li class="hero-pill"><span class="pip"></span>Invisible K-Tips</li>
             <li class="hero-pill"><span class="pip"></span>Damage-Free</li>
@@ -407,12 +408,13 @@
             <span class="italic">Unapologetically You.</span>
           </p>
           <p class="hero-sub reveal" data-delay="320">
-            Micro K-Tip hot fusion. Premium Slavic hair, custom color. Invisible, damage-free, seamless blend.
+            Micro K-Tip hot fusion. Premium Slavic hair, custom color. Discreet bonds. A seamless blend. Customized to your natural hair.
           </p>
           <div class="hero-ctas reveal" data-delay="420">
-            <a href="#contact" class="btn btn-gold">Book Your Consultation <span class="arrow">→</span></a>
+            <a href="#contact" class="btn btn-gold">Book a Free Consultation <span class="arrow">→</span></a>
             <a href="sms:+17372885377" class="btn btn-ghost">Text Us</a>
           </div>
+          <p class="hero-note reveal" data-delay="470">20&ndash;30 minutes with Inna &middot; Pricing confirmed before you commit</p>
           <div class="seal" aria-hidden="true">
             <svg viewBox="0 0 200 200" class="seal-svg">
               <defs>
@@ -979,7 +981,7 @@
       <div class="contact-grid">
         <div class="contact-copy">
           <span class="eyebrow reveal">Contact</span>
-          <h2 class="reveal" data-delay="100">
+          <h2 class="reveal" data-delay="100" id="contactTitle" tabindex="-1">
             Let&rsquo;s Create Your
             <span class="italic">Dream Hair.</span>
           </h2>
@@ -989,10 +991,12 @@
             <div class="form-row">
               <label class="visually-hidden" for="name">Name</label>
               <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name"/>
+              <p class="field-error" id="nameError" hidden></p>
             </div>
             <div class="form-row">
               <label class="visually-hidden" for="phone">Phone</label>
               <input type="tel" id="phone" name="phone" placeholder="Your phone number" required autocomplete="tel"/>
+              <p class="field-error" id="phoneError" hidden></p>
             </div>
             <div class="form-row">
               <label class="visually-hidden" for="serviceTrigger">Service</label>
@@ -1012,6 +1016,7 @@
                 </ul>
                 <input type="hidden" name="service" id="service" value=""/>
               </div>
+              <p class="field-error" id="serviceError" hidden></p>
             </div>
             <div class="form-row">
               <label class="visually-hidden" for="message">Message</label>
@@ -1024,7 +1029,10 @@
               <button type="submit" class="btn btn-gold">Book Your Consultation <span class="arrow">→</span></button>
               <a href="sms:+17372885377" class="btn btn-ghost">Text Us</a>
             </div>
-            <p class="form-msg" id="formMsg" aria-live="polite" role="status"></p>
+            <div class="form-status" id="formMsg" role="status" aria-live="polite" hidden>
+              <strong class="form-status-title" id="formMsgTitle"></strong>
+              <p class="form-status-text" id="formMsgText"></p>
+            </div>
           </form>
         </div>
 
@@ -1234,7 +1242,7 @@
     })();
   </script>
 
-  <script src="main.js?v=20260912-12" defer></script>
+  <script src="main.js?v=20260912-13" defer></script>
 
   <script>
   (function () {
@@ -1353,10 +1361,14 @@
       closeBtn.focus();
     }
 
-    function closeModal() {
+    // restoreFocus: true when the visitor is dismissing the window (close
+    // button, Escape, backdrop) and belongs back on the card they came from;
+    // false when the CTA is carrying them on to the form.
+    function closeModal(restoreFocus) {
+      if (!overlay.classList.contains('is-open')) return;
       overlay.classList.remove('is-open');
       document.body.style.overflow = '';
-      if (lastFocus && lastFocus.focus) lastFocus.focus();
+      if (restoreFocus !== false && lastFocus && lastFocus.focus) lastFocus.focus();
     }
 
     document.querySelectorAll('[data-svc]').forEach(function(card) {
@@ -1368,26 +1380,24 @@
       }
     });
 
-    closeBtn.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', function () { closeModal(true); });
 
-    // "Book this service" — close the modal, pre-select the service in the
-    // contact form, then glide down to it. Without closing first, the body stays
-    // scroll-locked and the #contact jump does nothing.
-    document.getElementById('svcModalCta').addEventListener('click', function (e) {
-      e.preventDefault();
+    // "Book this service" — close the modal without sending focus back to
+    // the card, pre-select the service, and let the site's own anchor handler
+    // (main.js) carry the page to #contact: the sectional glide on desktop,
+    // native smooth scroll elsewhere, instant under reduced motion. Focus moves
+    // to the form's heading without scrolling, so the next Tab is the first
+    // field. Closing first matters: with the body scroll-locked the jump would
+    // go nowhere.
+    document.getElementById('svcModalCta').addEventListener('click', function () {
       var service = this.dataset.service || '';
-      closeModal();
+      closeModal(false);
       if (window.setServiceValue) window.setServiceValue(service);
-      var contact = document.getElementById('contact');
-      if (contact) {
-        requestAnimationFrame(function () {
-          var y = contact.getBoundingClientRect().top + window.pageYOffset - 12;
-          window.scrollTo({ top: y, behavior: 'smooth' });
-        });
-      }
+      var title = document.getElementById('contactTitle');
+      if (title) title.focus({ preventScroll: true });
     });
-    overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
-    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(true); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(true); });
 
     // Keep Tab focus inside the open modal
     overlay.addEventListener('keydown', function(e) {
@@ -1427,6 +1437,7 @@
 
     function setValue(val) {
       hidden.value = val || '';
+      if (val) root.dispatchEvent(new CustomEvent('cc-select:change', { bubbles: true }));
       opts.forEach(function (o) { o.classList.toggle('is-selected', o.dataset.value === val); });
       if (val) { valueEl.textContent = val; valueEl.classList.remove('is-placeholder'); }
       else { valueEl.textContent = placeholder; valueEl.classList.add('is-placeholder'); }

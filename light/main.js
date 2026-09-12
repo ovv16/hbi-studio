@@ -575,31 +575,99 @@
   }
 
   /* ============== Contact form ============== */
+  /* The form only asks for a consultation. The service is a hint for Inna,
+     not a booking, which is why "Not sure yet" is a valid answer and the
+     placeholder is not. Errors sit under their field, are tied to it with
+     aria-describedby / aria-invalid, and clear as the visitor fixes them. */
   const form = $('#contactForm');
   const msg = $('#formMsg');
   if (form) {
+    const msgTitle = $('#formMsgTitle');
+    const msgText = $('#formMsgText');
+    const serviceRoot = $('#serviceSelect');
+    const serviceTrigger = $('#serviceTrigger');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const submitLabel = submitBtn ? submitBtn.innerHTML : '';
+    let sending = false;
+
+    /* Each rule: the control that carries aria-invalid and takes focus, the
+       error slot, and a test returning the message or nothing. */
+    const rules = [
+      { control: form.name, slot: $('#nameError'),
+        test: () => form.name.value.trim() ? '' : 'Please enter your name.' },
+      { control: form.phone, slot: $('#phoneError'),
+        test: () => {
+          const v = form.phone.value.trim();
+          if (!v) return 'Please enter your phone number so Inna can contact you.';
+          /* Lenient on punctuation (spaces, brackets, dashes, dots, +1);
+             strict only on there being enough digits for an area code. */
+          const digits = v.replace(/\D/g, '').length;
+          if (!/^[+()\d\s\-.]+$/.test(v) || digits < 10 || digits > 15) {
+            return 'Please check your phone number, including the area code.';
+          }
+          return '';
+        } },
+      { control: serviceTrigger, slot: $('#serviceError'),
+        test: () => (form.service && form.service.value.trim()) ? '' : 'Please choose a service, or select ‘Not sure yet’.' }
+    ];
+
+    const setError = (rule, text) => {
+      const { control, slot } = rule;
+      if (!control || !slot) return;
+      if (text) {
+        slot.textContent = text;
+        slot.hidden = false;
+        control.classList.add('is-invalid');
+        control.setAttribute('aria-invalid', 'true');
+        control.setAttribute('aria-describedby', slot.id);
+      } else {
+        slot.textContent = '';
+        slot.hidden = true;
+        control.classList.remove('is-invalid');
+        control.removeAttribute('aria-invalid');
+        control.removeAttribute('aria-describedby');
+      }
+    };
+    /* Re-check a field only once it has been flagged, so typing is quiet
+       until a submit has pointed something out. */
+    const recheck = (rule) => { if (rule.control.classList.contains('is-invalid')) setError(rule, rule.test()); };
+    form.name.addEventListener('input', () => recheck(rules[0]));
+    form.phone.addEventListener('input', () => recheck(rules[1]));
+    if (serviceRoot) serviceRoot.addEventListener('cc-select:change', () => recheck(rules[2]));
+
+    const showStatus = (kind, title, text) => {
+      msg.className = 'form-status is-' + kind;
+      msgTitle.textContent = title;
+      msgText.textContent = text;
+      msg.hidden = false;
+    };
+    const hideStatus = () => { msg.hidden = true; msg.className = 'form-status'; };
+    const setSending = (on) => {
+      sending = on;
+      if (!submitBtn) return;
+      submitBtn.disabled = on;
+      submitBtn.setAttribute('aria-busy', on ? 'true' : 'false');
+      submitBtn.innerHTML = on ? 'Sending your request…' : submitLabel;
+    };
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      if (sending) return;
       if (form.website.value) return; // honeypot
+
+      hideStatus();
+      let firstBad = null;
+      rules.forEach((rule) => {
+        const err = rule.test();
+        setError(rule, err);
+        if (err && !firstBad) firstBad = rule.control;
+      });
+      if (firstBad) { firstBad.focus(); return; }
+
       const name = form.name.value.trim();
       const phone = form.phone.value.trim();
-      if (!name) {
-        msg.textContent = 'Please add your name.';
-        msg.style.color = '#AB824C';
-        return;
-      }
-      if (!phone) {
-        msg.textContent = 'Please add your phone number so we can reach you.';
-        msg.style.color = '#AB824C';
-        return;
-      }
-      if (!/^[+()\d\s\-.]{7,}$/.test(phone)) {
-        msg.textContent = 'That phone number doesn\u2019t look right.';
-        msg.style.color = '#AB824C';
-        return;
-      }
       const message = form.message.value.trim();
-      const service = (form.service && form.service.value.trim()) || '';
+      const service = form.service.value.trim();
 
       // Send the enquiry to Telegram
       const TG_TOKEN = '8589819476:AAHLPpvbJIiav4KCS7c-qkSf1Zs8H2utSBY';
@@ -609,13 +677,11 @@
         '💇 <b>New enquiry — HBI Studio</b>\n\n' +
         '<b>Name:</b> ' + esc(name) + '\n' +
         '<b>Phone:</b> ' + esc(phone) + '\n' +
-        '<b>Service:</b> ' + (service ? esc(service) : '—') + '\n' +
+        '<b>Service:</b> ' + esc(service) + '\n' +
         '<b>Hair goals:</b> ' + (message ? esc(message) : '—');
 
-      const submitBtn = form.querySelector('button[type="submit"]');
-      if (submitBtn) submitBtn.disabled = true;
-      msg.textContent = 'Sending…';
-      msg.style.color = '#C9A36A';
+      setSending(true);
+      showStatus('pending', 'Sending your request…', 'This usually takes a moment.');
 
       Promise.all(TG_CHAT_IDS.map((id) =>
         fetch('https://api.telegram.org/bot' + TG_TOKEN + '/sendMessage', {
@@ -625,22 +691,22 @@
         }).then((r) => r.json())
       ))
         .then((results) => {
+          /* Success only on a confirmed ok from the handler. */
           if (results.some((r) => r && r.ok)) {
-            msg.textContent = 'Thank you \u2014 we\u2019ll be in touch within one business day.';
-            msg.style.color = '#C9A36A';
+            showStatus('success', 'Your consultation request has been sent!',
+              'Inna will contact you within one business day to arrange your consultation. Your appointment time is not confirmed yet.');
             form.reset();
             if (window.setServiceValue) window.setServiceValue('');
           } else {
-            throw new Error('Telegram rejected the message');
+            throw new Error('rejected');
           }
         })
         .catch(() => {
-          msg.textContent = 'Something went wrong sending your message. Please call or text (737) 288-5377.';
-          msg.style.color = '#AB824C';
+          /* The visitor keeps what they typed and can try again. */
+          showStatus('error', 'Your request couldn’t be sent.',
+            'Please try again, or tap ‘Text Us’ to contact Inna directly.');
         })
-        .finally(() => {
-          if (submitBtn) submitBtn.disabled = false;
-        });
+        .finally(() => setSending(false));
     });
   }
 

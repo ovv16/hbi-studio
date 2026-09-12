@@ -23,6 +23,9 @@
   --gold-dim:   rgba(130, 96, 47, .44);
   --gold-line:  rgba(130, 96, 47, .28);
   --gold-glow:  rgba(130, 96, 47, .09);
+  /* Alert — --gold's lightness, hue swung to brick. 5.5:1 on --ink. */
+  --alert:      oklch(46% 0.15 32);
+  --alert-glow: oklch(46% 0.15 32 / .08);
 
   /* Ink */
   --cream:      #241D14;
@@ -547,6 +550,19 @@ body[data-hero="editorial"] .hero-editorial { display: grid; }
   display: flex; gap: 14px; flex-wrap: wrap;
   margin-bottom: clamp(22px, 3vw, 38px);
 }
+/* The hero's buttons carry the main ask, so their type is a step larger than
+   the site's 10px button scale; tracking comes down to keep the width. */
+.hero-ctas .btn { font-size: 12px; letter-spacing: 0.2em; }
+.hero-ctas .btn { white-space: nowrap; }
+/* Narrow phones: ease the tracking so the longer label stays one line, and
+   below 400px let the two buttons stack full-width rather than wrap text. */
+@media (max-width: 480px) { .hero-ctas .btn { letter-spacing: 0.14em; } }
+@media (max-width: 400px) { .hero-split .hero-ctas .btn { flex: 1 1 100%; justify-content: center; } }
+.hero-note {
+  font: 400 13px/1.5 var(--sans); color: var(--mute);
+  margin: calc(-1 * clamp(22px, 3vw, 38px) + 12px) 0 clamp(22px, 3vw, 38px);
+}
+.hero-bleed .hero-note { text-align: center; margin: 12px 0 0; }
 .hero-split .hero-pills {
   display: flex; gap: 10px; flex-wrap: wrap;
   position: relative; z-index: 3;
@@ -1994,6 +2010,7 @@ a.score:hover { border-color: var(--gold-line); background: var(--gold-glow); }
   color: var(--cream); margin: 22px 0 24px;
 }
 .contact-copy h2 .italic { color: var(--gold); display: block; }
+.contact-copy h2:focus:not(:focus-visible) { outline: none; }
 .contact-copy p {
   font: 400 15px/1.65 var(--sans); color: var(--mute);
   margin: 0 0 36px; max-width: 460px;
@@ -2078,10 +2095,39 @@ a.score:hover { border-color: var(--gold-line); background: var(--gold-glow); }
 }
 .contact-form textarea { resize: vertical; min-height: 60px; }
 .contact-form .form-cta { display: flex; gap: 14px; margin-top: 12px; flex-wrap: wrap; }
-.form-msg {
-  font: 400 13px/1.4 var(--sans); color: var(--gold);
-  margin: 8px 0 0; min-height: 1em;
+/* Field errors: text under the field, and the field itself marked by a
+   heavier rule as well as colour. */
+.contact-form .field-error {
+  font: 500 14px/1.4 var(--sans); color: var(--alert);
+  margin: 8px 0 0; padding-left: 14px; position: relative;
 }
+.field-error::before {
+  content: ""; position: absolute; left: 0; top: .55em;
+  width: 7px; height: 1.5px; background: var(--alert);
+}
+.contact-form input.is-invalid, .contact-form textarea.is-invalid,
+.contact-form .cc-select-trigger.is-invalid {
+  border-bottom: 2px solid var(--alert);
+  background: linear-gradient(var(--alert-glow), var(--alert-glow));
+}
+/* Status: pending, success or failure, as a bordered block under the
+   buttons so it is not missed. */
+.form-status {
+  margin: 6px 0 0; padding: 18px 20px;
+  border: 1px solid var(--gold-line); border-left-width: 3px;
+  background: var(--gold-glow);
+}
+.form-status-title {
+  display: block; font: 600 15px/1.35 var(--sans); color: var(--cream);
+}
+.contact-form .form-status-text {
+  margin: 6px 0 0; font: 400 14px/1.55 var(--sans); color: var(--mute);
+}
+.form-status.is-success { border-color: var(--gold); }
+.form-status.is-success .form-status-title { color: var(--gold); }
+.form-status.is-error { border-color: var(--alert); background: var(--alert-glow); }
+.form-status.is-error .form-status-title { color: var(--alert); }
+.contact-form button[aria-busy="true"] { opacity: .75; }
 .hp { position: absolute; left: -9999px; }
 
 .contact-media {
