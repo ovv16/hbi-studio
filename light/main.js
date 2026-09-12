@@ -710,6 +710,28 @@
     });
   }
 
+  /* ============== Hover ring ============== */
+  /* A thin ring that fades in around the arrow over anything clickable. The
+     arrow itself stays the real cursor, so nothing lags: the ring is moved
+     directly on every pointermove, and only its fade is animated. Fine
+     pointers only; the element is never created on touch. */
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const ring = document.createElement('div');
+    ring.className = 'cur-ring';
+    ring.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(ring);
+    const HOT = 'a, button, summary, label, select, [role="button"], [role="tab"], .ba-dot, .svc2-card, .tweak-swatch, .faq-q';
+    const COLD = '.gallery-tile, .lb-figure, input, textarea';
+    window.addEventListener('pointermove', (e) => {
+      ring.style.setProperty('--x', e.clientX + 'px');
+      ring.style.setProperty('--y', e.clientY + 'px');
+      const t = e.target instanceof Element ? e.target : null;
+      const on = !!(t && t.closest(HOT) && !t.closest(COLD));
+      ring.classList.toggle('is-on', on);
+    }, { passive: true });
+    document.addEventListener('pointerleave', () => ring.classList.remove('is-on'));
+  }
+
   /* ============== Year ============== */
   const year = $('#year');
   if (year) year.textContent = new Date().getFullYear();

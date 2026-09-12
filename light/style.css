@@ -158,6 +158,7 @@ ul { list-style: none; padding: 0; margin: 0; }
   100% { background-position: -160% 0; opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .cur-ring { transition: none; }
   .pl-logo, .pl-logo-fill {
     animation-duration: .01s !important; animation-delay: 0s !important;
   }
@@ -2352,33 +2353,41 @@ a.score:hover { border-color: var(--gold-line); background: var(--gold-glow); }
    still exists for anyone relying on it. Both fall back to the system cursor
    if the SVG is refused, and only apply to a real pointing device.
 
-   Arrow: 24x24, hotspot 3 2 = the tip of the path.
-   Bronze Halo (interactive): 30x30, hotspot 15 15 = the centre dot. A thin
-   bronze ring on a translucent cream disc, a 3.6px bronze dot, and a small
-   four-ray spark riding the ring's top-right edge. A hairline of cream sits
-   under the ring and the spark so both still read over a dark photograph.
-   Colours: the --gold token and the same cream outline the arrow already
-   wears; nothing new. */
+   Arrow: 24x24, hotspot 3 2 = the tip of the path. It stays over links too;
+   there, a single thin ring (.cur-ring, positioned by main.js) fades in
+   around it. A cursor image cannot be faded, an element can. */
 @media (hover: hover) and (pointer: fine) {
   :root {
     --cur-arrow: url("data:image/svg+xml;utf8,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='24'%20height='24'><path%20d='M3%202%20L3%2018.5%20L7.6%2014.2%20L10.7%2021%20L13.8%2019.5%20L10.8%2013.2%20L16.4%2013%20Z'%20fill='%2382602F'%20stroke='%23FFFCF6'%20stroke-width='1.3'%20stroke-linejoin='round'/></svg>") 3 2, auto;
-    --cur-point: url("data:image/svg+xml;utf8,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='30'%20height='30'><circle%20cx='15'%20cy='15'%20r='10'%20fill='rgba(255,252,246,.6)'%20stroke='%23FFFCF6'%20stroke-width='3'/><circle%20cx='15'%20cy='15'%20r='10'%20fill='none'%20stroke='%2382602F'%20stroke-width='1.3'/><circle%20cx='15'%20cy='15'%20r='1.8'%20fill='%2382602F'/><path%20d='M22.4%203.6%20L23.3%206.4%20L26.1%207.3%20L23.3%208.2%20L22.4%2011%20L21.5%208.2%20L18.7%207.3%20L21.5%206.4%20Z'%20fill='%2382602F'%20stroke='%23FFFCF6'%20stroke-width='.9'%20stroke-linejoin='round'/></svg>") 15 15, pointer;
+
   }
   body { cursor: var(--cur-arrow); }
-  /* Class-level specificity so this lands on top of the existing
-     `cursor: pointer` rules, which it follows in the sheet. Gallery tiles
-     are deliberately absent: they open a lightbox and keep `zoom-in`. */
+  /* Interactive elements keep the arrow; the ring below says "clickable".
+     Class-level specificity so this lands on top of the existing
+     `cursor: pointer` rules. Gallery tiles keep `zoom-in`. */
   :is(a, button, summary, label, select, [role="button"], [role="tab"],
       .ba-dot, .svc2-card, .tweak-swatch, .faq-q) {
-    cursor: var(--cur-point);
+    cursor: var(--cur-arrow);
   }
+  .cur-ring {
+    position: fixed; left: 0; top: 0; z-index: 9999; pointer-events: none;
+    width: 30px; height: 30px; margin: -15px 0 0 -15px;
+    border: 1px solid var(--gold); border-radius: 50%;
+    /* One faint cream hairline inside the bronze so the ring still reads on a
+       bronze button or a dark photograph. */
+    box-shadow: inset 0 0 0 1px rgba(255,252,246,.45);
+    opacity: 0; transform: translate3d(var(--x, -100px), var(--y, -100px), 0) scale(.55);
+    transition: opacity .28s ease, transform .28s cubic-bezier(.2,.7,.15,1);
+    will-change: transform, opacity;
+  }
+  .cur-ring.is-on { opacity: .8; transform: translate3d(var(--x), var(--y), 0) scale(1); }
   /* Inside the lightbox the backdrop is the page again and the close button
      is a button; the photo keeps its own directional cursors. */
   /* Tiles are anchors, so the halo rule above would take them; they open a
      lightbox and keep the system zoom-in. */
   .gallery-tile { cursor: zoom-in; }
   .lightbox { cursor: var(--cur-arrow); }
-  .lightbox .lb-close { cursor: var(--cur-point); }
+  .lightbox .lb-close { cursor: var(--cur-arrow); }
   /* Text still deserves a text cursor, and a disabled control says so. */
   input, textarea { cursor: text; }
   :is(button, input, select, textarea, a):is([disabled], :disabled, [aria-disabled="true"]) { cursor: not-allowed; }
