@@ -710,14 +710,14 @@
     });
   }
 
-  /* ============== Hover ring ============== */
-  /* A thin ring that fades in around the arrow over anything clickable. The
-     arrow itself stays the real cursor, so nothing lags: the ring is moved
+  /* ============== Hover star ============== */
+  /* The seal's star fades in beside the arrow over anything clickable. The
+     arrow itself stays the real cursor, so nothing lags: the star is moved
      directly on every pointermove, and only its fade is animated. Fine
      pointers only; the element is never created on touch. */
   if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
     const ring = document.createElement('div');
-    ring.className = 'cur-ring';
+    ring.className = 'cur-star';
     ring.setAttribute('aria-hidden', 'true');
     document.body.appendChild(ring);
     const HOT = 'a, button, summary, label, select, [role="button"], [role="tab"], .ba-dot, .svc2-card, .tweak-swatch, .faq-q';
