@@ -2369,11 +2369,11 @@ a.score:hover { border-color: var(--gold-line); background: var(--gold-glow); }
       .ba-dot, .svc2-card, .tweak-swatch, .faq-q) {
     cursor: var(--cur-arrow);
   }
-  /* The seal's star, 16px, sitting up and to the right of the arrow's tip
-     like a spark. Its outline is the same polygon as .seal-star. */
+  /* The seal's star, 16px, its lower-left point on the arrow's tip so the
+     two read as one mark. Its outline is the same polygon as .seal-star. */
   .cur-star {
     position: fixed; left: 0; top: 0; z-index: 9999; pointer-events: none;
-    width: 16px; height: 16px; margin: -14px 0 0 12px;
+    width: 16px; height: 16px; margin: -13px 0 0 -2px;
     background: url("data:image/svg+xml;utf8,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='66%2065%2068%2065'><polygon%20points='100,68%20107.3,90.5%20130.9,90.5%20111.8,104.5%20119.1,127%20100,113%2080.9,127%2088.2,104.5%2069.1,90.5%2092.7,90.5'%20fill='%2382602F'%20stroke='%23FFFCF6'%20stroke-width='3'%20stroke-linejoin='round'/></svg>") center / contain no-repeat;
     opacity: 0; transform: translate3d(var(--x, -100px), var(--y, -100px), 0) scale(.4) rotate(-30deg);
     transition: opacity .28s ease, transform .32s cubic-bezier(.2,.7,.15,1);
