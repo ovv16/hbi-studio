@@ -1066,6 +1066,8 @@ body[data-marquee="off"] .marquee { display: none; }
 .ba-dots {
   display: flex; gap: 10px; justify-content: center;
   align-items: flex-start;   /* let aspect-ratio set thumb height, not stretch */
+  flex-wrap: wrap;           /* ten thumbs: a second row on phones, never a page-wide scroll */
+  max-width: 100%;
   margin-top: 22px;
 }
 .ba-dot {
