@@ -327,7 +327,7 @@
        phone the two plates stacked meant scrolling between them, so there the
        pair shares one frame and a handle wipes between Before and After. */
     const isSplit = () => stage.classList.contains('is-split');
-    const sliderMQ = window.matchMedia('(max-width: 880px)');
+    const sliderMQ = window.matchMedia('(max-width: 1199px)');
 
     let dragging = false;
     const setPos = (pct) => {
@@ -356,6 +356,7 @@
     applyMode();
     if (sliderMQ.addEventListener) sliderMQ.addEventListener('change', applyMode);
     else sliderMQ.addListener(applyMode);
+    window.addEventListener('resize', applyMode, { passive: true });
 
     const moveTo = (clientX) => {
       if (isSplit()) return;
