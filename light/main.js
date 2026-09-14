@@ -372,17 +372,19 @@
        browser from showing last week's crop. Bump it whenever they change. */
     const IMG_V = '20260914-2';
     const baSrcset = (base) => [700, 1000, 1400].map(w => `${base}-${w}.webp?v=${IMG_V} ${w}w`).join(', ');
+    /* by / ay: object-position y for the before and after photo, chosen so
+       the crown lands at the same height in both frames. */
     const pairs = [
-      { before: 'assets/results/ba-01-before', after: 'assets/results/ba-01-after' },
-      { before: 'assets/results/ba-02-before', after: 'assets/results/ba-02-after' },
-      { before: 'assets/results/ba-03-before', after: 'assets/results/ba-03-after' },
-      { before: 'assets/results/ba-04-before', after: 'assets/results/ba-04-after' },
-      { before: 'assets/results/ba-05-before', after: 'assets/results/ba-05-after' },
-      { before: 'assets/results/ba-06-before', after: 'assets/results/ba-06-after' },
-      { before: 'assets/results/ba-07-before', after: 'assets/results/ba-07-after' },
-      { before: 'assets/results/ba-08-before', after: 'assets/results/ba-08-after' },
-      { before: 'assets/results/ba-09-before', after: 'assets/results/ba-09-after' },
-      { before: 'assets/results/ba-10-before', after: 'assets/results/ba-10-after' }
+      { before: 'assets/results/ba-01-before', after: 'assets/results/ba-01-after', by: 66, ay: 22 },
+      { before: 'assets/results/ba-02-before', after: 'assets/results/ba-02-after', by: 22, ay: 19 },
+      { before: 'assets/results/ba-03-before', after: 'assets/results/ba-03-after', by: 44, ay: 38 },
+      { before: 'assets/results/ba-04-before', after: 'assets/results/ba-04-after', by: 66, ay: 41 },
+      { before: 'assets/results/ba-05-before', after: 'assets/results/ba-05-after', by: 75, ay: 34 },
+      { before: 'assets/results/ba-06-before', after: 'assets/results/ba-06-after', by: 34, ay: 25 },
+      { before: 'assets/results/ba-07-before', after: 'assets/results/ba-07-after', by: 75, ay: 53 },
+      { before: 'assets/results/ba-08-before', after: 'assets/results/ba-08-after', by: 50, ay: 47 },
+      { before: 'assets/results/ba-09-before', after: 'assets/results/ba-09-after', by: 53, ay: 50 },
+      { before: 'assets/results/ba-10-before', after: 'assets/results/ba-10-after', by: 66, ay: 66 }
     ];
 
     /* Warm the cache so a switch crossfades instead of flashing an empty stage */
@@ -409,8 +411,8 @@
       stage.style.transition = 'opacity .4s';
       stage.style.opacity = '0';
       setTimeout(() => {
-        if (beforeImg) { beforeImg.srcset = baSrcset(p.before); beforeImg.src = p.before + '-1400.webp?v=' + IMG_V; }
-        if (afterImg) { afterImg.srcset = baSrcset(p.after); afterImg.src = p.after + '-1400.webp?v=' + IMG_V; }
+        if (beforeImg) { beforeImg.srcset = baSrcset(p.before); beforeImg.src = p.before + '-1400.webp?v=' + IMG_V; beforeImg.style.setProperty('--oy', p.by + '%'); }
+        if (afterImg) { afterImg.srcset = baSrcset(p.after); afterImg.src = p.after + '-1400.webp?v=' + IMG_V; afterImg.style.setProperty('--oy', p.ay + '%'); }
         stage.style.opacity = '1';
         setPos(50);
         /* Neighbours are the likeliest next click */
