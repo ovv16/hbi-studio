@@ -79,7 +79,7 @@
       if (!window.__hbiJs) document.documentElement.classList.remove('js');
     }, 4000);
   </script>
-  <link rel="stylesheet" href="style.css?v=20260914-11" />
+  <link rel="stylesheet" href="style.css?v=20260914-12" />
 
   <!-- ===== Micro K-Tip additions: USP strip + FAQ (scoped, reuses Dark Couture tokens) ===== -->
   <style>
@@ -647,6 +647,7 @@
     <div class="svc-modal-overlay" id="svcModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <div class="svc-modal" id="svcModalBox">
         <div class="svc-modal-photo" id="modalPhoto">
+          <img class="svc-modal-img" id="modalImg" alt="" hidden width="1080" height="1926" />
           <div class="svc-modal-photo-ph">
             <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.1" width="36" height="36" opacity=".3"><rect x="3" y="8" width="26" height="19" rx="3"/><circle cx="16" cy="17" r="5"/><path d="M11 8l2-4h6l2 4"/></svg>
             <span>Add service photo</span>
@@ -1270,6 +1271,7 @@
     var SVC = {
       consultation: {
         pill: 'First step',
+        photo: { base: 'assets/services/consultation', alt: 'Inna holding a bundle of Slavic hair up to a client’s blonde hair to match the shade' },
         duration: '20–30 min',
         title: 'Free Consultation',
         desc: 'Inna sits with you before anything is ordered or applied. She checks your hair density, texture, and scalp health in person. You pick the length, volume, and color direction together. By the end, you have a clear price, a timeline, and a care plan.',
@@ -1366,6 +1368,17 @@
       if (priceEl) {
         priceEl.textContent = d.price || '';
         priceEl.style.display = d.price ? '' : 'none';
+      }
+      var img = document.getElementById('modalImg');
+      var ph = document.querySelector('.svc-modal-photo-ph');
+      if (d.photo) {
+        img.src = d.photo.base + '-1080.webp';
+        img.srcset = d.photo.base + '-480.webp 480w, ' + d.photo.base + '-720.webp 720w, ' + d.photo.base + '-1080.webp 1080w';
+        img.sizes = '(max-width: 720px) 100vw, 344px';
+        img.alt = d.photo.alt || '';
+        img.hidden = false; if (ph) ph.hidden = true;
+      } else {
+        img.hidden = true; img.removeAttribute('src'); img.removeAttribute('srcset'); if (ph) ph.hidden = false;
       }
       document.getElementById('modalDesc').textContent      = d.desc;
       var ul = document.getElementById('modalFeatures');
