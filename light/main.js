@@ -212,7 +212,9 @@
     header.classList.toggle('is-scrolled', window.scrollY > 24);
   };
   window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  /* The first scrollY read forces the page's initial layout; taking it in
+     a frame keeps that out of the script task. */
+  requestAnimationFrame(onScroll);
 
   /* ============== Mobile menu ============== */
   const ham = $('#hamburger');
@@ -232,6 +234,7 @@
   const reveals = $$('.reveal');
   const revealEl = (el, animate = true) => {
     if (el.dataset.revealed) return;
+    if (el.closest('.hero')) animate = false;   // visible from the first paint (see CSS)
     el.dataset.revealed = '1';
     const d = parseInt(el.dataset.delay || '0', 10);
     // Set inline final state directly so element is "settled"
@@ -284,26 +287,23 @@
     window.addEventListener('hbi:glide-landing', release);   // the page is settling
     window.addEventListener('hbi:glide-end', release);       // cancelled or already home
     // Anything already in viewport on load — reveal it right away
+    /* Read every rect first, then write: interleaving the two forces a
+       layout per element, which is a long task on a phone. */
+    const inView = (list) => {
+      const h = window.innerHeight;
+      const rects = list.map(el => el.getBoundingClientRect());
+      return list.filter((el, i) => rects[i].top < h && rects[i].bottom > 0);
+    };
     requestAnimationFrame(() => {
-      reveals.forEach(el => {
-        const r = el.getBoundingClientRect();
-        if (r.top < window.innerHeight && r.bottom > 0) {
-          revealEl(el); io.unobserve(el);
-        }
-      });
+      inView([...reveals]).forEach(el => { revealEl(el); io.unobserve(el); });
     });
     // Safety net: if the observer never fired for something visible (edge
     // cases), settle it WITHOUT animation and stop observing — previously this
     // blanket-revealed everything, which caused a visible "already there, then
     // re-animates" flash on mobile.
     setTimeout(() => {
-      reveals.forEach(el => {
-        if (el.dataset.revealed) return;
-        const r = el.getBoundingClientRect();
-        if (r.top < window.innerHeight && r.bottom > 0) {
-          revealEl(el, false); io.unobserve(el);
-        }
-      });
+      inView([...reveals].filter(el => !el.dataset.revealed))
+        .forEach(el => { revealEl(el, false); io.unobserve(el); });
     }, 2500);
   } else {
     reveals.forEach(el => el.classList.add('is-in'));
