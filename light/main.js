@@ -370,7 +370,7 @@
     /* Pairs — real client results, base paths into assets/results/ */
     /* Photographs get regenerated in place; the version keeps a returning
        browser from showing last week's crop. Bump it whenever they change. */
-    const IMG_V = '20260912-2';
+    const IMG_V = '20260914-1';
     const baSrcset = (base) => [700, 1000, 1400].map(w => `${base}-${w}.webp?v=${IMG_V} ${w}w`).join(', ');
     const pairs = [
       { before: 'assets/results/ba-01-before', after: 'assets/results/ba-01-after' },
@@ -379,7 +379,9 @@
       { before: 'assets/results/ba-04-before', after: 'assets/results/ba-04-after' },
       { before: 'assets/results/ba-05-before', after: 'assets/results/ba-05-after' },
       { before: 'assets/results/ba-06-before', after: 'assets/results/ba-06-after' },
-      { before: 'assets/results/ba-07-before', after: 'assets/results/ba-07-after' }
+      { before: 'assets/results/ba-07-before', after: 'assets/results/ba-07-after' },
+      { before: 'assets/results/ba-08-before', after: 'assets/results/ba-08-after' },
+      { before: 'assets/results/ba-09-before', after: 'assets/results/ba-09-after' }
     ];
 
     /* Warm the cache so a switch crossfades instead of flashing an empty stage */
