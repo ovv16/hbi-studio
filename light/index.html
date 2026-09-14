@@ -1271,7 +1271,7 @@
     var SVC = {
       consultation: {
         pill: 'First step',
-        photo: { base: 'assets/services/consultation', alt: 'Inna holding a bundle of Slavic hair up to a client’s blonde hair to match the shade' },
+        photo: { base: 'assets/services/consultation', widths: [480, 720, 1080], alt: 'Inna holding a bundle of Slavic hair up to a client’s blonde hair to match the shade' },
         duration: '20–30 min',
         title: 'Free Consultation',
         desc: 'Inna sits with you before anything is ordered or applied. She checks your hair density, texture, and scalp health in person. You pick the length, volume, and color direction together. By the end, you have a clear price, a timeline, and a care plan.',
@@ -1285,6 +1285,7 @@
       },
       install: {
         pill: 'Hair included',
+        photo: { base: 'assets/services/install', widths: [480, 720, 1027], alt: 'Inna holding two shades of Slavic hair against a client2019s hair before the installation' },
         duration: '3–5 hours',
         price: 'From $585',
         title: 'Hair Extension Installation (Hair Included)',
@@ -1372,8 +1373,9 @@
       var img = document.getElementById('modalImg');
       var ph = document.querySelector('.svc-modal-photo-ph');
       if (d.photo) {
-        img.src = d.photo.base + '-1080.webp';
-        img.srcset = d.photo.base + '-480.webp 480w, ' + d.photo.base + '-720.webp 720w, ' + d.photo.base + '-1080.webp 1080w';
+        var ws = d.photo.widths;
+        img.src = d.photo.base + '-' + ws[ws.length - 1] + '.webp';
+        img.srcset = ws.map(function (w) { return d.photo.base + '-' + w + '.webp ' + w + 'w'; }).join(', ');
         img.sizes = '(max-width: 720px) 100vw, 344px';
         img.alt = d.photo.alt || '';
         img.hidden = false; if (ph) ph.hidden = true;
