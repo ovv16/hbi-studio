@@ -2388,7 +2388,7 @@ a.score:hover { border-color: var(--gold-line); background: var(--gold-glow); }
     background: url("data:image/svg+xml;utf8,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='63%2062%2074%2071'><polygon%20points='100,68%20107.3,90.5%20130.9,90.5%20111.8,104.5%20119.1,127%20100,113%2080.9,127%2088.2,104.5%2069.1,90.5%2092.7,90.5'%20fill='none'%20stroke='%2382602F'%20stroke-width='4'%20stroke-linejoin='round'/></svg>") center / contain no-repeat;
   }
   .cur-star::before { opacity: 0; }
-  .cur-star.is-on::before { animation: cur-star-twinkle .9s cubic-bezier(.2,.7,.15,1) infinite; }
+  .cur-star.is-on::before { animation: cur-star-twinkle 1.2s cubic-bezier(.2,.7,.15,1) infinite; }
   @keyframes cur-star-twinkle {
     0%   { transform: scale(.25) rotate(-20deg); opacity: 0; }
     45%  { transform: scale(1) rotate(0deg);     opacity: 1; }
