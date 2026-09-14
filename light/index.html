@@ -160,6 +160,13 @@
       .hero-cine .cine-sweep { animation: none; }
       .hero-cine .cine-img { transform: scale(1.08); }
     }
+    /* Portrait screens see about a third of the 16:9 clip's width. The model
+       stands at ~70% across it, so the crop is pulled right to centre her. */
+    @media (max-width: 980px) {
+      .hero-cine .cine-img,
+      .hero-cine .cine-hair,
+      .hero-cine video.cine-video { object-position: 78% 26%; }
+    }
 
     /* USP TRUST STRIP */
     .usp-strip {
