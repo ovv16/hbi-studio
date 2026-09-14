@@ -1349,7 +1349,7 @@
       },
       slavic: {
         pill: 'In stock · no waiting',
-        photo: { base: 'assets/services/slavic', widths: [480, 720, 1080], pos: [35, 28], alt: 'Bundles of wavy Slavic hair in three shades on a gold tray' },
+        photo: { base: 'assets/services/slavic', widths: [480, 720, 1080], pos: [35, 30], v: 2, alt: 'Wavy Slavic hair in two shades draped over a gold tray' },
         price: 'Priced by length',
         title: 'Premium Slavic Human Hair',
         desc: 'We offer premium 100% Slavic human hair, known for its exceptional softness, natural shine, and long-lasting quality. Each bundle is carefully selected for a seamless blend with your natural hair and can be colored, styled, and reused with proper care. Available in a wide range of lengths, colors, and textures.',
@@ -1385,8 +1385,9 @@
       var ph = document.querySelector('.svc-modal-photo-ph');
       if (d.photo) {
         var ws = d.photo.widths;
-        img.src = d.photo.base + '-' + ws[ws.length - 1] + '.webp';
-        img.srcset = ws.map(function (w) { return d.photo.base + '-' + w + '.webp ' + w + 'w'; }).join(', ');
+        var q = d.photo.v ? '?v=' + d.photo.v : '';
+        img.src = d.photo.base + '-' + ws[ws.length - 1] + '.webp' + q;
+        img.srcset = ws.map(function (w) { return d.photo.base + '-' + w + '.webp' + q + ' ' + w + 'w'; }).join(', ');
         img.sizes = '(max-width: 720px) 100vw, 344px';
         var pos = d.photo.pos || [32, 28];
         img.style.setProperty('--py', pos[0] + '%');
