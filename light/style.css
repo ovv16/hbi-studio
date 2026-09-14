@@ -855,7 +855,12 @@ body[data-hero="editorial"] .hero-editorial { display: grid; }
   .hero-split .hero-photo::before {
     background: linear-gradient(180deg, rgba(246,241,232,.94) 0%, rgba(246,241,232,.8) 50%, rgba(246,241,232,.94) 100%);
   }
-  .hero-split .seal { right: 20px; top: 100px; width: 96px; height: 96px; }
+  /* The seal sits under the header beside the eyebrow, which is narrowed so
+     its second line stops short of it; the scroll cue has nothing to say on a touch screen and was
+     landing on the pills. */
+  .hero-split .seal { right: 18px; top: 92px; width: 80px; height: 80px; }
+  .hero-split .hero-eyebrow { max-width: calc(100% - 96px); }
+  .hero-split .scroll-cue { display: none; }
   .hero-editorial { grid-template-columns: 1fr; }
   .hero-editorial .ed-right { min-height: 50vh; order: -1; }
   .hero-editorial .ed-foot { display: none; }
