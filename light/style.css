@@ -2200,6 +2200,7 @@ a.score:hover { border-color: var(--gold-line); background: var(--gold-glow); }
 }
 .contact-media img {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  object-position: 50% 28%;   /* the portrait is taller than the frame; keep the face with air above it */
 }
 .contact-media::after {
   content: ""; position: absolute; inset: 0;
