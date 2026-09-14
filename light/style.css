@@ -201,6 +201,11 @@ body[data-grain="off"] .grain { display: none; }
   html { scroll-behavior: auto; }
 }
 
+/* Keyboard focus: one bronze ring everywhere, and none for mouse clicks.
+   5:1 against the ivory grounds. */
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.cc-select-opt:focus-visible { outline-offset: -2px; }
+
 /* ===========================================================
    TYPOGRAPHY PRIMITIVES
    =========================================================== */
@@ -2067,10 +2072,10 @@ a.score:hover { border-color: var(--gold-line); background: var(--gold-glow); }
   border: 1px solid var(--gold-line);
   box-shadow: 0 20px 50px -20px rgba(60,44,20,.28);
   max-height: 300px; overflow-y: auto;
-  opacity: 0; transform: translateY(-8px); pointer-events: none;
-  transition: opacity .28s cubic-bezier(.2,.7,.15,1), transform .28s cubic-bezier(.2,.7,.15,1);
+  opacity: 0; transform: translateY(-8px); pointer-events: none; visibility: hidden;
+  transition: opacity .28s cubic-bezier(.2,.7,.15,1), transform .28s cubic-bezier(.2,.7,.15,1), visibility 0s .28s;
 }
-.cc-select.is-open .cc-select-menu { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.cc-select.is-open .cc-select-menu { opacity: 1; transform: translateY(0); pointer-events: auto; visibility: visible; transition-delay: 0s; }
 .cc-select-opt {
   padding: 12px 14px;
   font: 400 14px/1.35 var(--sans); color: var(--cream-2);
@@ -2154,7 +2159,7 @@ a.score:hover { border-color: var(--gold-line); background: var(--gold-glow); }
 }
 .contact-info .col { display: flex; flex-direction: column; align-items: flex-start; }
 .contact-info .col span.eyebrow { margin-bottom: 18px; }
-.contact-info .col h4 {
+.contact-info .col h3 {
   font-family: var(--serif); font-weight: 500; font-size: 20px; line-height: 24px;
   color: var(--cream); margin: 0 0 12px; padding: 0;
 }
