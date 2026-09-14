@@ -1066,10 +1066,18 @@ body[data-marquee="off"] .marquee { display: none; }
 .ba-dots {
   display: flex; gap: 10px; justify-content: center;
   align-items: flex-start;   /* let aspect-ratio set thumb height, not stretch */
-  flex-wrap: wrap;           /* ten thumbs: a second row on phones, never a page-wide scroll */
-  max-width: 100%;
+  /* One row that scrolls sideways when the thumbs outgrow it; the auto
+     margins on the ends keep the row centred while it still fits. */
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  max-width: 100%; padding: 4px 4px 8px;
   margin-top: 22px;
 }
+.ba-dots::-webkit-scrollbar { display: none; }
+.ba-dot { flex: 0 0 auto; scroll-snap-align: center; }
+.ba-dot:first-child { margin-left: auto; }
+.ba-dot:last-child { margin-right: auto; }
 .ba-dot {
   width: 52px; aspect-ratio: 2 / 3;
   padding: 0; background: var(--warm);

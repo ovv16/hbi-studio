@@ -403,7 +403,9 @@
         b.setAttribute('aria-selected', on ? 'true' : 'false');
         b.tabIndex = on ? 0 : -1;
       });
-      if (focusDot && baDots[idx]) baDots[idx].focus();
+      if (focusDot && baDots[idx]) baDots[idx].focus({ preventScroll: true });
+      /* Bring the active thumb into the scrolling row without moving the page. */
+      if (baDots[idx] && baDots[idx].scrollIntoView) baDots[idx].scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
 
       const beforeImg = $('#baBeforeImg');
       const afterImg = $('#baAfterImg');
