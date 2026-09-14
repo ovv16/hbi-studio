@@ -79,7 +79,7 @@
       if (!window.__hbiJs) document.documentElement.classList.remove('js');
     }, 4000);
   </script>
-  <link rel="stylesheet" href="style.css?v=20260915-2" />
+  <link rel="stylesheet" href="style.css?v=20260915-3" />
 
   <!-- ===== Micro K-Tip additions: USP strip + FAQ (scoped, reuses Dark Couture tokens) ===== -->
   <style>
@@ -1278,7 +1278,7 @@
     var SVC = {
       consultation: {
         pill: 'First step',
-        photo: { base: 'assets/services/consultation', widths: [480, 720, 1080], alt: 'Inna holding a bundle of Slavic hair up to a client’s blonde hair to match the shade' },
+        photo: { base: 'assets/services/consultation', widths: [480, 720, 1080], pos: [32, 28], alt: 'Inna holding a bundle of Slavic hair up to a client’s blonde hair to match the shade' },
         duration: '20–30 min',
         title: 'Free Consultation',
         desc: 'Inna sits with you before anything is ordered or applied. She checks your hair density, texture, and scalp health in person. You pick the length, volume, and color direction together. By the end, you have a clear price, a timeline, and a care plan.',
@@ -1292,7 +1292,7 @@
       },
       install: {
         pill: 'Hair included',
-        photo: { base: 'assets/services/install', widths: [480, 720, 1027], alt: 'Inna holding two shades of Slavic hair against a client2019s hair before the installation' },
+        photo: { base: 'assets/services/install', widths: [480, 720, 1080], pos: [42, 45], alt: 'A row of fresh Micro K-Tip bonds along the parting of blonde hair' },
         duration: '3–5 hours',
         price: 'From $585',
         title: 'Hair Extension Installation (Hair Included)',
@@ -1307,6 +1307,7 @@
       },
       installown: {
         pill: 'You bring the hair',
+        photo: { base: 'assets/services/installown', widths: [480, 720, 1031], pos: [30, 42], alt: 'Inna installing extensions on a seated client at the studio station' },
         duration: '2–4 hours',
         price: 'From $400',
         title: 'Hair Extension Installation (Client’s Hair)',
@@ -1320,6 +1321,7 @@
       },
       reinstall: {
         pill: 'Maintenance',
+        photo: { base: 'assets/services/reinstall', widths: [480, 720, 1028], pos: [45, 45], alt: 'A bundle of hair laid out on the table with keratin, a comb and the fusion tool for re-tipping' },
         duration: '90–120 min',
         price: 'From $500',
         title: 'Extension Reinstallation',
@@ -1334,6 +1336,7 @@
       },
       removal: {
         pill: 'Gentle & safe',
+        photo: { base: 'assets/services/removal', widths: [480, 720, 1025], pos: [40, 28], alt: 'Pliers opening a keratin bond close to the scalp during removal' },
         duration: '45–90 min',
         price: 'From $100',
         title: 'Extension Removal',
@@ -1346,6 +1349,7 @@
       },
       slavic: {
         pill: 'In stock · no waiting',
+        photo: { base: 'assets/services/slavic', widths: [480, 720, 1080], pos: [35, 28], alt: 'Bundles of wavy Slavic hair in three shades on a gold tray' },
         price: 'Priced by length',
         title: 'Premium Slavic Human Hair',
         desc: 'We offer premium 100% Slavic human hair, known for its exceptional softness, natural shine, and long-lasting quality. Each bundle is carefully selected for a seamless blend with your natural hair and can be colored, styled, and reused with proper care. Available in a wide range of lengths, colors, and textures.',
@@ -1384,6 +1388,9 @@
         img.src = d.photo.base + '-' + ws[ws.length - 1] + '.webp';
         img.srcset = ws.map(function (w) { return d.photo.base + '-' + w + '.webp ' + w + 'w'; }).join(', ');
         img.sizes = '(max-width: 720px) 100vw, 344px';
+        var pos = d.photo.pos || [32, 28];
+        img.style.setProperty('--py', pos[0] + '%');
+        img.style.setProperty('--pym', pos[1] + '%');
         img.alt = d.photo.alt || '';
         img.hidden = false; if (ph) ph.hidden = true;
       } else {
