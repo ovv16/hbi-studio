@@ -1069,6 +1069,7 @@ body[data-marquee="off"] .marquee { display: none; }
   /* One row that scrolls sideways when the thumbs outgrow it; the auto
      margins on the ends keep the row centred while it still fits. */
   overflow-x: auto; overscroll-behavior-x: contain;
+  min-width: 0; width: 100%;   /* a scroll row must be allowed to shrink below its content */
   scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   max-width: 100%; padding: 4px 4px 8px;
@@ -1097,7 +1098,7 @@ body[data-marquee="off"] .marquee { display: none; }
 .ba-dot:focus-visible { opacity: 1; outline: 1px solid var(--gold); outline-offset: 3px; }
 
 @media (max-width: 880px) {
-  .ba-grid { grid-template-columns: 1fr; }
+  .ba-grid { grid-template-columns: minmax(0, 1fr); }
   /* Stacked layout: the column caps the width, so the frame stays portrait */
   .ba-stage { height: min(58vh, 560px); }
   .ba-dots { gap: 8px; }
