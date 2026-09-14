@@ -323,11 +323,11 @@
   const baDots = $$('#baDots .ba-dot');
 
   if (stage && handle && after) {
-    /* Both frames are shown together at every width - side by side on wide
-       screens, stacked on narrow ones. The slider markup stays in place but
-       is never engaged, so the reveal logic stands down everywhere. */
-    stage.classList.add('is-split');
+    /* Wide screens show the pair as two framed plates side by side. On a
+       phone the two plates stacked meant scrolling between them, so there the
+       pair shares one frame and a handle wipes between Before and After. */
     const isSplit = () => stage.classList.contains('is-split');
+    const sliderMQ = window.matchMedia('(max-width: 880px)');
 
     let dragging = false;
     const setPos = (pct) => {
@@ -339,12 +339,23 @@
       if (afterImg) afterImg.style.width = (100 / (pct / 100)) + '%';
     };
 
-    /* Clear any inline sizing the reveal logic may have left behind so the
-       split layout is free to size the two frames itself. */
-    handle.style.left = '';
-    after.style.width = '';
-    const initialAfterImg = after.querySelector('img');
-    if (initialAfterImg) initialAfterImg.style.width = '';
+    /* Switching modes: the split layout sizes the plates itself and must
+       not inherit the slider's inline widths; the slider opens at the middle. */
+    const applyMode = () => {
+      if (sliderMQ.matches) {
+        stage.classList.remove('is-split');
+        setPos(50);
+      } else {
+        stage.classList.add('is-split');
+        handle.style.left = '';
+        after.style.width = '';
+        const img = after.querySelector('img');
+        if (img) img.style.width = '';
+      }
+    };
+    applyMode();
+    if (sliderMQ.addEventListener) sliderMQ.addEventListener('change', applyMode);
+    else sliderMQ.addListener(applyMode);
 
     const moveTo = (clientX) => {
       if (isSplit()) return;
@@ -353,13 +364,20 @@
       setPos(pct);
     };
 
-    handle.addEventListener('mousedown', () => { dragging = true; document.body.style.userSelect = 'none'; });
-    window.addEventListener('mousemove', (e) => { if (dragging) moveTo(e.clientX); });
-    window.addEventListener('mouseup', () => { dragging = false; document.body.style.userSelect = ''; });
-
-    handle.addEventListener('touchstart', () => { dragging = true; }, { passive: true });
-    window.addEventListener('touchmove', (e) => { if (dragging) moveTo(e.touches[0].clientX); }, { passive: true });
-    window.addEventListener('touchend', () => { dragging = false; });
+    handle.addEventListener('pointerdown', (e) => {
+      dragging = true; document.body.style.userSelect = 'none';
+      if (handle.setPointerCapture) handle.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+    handle.addEventListener('pointermove', (e) => { if (dragging) moveTo(e.clientX); });
+    const release = () => { dragging = false; document.body.style.userSelect = ''; };
+    handle.addEventListener('pointerup', release);
+    handle.addEventListener('pointercancel', release);
+    /* A finger dragged across the photo itself wipes too */
+    stage.addEventListener('pointerdown', (e) => { if (e.pointerType === 'touch' && !isSplit() && !e.target.closest('.ba-handle')) { dragging = true; } });
+    stage.addEventListener('pointermove', (e) => { if (dragging && e.pointerType === 'touch') moveTo(e.clientX); });
+    stage.addEventListener('pointerup', release);
+    stage.addEventListener('pointercancel', release);
 
     // Click anywhere on stage to seek
     stage.addEventListener('click', (e) => {

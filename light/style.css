@@ -1104,6 +1104,11 @@ body[data-marquee="off"] .marquee { display: none; }
 
 @media (max-width: 880px) {
   .ba-grid { grid-template-columns: minmax(0, 1fr); }
+  /* Slider mode: one 2:3 frame filling the column, the handle wiping
+     between Before and After. touch-action keeps the page still under a
+     drag; the whole stage takes horizontal drags, vertical ones still scroll. */
+  .ba-stage:not(.is-split) { width: 100%; height: auto; touch-action: pan-y; }
+  .ba-stage:not(.is-split) .ba-handle { touch-action: none; }
   /* Stacked layout: the column caps the width, so the frame stays portrait */
   .ba-stage { height: min(58vh, 560px); }
   .ba-dots { gap: 8px; }
