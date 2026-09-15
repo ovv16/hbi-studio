@@ -56,7 +56,7 @@ body). Italic serif is used for emphasis inside headlines. See
 
 ## Running it
 
-Use the `hbi-studio` config in `.claude/launch.json` (serves `site/` on port
+Use the `hbi-studio` config in `.claude/launch.json` (serves `light/` on port
 3000) via the preview tools — not a raw Bash server. A plain HTTP server is
 required, not `file://`.
 

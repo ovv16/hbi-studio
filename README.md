@@ -10,7 +10,7 @@ with a booking form.
 
 This is **not** a design mock to be reimplemented. It is working code: three
 files (`index.html`, `style.css`, `main.js`) plus assets, no build step, no
-dependencies, no framework. Open `site/index.html` in a browser and it runs.
+dependencies, no framework. Open `light/index.html` in a browser and it runs.
 
 **Fidelity: high.** Final colors, typography, spacing, copy and interactions.
 Treat the existing CSS as the source of truth for every value — do not round
@@ -74,13 +74,13 @@ the token block, the scattered colour rules that follow from it, and their
 before/after photography, which is graded lighter to suit the cream ground.
 
 Run it on its own port with the `hbi-studio-light` launch config (port 3001).
-Only `site/` is deployed — see below.
+Only `light/` is deployed — see below. The earlier dark variant lives in `archive-dark-site/` and is not published.
 
 ## Deploying
 
 
 GitHub Pages, deployed by `.github/workflows/pages.yml`. The workflow uploads
-the contents of `site/` as the Pages artifact so it is served at the root of the
+the contents of `light/` as the Pages artifact so it is served at the root of the
 URL rather than under `/site/`.
 
 This needs **Settings -> Pages -> Build and deployment -> Source = GitHub

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ovv16.github.io/hbi-studio/sitemap.xml
