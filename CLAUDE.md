@@ -1,11 +1,12 @@
 # HBI Studio — website
 
-Static marketing site for HBI Studio, a private Micro K-Tip hair-extension
+Static marketing site for HBI Studio, a private Custom K-Tip hair-extension
 studio in Austin, Texas. Plain HTML/CSS/JS, no build step, no dependencies.
 
 ## Brand facts (always honor — never paraphrase these)
 
-- The service is **Micro K-Tip** hot fusion (keratin-bonded, strand-by-strand).
+- The service is **Custom K-Tip** (keratin-bonded, strand-by-strand). Never write
+  "Micro K-Tip" or "hot fusion" — both were retired from the site on 2026-09-15.
 - The installation technique is called **"invisible bonds"** — NOT "hand-tied".
   Use "Invisible Bonds" as a proper service name, "invisible bonds" lowercase
   mid-sentence. **Never write "hand-tied" anywhere.**
