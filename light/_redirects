@@ -1,0 +1,6 @@
+# Cloudflare Pages redirects (same-host only; www -> apex is a Redirect Rule in
+# the Cloudflare dashboard, see DEPLOYMENT.md).
+
+# The site once lived under /light/ on GitHub Pages.
+/light/*  /:splat  301
+/index.html  /  301

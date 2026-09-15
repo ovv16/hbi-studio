@@ -1,0 +1,41 @@
+# Cloudflare Pages headers. Served with the static files in this directory.
+# Security baseline first; no Content-Security-Policy is enforced yet - the
+# page carries inline scripts and styles, and a proposal for a Report-Only
+# policy lives in DEPLOYMENT.md.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  X-Frame-Options: SAMEORIGIN
+
+# HTML and the lead endpoint: always revalidate.
+/
+  Cache-Control: public, max-age=0, must-revalidate
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+/api/*
+  Cache-Control: no-store
+
+# style.css and main.js are referenced with a ?v= version that is bumped on
+# every change, so a short edge cache is safe and the bump is what refreshes.
+/style.css
+  Cache-Control: public, max-age=86400
+/main.js
+  Cache-Control: public, max-age=86400
+/legal.css
+  Cache-Control: public, max-age=86400
+
+# Fonts never change under the same name.
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Result photographs are referenced with ?v=; a regenerated file always ships
+# with a new version, so the versioned URL can be treated as immutable.
+/assets/results/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Everything else under assets keeps its file name when it is replaced, so it
+# gets a week, not a year.
+/assets/*
+  Cache-Control: public, max-age=604800
