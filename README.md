@@ -78,6 +78,10 @@ Only `light/` is deployed — see below. The earlier dark variant lives in `arch
 
 ## Deploying
 
+Production target is **Cloudflare Pages at https://hbi-studio.com** — see
+`DEPLOYMENT.md` for the full owner guide (project settings, secrets, custom
+domain, www redirect, rate limiting, go-live checks). The GitHub Pages copy
+below is retired once Cloudflare is live.
 
 GitHub Pages, deployed by `.github/workflows/pages.yml`. The workflow uploads
 the contents of `light/` as the Pages artifact so it is served at the root of the
