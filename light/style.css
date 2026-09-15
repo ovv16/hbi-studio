@@ -2176,6 +2176,12 @@ a.score:hover { border-color: var(--gold-line); background: var(--gold-glow); }
 }
 /* Status: pending, success or failure, as a bordered block under the
    buttons so it is not missed. */
+/* One quiet line under the buttons: what sending the form means. */
+.contact-form .form-note {
+  margin: 10px 0 0; font: 400 12px/1.5 var(--sans); color: var(--mute); max-width: 46ch;
+}
+.contact-form .form-note a { color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--gold-line); }
+.contact-form .form-note a:hover { border-color: var(--gold); }
 .form-status {
   margin: 6px 0 0; padding: 18px 20px;
   border: 1px solid var(--gold-line); border-left-width: 3px;
