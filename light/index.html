@@ -74,6 +74,8 @@
   }
   </script>
 
+  <!-- The hero still is the largest paint on every screen; ask for it first. -->
+  <link rel="preload" as="image" href="assets/hero-light-fallback.webp" imagesrcset="assets/hero-light-fallback-800.webp 800w, assets/hero-light-fallback.webp 1920w" imagesizes="(max-width: 980px) 100vw, 62vw" fetchpriority="high" />
   <!-- Fonts are self-hosted (see style.css); the two hero faces are fetched early. -->
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond.woff2" crossorigin />
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter.woff2" crossorigin />
@@ -1079,6 +1081,9 @@
       if (!v || !v.dataset.src) return;
       var conn = navigator.connection || {};
       if (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '')) return;
+      /* Below 980px the copy sits over an ivory wash that all but hides the
+         clip, so those screens keep the still and skip the download. */
+      if (window.matchMedia('(max-width: 980px)').matches) return;
       var small = window.matchMedia('(max-width: 700px)').matches;
       var tabletOrLess = window.matchMedia('(max-width: 1024px)').matches;
       var mobile = tabletOrLess && v.dataset.srcMobile;
@@ -1109,7 +1114,14 @@
     (function () {
       var pl = document.getElementById('preloader');
       if (!pl) return;
-      var start = Date.now(), MIN = 1700, lifted = false;
+      var seen = false;
+      try { seen = sessionStorage.getItem('hbi-preloaded') === '1'; sessionStorage.setItem('hbi-preloaded', '1'); } catch (_) {}
+      var phone = window.matchMedia('(max-width: 700px)').matches;
+      /* The brand moment plays in full once per session on a desktop; on a
+         phone, or on a return within the session, the curtain only covers
+         the paint. */
+      var MIN = seen ? 300 : (phone ? 700 : 1700);
+      var start = Date.now(), lifted = false;
       document.documentElement.style.overflow = 'hidden';
       function lift() {
         if (lifted) return; lifted = true;
