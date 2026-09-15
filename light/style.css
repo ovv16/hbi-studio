@@ -81,6 +81,9 @@
 html, body { margin: 0; padding: 0; }
 html {
   scroll-behavior: auto;
+  /* Nothing scrolls sideways at the root: keep a horizontal flick (lightbox
+     swipe) from turning into the browser's back / forward navigation. */
+  overscroll-behavior-x: none;
 }
 /* No scroll-padding for sections on purpose: each carries 110-140px of top
    padding, more than the fixed header, so it lands at the top of the viewport

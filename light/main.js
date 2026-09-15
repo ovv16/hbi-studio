@@ -593,19 +593,29 @@
       lbImg.classList.toggle('lb-left', (e.clientX - r.left) < r.width / 2);
     });
     lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
-    // Touch: a horizontal swipe anywhere on the lightbox steps through the set
-    let tx = 0, ty = 0, tt = 0;
+    // Touch: a horizontal swipe anywhere on the lightbox steps through the set.
+    // The step fires as soon as the finger has clearly moved sideways, one per
+    // gesture, so a short flick is enough and nobody has to drag out to the
+    // screen edge, where the browser's own back / forward gesture lives.
+    let tx = 0, ty = 0, tracking = false;
+    const swipe = (t) => {
+      const dx = t.clientX - tx, dy = t.clientY - ty;
+      if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.5) return false;
+      show(dx < 0 ? idx + 1 : idx - 1, dx < 0 ? 1 : -1);
+      return true;
+    };
     lb.addEventListener('touchstart', (e) => {
-      if (e.touches.length !== 1) { tt = 0; return; }
-      tx = e.touches[0].clientX; ty = e.touches[0].clientY; tt = e.timeStamp;
+      tracking = e.touches.length === 1;
+      if (tracking) { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }
+    }, { passive: true });
+    lb.addEventListener('touchmove', (e) => {
+      if (tracking && swipe(e.touches[0])) tracking = false;
     }, { passive: true });
     lb.addEventListener('touchend', (e) => {
-      if (!tt || !e.changedTouches.length) return;
-      const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
-      tt = 0;
-      if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
-      show(dx < 0 ? idx + 1 : idx - 1, dx < 0 ? 1 : -1);
+      if (tracking && e.changedTouches.length) swipe(e.changedTouches[0]);
+      tracking = false;
     }, { passive: true });
+    lb.addEventListener('touchcancel', () => { tracking = false; }, { passive: true });
     document.addEventListener('keydown', (e) => {
       if (!lb.classList.contains('is-open')) return;
       if (e.key === 'Escape') close();
