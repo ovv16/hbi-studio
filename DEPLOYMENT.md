@@ -187,9 +187,8 @@ current address keeps working.
 
 1. GitHub → repository → **Settings** → **Pages** → **Build and deployment**
    → Source: **None** (this unpublishes `ovv16.github.io/hbi-studio`).
-2. GitHub → **Actions** → workflow **Deploy site to GitHub Pages** → **⋯** →
-   **Disable workflow**. (Or delete `.github/workflows/pages.yml` in a
-   follow-up commit.)
+2. The `Deploy site to GitHub Pages` workflow has been removed from the
+   repository (done 2026-09-15), so nothing tries to publish there any more.
 
 There is no way to redirect `github.io` addresses to the new domain once the
 Pages site is off; the pages simply stop existing, which is the safe outcome

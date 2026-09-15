@@ -81,22 +81,11 @@ Only `light/` is deployed — see below. The earlier dark variant lives in `arch
 Production target is **Cloudflare Pages at https://hbi-studio.com** — see
 `DEPLOYMENT.md` for the full owner guide (project settings, secrets, custom
 domain, www redirect, rate limiting, go-live checks). The GitHub Pages copy
-below is retired once Cloudflare is live.
+is retired.
 
-GitHub Pages, deployed by `.github/workflows/pages.yml`. The workflow uploads
-the contents of `light/` as the Pages artifact so it is served at the root of the
-URL rather than under `/site/`.
-
-This needs **Settings -> Pages -> Build and deployment -> Source = GitHub
-Actions**. With "Deploy from a branch" the legacy Jekyll build races the
-workflow and renders `README.md` as the home page instead.
-
-`.nojekyll` is required so files starting with `_` aren't stripped.
-
-Custom domain: add it in **Settings → Pages**, create a `CNAME` file, then
-update the hard-coded URL in **four** places — `canonical`, `og:url`,
-`robots.txt`, `sitemap.xml`. All currently read
-`https://ovv16.github.io/hbi-studio/`.
+Every push to `main` is deployed automatically by Cloudflare Pages; there is
+no GitHub Actions workflow any more. The former GitHub Pages copy at
+`ovv16.github.io/hbi-studio` is unpublished.
 
 ## Known state
 
