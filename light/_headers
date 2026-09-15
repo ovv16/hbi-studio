@@ -1,7 +1,13 @@
-# Cloudflare Pages headers. Served with the static files in this directory.
-# Security baseline first; no Content-Security-Policy is enforced yet - the
-# page carries inline scripts and styles, and a proposal for a Report-Only
-# policy lives in DEPLOYMENT.md.
+# Cloudflare Pages headers, served with the static files in this directory.
+#
+# Rules are additive: a request matching several patterns receives every
+# matching header, and a header set twice is joined with a comma. So the
+# security headers live on one catch-all, and each Cache-Control pattern is
+# written not to overlap another. Responses from /functions (the /api/lead
+# endpoint) are not covered by this file; that function sets its own headers.
+#
+# No Content-Security-Policy is enforced yet: the page carries inline scripts
+# and styles. A Report-Only proposal is in DEPLOYMENT.md.
 
 /*
   X-Content-Type-Options: nosniff
@@ -9,16 +15,19 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   X-Frame-Options: SAMEORIGIN
 
-# HTML and the lead endpoint: always revalidate.
+# HTML: always revalidate so a deploy is seen at once.
 /
   Cache-Control: public, max-age=0, must-revalidate
-/*.html
+/privacy
   Cache-Control: public, max-age=0, must-revalidate
-/api/*
-  Cache-Control: no-store
+/terms
+  Cache-Control: public, max-age=0, must-revalidate
+/404.html
+  Cache-Control: public, max-age=0, must-revalidate
 
-# style.css and main.js are referenced with a ?v= version that is bumped on
-# every change, so a short edge cache is safe and the bump is what refreshes.
+# style.css, main.js and legal.css are referenced with a ?v= version that is
+# bumped on every change; that bump is what refreshes them, so a day at the
+# edge is safe.
 /style.css
   Cache-Control: public, max-age=86400
 /main.js
@@ -26,16 +35,21 @@
 /legal.css
   Cache-Control: public, max-age=86400
 
-# Fonts never change under the same name.
+# Fonts never change under the same file name.
 /assets/fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Result photographs are referenced with ?v=; a regenerated file always ships
-# with a new version, so the versioned URL can be treated as immutable.
+# Result photographs are always referenced with ?v=, and a regenerated file
+# always ships with a new version, so the versioned URL is immutable.
 /assets/results/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Everything else under assets keeps its file name when it is replaced, so it
-# gets a week, not a year.
-/assets/*
+# These keep their file names when replaced: a week, not a year.
+/assets/services/*
+  Cache-Control: public, max-age=604800
+/assets/og/*
+  Cache-Control: public, max-age=604800
+/assets/:file
+  Cache-Control: public, max-age=604800
+/logo/:file
   Cache-Control: public, max-age=604800
