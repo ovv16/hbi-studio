@@ -171,12 +171,12 @@
       .hero-cine .cine-sweep { animation: none; }
       .hero-cine .cine-img { transform: scale(1.08); }
     }
-    /* Portrait screens see about a third of the 16:9 clip's width. The model
-       stands at ~70% across it, so the crop is pulled right to centre her. */
+    /* Portrait screens see about a third of the 16:9 still's width. The model
+       stands at ~70% across it, so the crop is pulled right to centre her. The
+       video served here is already cropped around her, so it stays centred. */
     @media (max-width: 980px) {
       .hero-cine .cine-img,
-      .hero-cine .cine-hair,
-      .hero-cine video.cine-video { object-position: 78% 26%; }
+      .hero-cine .cine-hair { object-position: 78% 26%; }
     }
 
     /* USP TRUST STRIP */
@@ -400,7 +400,7 @@
           <div class="hero-cine" id="heroCine">
             <!-- Slow-motion VIDEO: drop a <source> in here (back-facing, long-hair
                  slow-mo clip) and it auto-plays over the still. muted+loop+playsinline. -->
-            <video class="cine-video" muted loop playsinline preload="none" width="1920" height="1080" data-src="assets/hero-ad-light.webm" data-src-mp4="assets/hero-ad-light.mp4" data-src-mobile="assets/hero-ad-light-720.webm" data-src-mobile-mp4="assets/hero-ad-light-720.mp4"></video>
+            <video class="cine-video" muted loop playsinline preload="none" width="1920" height="1080" data-src="assets/hero-ad-light.webm" data-src-mp4="assets/hero-ad-light.mp4" data-src-mobile="assets/hero-ad-light-720.webm" data-src-mobile-mp4="assets/hero-ad-light-720.mp4" data-src-portrait="assets/hero-ad-light-mobile.webm" data-src-portrait-mp4="assets/hero-ad-light-mobile.mp4"></video>
             <!-- Animated still fallback — shows instantly and whenever the video is skipped (save-data / 2G) -->
             <img class="cine-img" src="assets/hero-light-fallback.webp" srcset="assets/hero-light-fallback-800.webp 800w, assets/hero-light-fallback.webp 1920w" sizes="(max-width: 980px) 100vw, 62vw" width="1920" height="1080" alt="Back view of long, flowing Micro K-Tip hair extensions in premium Slavic hair — Austin, TX" loading="eager" />
             <img class="cine-hair" src="assets/hero-light-fallback.webp" srcset="assets/hero-light-fallback-800.webp 800w, assets/hero-light-fallback.webp 1920w" sizes="(max-width: 980px) 100vw, 62vw" width="1920" height="1080" alt="" aria-hidden="true" loading="lazy" />
@@ -1081,14 +1081,15 @@
       if (!v || !v.dataset.src) return;
       var conn = navigator.connection || {};
       if (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '')) return;
-      /* Below 980px the copy sits over an ivory wash that all but hides the
-         clip, so those screens keep the still and skip the download. */
-      if (window.matchMedia('(max-width: 980px)').matches) return;
-      var small = window.matchMedia('(max-width: 700px)').matches;
+      /* Below 980px the hero is portrait, so a 3:4 crop of the clip centred on
+         the model (about 430 KB) replaces the full 16:9 file; it waits for the
+         page to finish loading before it downloads. */
+      var portrait = window.matchMedia('(max-width: 980px)').matches;
+      var small = portrait || window.matchMedia('(max-width: 700px)').matches;
       var tabletOrLess = window.matchMedia('(max-width: 1024px)').matches;
-      var mobile = tabletOrLess && v.dataset.srcMobile;
-      var src = mobile ? v.dataset.srcMobile : v.dataset.src;
-      var srcMp4 = mobile ? v.dataset.srcMobileMp4 : v.dataset.srcMp4;
+      var src = portrait ? v.dataset.srcPortrait : (tabletOrLess && v.dataset.srcMobile) || v.dataset.src;
+      var srcMp4 = portrait ? v.dataset.srcPortraitMp4 : (tabletOrLess && v.dataset.srcMobileMp4) || v.dataset.srcMp4;
+      if (!src && !srcMp4) return;
       function attach() {
         [[src, 'video/webm'], [srcMp4, 'video/mp4']].forEach(function (pair) {
           if (!pair[0]) return;
@@ -1097,9 +1098,15 @@
           v.appendChild(s);
         });
         v.load();
+        var play = function () { var p = v.play(); if (p && p.catch) p.catch(function () {}); };
         v.addEventListener('loadeddata', function () {
           cine.classList.add('has-video');
-          var p = v.play(); if (p && p.catch) p.catch(function () {});
+          play();
+          /* A tab opened in the background is not allowed to start playing;
+             try again once it is looked at. */
+          document.addEventListener('visibilitychange', function () {
+            if (!document.hidden && v.paused) play();
+          });
         }, { once: true });
       }
       if (small) {
