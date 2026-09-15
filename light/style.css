@@ -1726,7 +1726,7 @@ body[data-marquee="off"] .marquee { display: none; }
 }
 .lightbox.is-open .lb-figure { transform: scale(1); }
 .lb-figure img {
-  max-width: 100%; max-height: 82vh; object-fit: contain;
+  max-width: 100%; max-height: 82vh; object-fit: contain; touch-action: pan-y;
   border: 1px solid var(--gold-line);
   box-shadow: 0 40px 96px -30px rgba(60,44,20,.4);
 }

@@ -593,6 +593,19 @@
       lbImg.classList.toggle('lb-left', (e.clientX - r.left) < r.width / 2);
     });
     lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+    // Touch: a horizontal swipe anywhere on the lightbox steps through the set
+    let tx = 0, ty = 0, tt = 0;
+    lb.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) { tt = 0; return; }
+      tx = e.touches[0].clientX; ty = e.touches[0].clientY; tt = e.timeStamp;
+    }, { passive: true });
+    lb.addEventListener('touchend', (e) => {
+      if (!tt || !e.changedTouches.length) return;
+      const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+      tt = 0;
+      if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+      show(dx < 0 ? idx + 1 : idx - 1, dx < 0 ? 1 : -1);
+    }, { passive: true });
     document.addEventListener('keydown', (e) => {
       if (!lb.classList.contains('is-open')) return;
       if (e.key === 'Escape') close();
