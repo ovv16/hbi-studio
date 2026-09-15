@@ -721,37 +721,25 @@
       const message = form.message.value.trim();
       const service = form.service.value.trim();
 
-      // Send the enquiry to Telegram
-      const TG_TOKEN = '8589819476:AAHLPpvbJIiav4KCS7c-qkSf1Zs8H2utSBY';
-      const TG_CHAT_IDS = ['164306473', '686514608'];
-      const esc = (s) => String(s).replace(/[<>&]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]));
-      const text =
-        '💇 <b>New enquiry — HBI Studio</b>\n\n' +
-        '<b>Name:</b> ' + esc(name) + '\n' +
-        '<b>Phone:</b> ' + esc(phone) + '\n' +
-        '<b>Service:</b> ' + esc(service) + '\n' +
-        '<b>Hair goals:</b> ' + (message ? esc(message) : '—');
-
+      /* The request goes to this site's own endpoint (a Cloudflare Pages
+         Function); it holds the Telegram credentials and forwards the lead.
+         Nothing secret lives in this file. */
       setSending(true);
       showStatus('pending', 'Sending your request…', 'This usually takes a moment.');
 
-      Promise.all(TG_CHAT_IDS.map((id) =>
-        fetch('https://api.telegram.org/bot' + TG_TOKEN + '/sendMessage', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: id, text: text, parse_mode: 'HTML' })
-        }).then((r) => r.json())
-      ))
-        .then((results) => {
-          /* Success only on a confirmed ok from the handler. */
-          if (results.some((r) => r && r.ok)) {
-            showStatus('success', 'Your consultation request has been sent!',
-              'Inna will contact you within one business day to arrange your consultation. Your appointment time is not confirmed yet.');
-            form.reset();
-            if (window.setServiceValue) window.setServiceValue('');
-          } else {
-            throw new Error('rejected');
-          }
+      fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, service, message, website: form.website.value })
+      })
+        .then((r) => r.json().then((data) => ({ ok: r.ok && data && data.ok === true })))
+        .then(({ ok }) => {
+          /* Success only on a confirmed ok from the endpoint. */
+          if (!ok) throw new Error('rejected');
+          showStatus('success', 'Your consultation request has been sent!',
+            'Inna will contact you within one business day to arrange your consultation. Your appointment time is not confirmed yet.');
+          form.reset();
+          if (window.setServiceValue) window.setServiceValue('');
         })
         .catch(() => {
           /* The visitor keeps what they typed and can try again. */

@@ -627,8 +627,8 @@
       const service = (form.service && form.service.value.trim()) || '';
 
       // Send the enquiry to Telegram
-      const TG_TOKEN = '8589819476:AAHLPpvbJIiav4KCS7c-qkSf1Zs8H2utSBY';
-      const TG_CHAT_IDS = ['164306473', '686514608'];
+      const TG_TOKEN = ''; // removed: this archived copy is not deployed; the lead endpoint lives in /functions/api/lead.js
+      const TG_CHAT_IDS = [];
       const esc = (s) => String(s).replace(/[<>&]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]));
       const text =
         '💇 <b>New enquiry — HBI Studio</b>\n\n' +
