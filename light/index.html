@@ -1240,6 +1240,29 @@
     var overlay = document.getElementById('svcModal');
     var closeBtn = document.getElementById('svcModalClose');
     var lastFocus = null;
+    var photoToken = 0;
+
+    /* Warm the service photos once the cards scroll into view, so opening a
+       card swaps to a picture the browser already holds. */
+    (function () {
+      var section = document.getElementById('services');
+      if (!section) return;
+      var warm = function () {
+        Object.keys(SVC).forEach(function (k) {
+          var p = SVC[k].photo; if (!p) return;
+          var q = p.v ? '?v=' + p.v : '';
+          var pre = new Image();
+          pre.sizes = '(max-width: 720px) 100vw, 344px';
+          pre.srcset = p.widths.map(function (w) { return p.base + '-' + w + '.webp' + q + ' ' + w + 'w'; }).join(', ');
+          pre.src = p.base + '-' + p.widths[p.widths.length - 1] + '.webp' + q;
+        });
+      };
+      if (!('IntersectionObserver' in window)) { warm(); return; }
+      var io = new IntersectionObserver(function (entries) {
+        if (entries.some(function (e) { return e.isIntersecting; })) { io.disconnect(); warm(); }
+      }, { rootMargin: '400px 0px' });
+      io.observe(section);
+    })();
 
     function openModal(key) {
       var d = SVC[key]; if (!d) return;
@@ -1260,6 +1283,10 @@
       if (d.photo) {
         var ws = d.photo.widths;
         var q = d.photo.v ? '?v=' + d.photo.v : '';
+        /* The element is shared between cards and keeps painting the last
+           photo until the new one has decoded, so it is hidden while the
+           swap is in flight and shown only for the photo that was asked for. */
+        img.hidden = true;
         img.src = d.photo.base + '-' + ws[ws.length - 1] + '.webp' + q;
         img.srcset = ws.map(function (w) { return d.photo.base + '-' + w + '.webp' + q + ' ' + w + 'w'; }).join(', ');
         img.sizes = '(max-width: 720px) 100vw, 344px';
@@ -1267,8 +1294,12 @@
         img.style.setProperty('--py', pos[0] + '%');
         img.style.setProperty('--pym', pos[1] + '%');
         img.alt = d.photo.alt || '';
-        img.hidden = false; if (ph) ph.hidden = true;
+        var want = ++photoToken;
+        var ready = img.decode ? img.decode().catch(function () {}) : Promise.resolve();
+        ready.then(function () { if (want === photoToken) img.hidden = false; });
+        if (ph) ph.hidden = true;
       } else {
+        photoToken++;
         img.hidden = true; img.removeAttribute('src'); img.removeAttribute('srcset'); if (ph) ph.hidden = false;
       }
       document.getElementById('modalDesc').textContent      = d.desc;
