@@ -17,6 +17,9 @@
  */
 
 const LIMITS = { name: 80, phone: 30, service: 60, message: 1000 };
+/* Reference the browser generates once per lead and repeats on retries, so a
+   message that arrives twice can be recognised as one client. Optional. */
+const LEAD_ID = /^[a-z0-9-]{8,24}$/;
 const SERVICES = new Set([
   'Free Consultation',
   'Hair Extension Installation (Hair Included)',
@@ -64,6 +67,8 @@ export async function onRequestPost({ request, env }) {
   const phone = str(body.phone, LIMITS.phone);
   const service = str(body.service, LIMITS.service);
   const message = str(body.message, LIMITS.message);
+  const id = str(body.id, 24);
+  const ref = LEAD_ID.test(id) ? id : '';
 
   const errors = [];
   if (!name) errors.push('name');
@@ -80,7 +85,8 @@ export async function onRequestPost({ request, env }) {
     '<b>Name:</b> ' + esc(name) + '\n' +
     '<b>Phone:</b> ' + esc(phone) + '\n' +
     '<b>Service:</b> ' + esc(service) + '\n' +
-    '<b>Hair goals:</b> ' + (message ? esc(message) : '—');
+    '<b>Hair goals:</b> ' + (message ? esc(message) : '—') +
+    (ref ? '\n\n<i>Ref ' + esc(ref) + ' — a second message with this ref is the same request sent again.</i>' : '');
 
   const delivered = await deliverTelegram(env, text);
   if (!delivered) return json({ ok: false, error: 'delivery_failed' }, 502);

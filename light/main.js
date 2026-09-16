@@ -725,6 +725,16 @@
       submitBtn.innerHTML = on ? 'Sending your request…' : submitLabel;
     };
 
+    /* Give up on a hung connection well before the visitor does. */
+    const SEND_TIMEOUT = 20000;
+    let leadId = '';
+    const newLeadId = () => {
+      const a = new Uint32Array(2);
+      if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(a);
+      else { a[0] = Math.random() * 4294967296; a[1] = Math.random() * 4294967296; }
+      return (Date.now().toString(36) + '-' + a[0].toString(36) + a[1].toString(36)).slice(0, 24);
+    };
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       if (sending) return;
@@ -750,26 +760,39 @@
       setSending(true);
       showStatus('pending', 'Sending your request…', 'This usually takes a moment.');
 
+      /* One id per lead, kept across retries: if a slow first attempt did
+         reach Telegram after all, the second message carries the same
+         reference and reads as a duplicate rather than a new client. */
+      if (!leadId) leadId = newLeadId();
+      const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+      const timer = setTimeout(() => { if (ctrl) ctrl.abort(); }, SEND_TIMEOUT);
+
       fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, service, message, website: form.website.value })
+        body: JSON.stringify({ id: leadId, name, phone, service, message, website: form.website.value }),
+        signal: ctrl ? ctrl.signal : undefined
       })
         .then((r) => r.json().then((data) => ({ ok: r.ok && data && data.ok === true })))
         .then(({ ok }) => {
           /* Success only on a confirmed ok from the endpoint. */
           if (!ok) throw new Error('rejected');
+          leadId = '';
           showStatus('success', 'Your consultation request has been sent!',
             'Inna will contact you within one business day to arrange your consultation. Your appointment time is not confirmed yet.');
           form.reset();
           if (window.setServiceValue) window.setServiceValue('');
         })
-        .catch(() => {
-          /* The visitor keeps what they typed and can try again. */
-          showStatus('error', 'Your request couldn’t be sent.',
-            'Please try again, or tap ‘Text Us’ to contact Inna directly.');
+        .catch((err) => {
+          /* The visitor keeps what they typed and can try again. A timed-out
+             request is named as such so a slow connection is not mistaken
+             for a rejected form. */
+          const timedOut = err && err.name === 'AbortError';
+          showStatus('error',
+            timedOut ? 'This is taking longer than usual.' : 'Your request couldn’t be sent.',
+            'Your details are still here. Please try again, or tap ‘Text Us’ to contact Inna directly.');
         })
-        .finally(() => setSending(false));
+        .finally(() => { clearTimeout(timer); setSending(false); });
     });
   }
 
