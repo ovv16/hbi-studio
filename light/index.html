@@ -974,13 +974,13 @@
                   <svg class="cc-select-chev" viewBox="0 0 12 8" width="12" height="8" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.3" d="M1 1.5 6 6.5 11 1.5"/></svg>
                 </button>
                 <ul class="cc-select-menu" id="serviceMenu" role="listbox" aria-label="Service" aria-labelledby="serviceTrigger" tabindex="-1">
-                  <li class="cc-select-opt" role="option" tabindex="-1" data-value="Free Consultation">Free Consultation</li>
-                  <li class="cc-select-opt" role="option" tabindex="-1" data-value="Hair Extension Installation (Hair Included)">Hair Extension Installation (Hair Included)</li>
-                  <li class="cc-select-opt" role="option" tabindex="-1" data-value="Hair Extension Installation (Client’s Hair)">Hair Extension Installation (Client’s Hair)</li>
-                  <li class="cc-select-opt" role="option" tabindex="-1" data-value="Extension Reinstallation">Extension Reinstallation</li>
-                  <li class="cc-select-opt" role="option" tabindex="-1" data-value="Extension Removal">Extension Removal</li>
-                  <li class="cc-select-opt" role="option" tabindex="-1" data-value="Premium Slavic Human Hair">Premium Slavic Human Hair</li>
-                  <li class="cc-select-opt" role="option" tabindex="-1" data-value="Not sure yet">Not sure yet</li>
+                  <li class="cc-select-opt" role="option" aria-selected="false" tabindex="-1" data-value="Free Consultation">Free Consultation</li>
+                  <li class="cc-select-opt" role="option" aria-selected="false" tabindex="-1" data-value="Hair Extension Installation (Hair Included)">Hair Extension Installation (Hair Included)</li>
+                  <li class="cc-select-opt" role="option" aria-selected="false" tabindex="-1" data-value="Hair Extension Installation (Client’s Hair)">Hair Extension Installation (Client’s Hair)</li>
+                  <li class="cc-select-opt" role="option" aria-selected="false" tabindex="-1" data-value="Extension Reinstallation">Extension Reinstallation</li>
+                  <li class="cc-select-opt" role="option" aria-selected="false" tabindex="-1" data-value="Extension Removal">Extension Removal</li>
+                  <li class="cc-select-opt" role="option" aria-selected="false" tabindex="-1" data-value="Premium Slavic Human Hair">Premium Slavic Human Hair</li>
+                  <li class="cc-select-opt" role="option" aria-selected="false" tabindex="-1" data-value="Not sure yet">Not sure yet</li>
                 </ul>
                 <input type="hidden" name="service" id="service" value=""/>
               </div>
@@ -1394,7 +1394,11 @@
     function setValue(val) {
       hidden.value = val || '';
       if (val) root.dispatchEvent(new CustomEvent('cc-select:change', { bubbles: true }));
-      opts.forEach(function (o) { o.classList.toggle('is-selected', o.dataset.value === val); });
+      opts.forEach(function (o) {
+        var on = o.dataset.value === val;
+        o.classList.toggle('is-selected', on);
+        o.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
       if (val) { valueEl.textContent = val; valueEl.classList.remove('is-placeholder'); }
       else { valueEl.textContent = placeholder; valueEl.classList.add('is-placeholder'); }
     }
