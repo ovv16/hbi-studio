@@ -43,6 +43,24 @@ const str = (v, max) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
    check. */
 const digitsOf = (phone) => phone.replace(/\D/g, '');
 
+/* Where the visitor came from, as the browser reported it: utm tags win,
+   otherwise the referring site, otherwise a direct visit. Every part is
+   trimmed and capped so nothing odd reaches the chat. */
+function describeSource(s) {
+  if (!s || typeof s !== 'object') return '';
+  const part = (v) => str(v, 60).replace(/[\n\r\t]/g, ' ');
+  const source = part(s.s), medium = part(s.m), campaign = part(s.c);
+  const referrer = part(s.r), landing = part(s.l), device = part(s.d);
+  let from;
+  if (source) from = source + (medium ? ' / ' + medium : '') + (campaign ? ' (' + campaign + ')' : '');
+  else if (referrer) from = referrer;
+  else from = 'direct / app link';
+  const bits = [from];
+  if (landing && landing !== '/') bits.push('landed on ' + landing);
+  if (device) bits.push(device);
+  return bits.join(' · ');
+}
+
 /* Telegram's HTML parse mode: only these three need escaping. */
 const esc = (s) => String(s).replace(/[<>&]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]));
 
@@ -69,6 +87,7 @@ export async function onRequestPost({ request, env }) {
   const message = str(body.message, LIMITS.message);
   const id = str(body.id, 24);
   const ref = LEAD_ID.test(id) ? id : '';
+  const src = describeSource(body.src);
 
   const errors = [];
   if (!name) errors.push('name');
@@ -86,6 +105,7 @@ export async function onRequestPost({ request, env }) {
     '<b>Phone:</b> ' + esc(phone) + '\n' +
     '<b>Service:</b> ' + esc(service) + '\n' +
     '<b>Hair goals:</b> ' + (message ? esc(message) : '—') +
+    (src ? '\n\n<b>Source:</b> ' + esc(src) : '') +
     (ref ? '\n\n<i>Ref ' + esc(ref) + ' — a second message with this ref is the same request sent again.</i>' : '');
 
   const delivered = await deliverTelegram(env, text);

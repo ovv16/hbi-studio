@@ -725,6 +725,32 @@
       submitBtn.innerHTML = on ? 'Sending your request…' : submitLabel;
     };
 
+    /* Where the visitor came from, remembered from the first page view of
+       the session so a utm tag survives scrolling and reloads. Only this
+       site's own endpoint ever sees it. */
+    const attribution = (() => {
+      const KEY = 'hbi-src';
+      let saved = null;
+      try { saved = JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch (_) {}
+      const q = new URLSearchParams(location.search);
+      /* A tagged link always wins over what an earlier page view remembered. */
+      if (saved && saved.landing && !q.has('utm_source')) return saved;
+      let refHost = '';
+      try { refHost = document.referrer ? new URL(document.referrer).hostname.replace(/^www\./, '') : ''; } catch (_) {}
+      const fresh = {
+        source: q.get('utm_source') || '',
+        medium: q.get('utm_medium') || '',
+        campaign: q.get('utm_campaign') || '',
+        referrer: refHost && refHost !== location.hostname ? refHost : '',
+        landing: location.pathname + (q.has('utm_source') ? '?utm_source=' + q.get('utm_source') : '')
+      };
+      try { sessionStorage.setItem(KEY, JSON.stringify(fresh)); } catch (_) {}
+      return fresh;
+    })();
+    const device = /iPhone|iPad|iPod/.test(navigator.userAgent) ? 'iPhone/iPad'
+      : /Android/.test(navigator.userAgent) ? 'Android'
+      : /Mobi/.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
+
     /* Give up on a hung connection well before the visitor does. */
     const SEND_TIMEOUT = 20000;
     let leadId = '';
@@ -770,7 +796,10 @@
       fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: leadId, name, phone, service, message, website: form.website.value }),
+        body: JSON.stringify({
+          id: leadId, name, phone, service, message, website: form.website.value,
+          src: { s: attribution.source, m: attribution.medium, c: attribution.campaign, r: attribution.referrer, l: attribution.landing, d: device }
+        }),
         signal: ctrl ? ctrl.signal : undefined
       })
         .then((r) => r.json().then((data) => ({ ok: r.ok && data && data.ok === true })))
