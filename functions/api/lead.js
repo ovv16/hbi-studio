@@ -86,7 +86,7 @@ export async function onRequestPost({ request, env }) {
     '<b>Phone:</b> ' + esc(phone) + '\n' +
     '<b>Service:</b> ' + esc(service) + '\n' +
     '<b>Hair goals:</b> ' + (message ? esc(message) : '—') +
-    (ref ? '\n\n<i>Ref ' + esc(ref) + '</i>' : '');
+    (ref ? '\n\n<i>Ref ' + esc(ref) + ' — a second message with this ref is the same request sent again.</i>' : '');
 
   const delivered = await deliverTelegram(env, text);
   if (!delivered) return json({ ok: false, error: 'delivery_failed' }, 502);
