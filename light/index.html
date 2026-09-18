@@ -171,6 +171,11 @@
       .hero-cine .cine-sweep { animation: none; }
       .hero-cine .cine-img { transform: scale(1.08); }
     }
+    /* Slow connection: the still photo alone, no clip and no motion layers,
+       so the first screen costs one image. Set by the loader script below. */
+    .hero-cine.is-lite .cine-img { animation: none; transform: scale(1.08); }
+    .hero-cine.is-lite .cine-hair,
+    .hero-cine.is-lite .cine-sweep { display: none; }
     /* Portrait screens see about a third of the 16:9 still's width. The model
        stands at ~70% across it, so the crop is pulled right to centre her. The
        video served here is already cropped around her, so it stays centred. */
@@ -1079,8 +1084,18 @@
       if (!cine) return;
       var v = cine.querySelector('video.cine-video');
       if (!v || !v.dataset.src) return;
+      /* A slow connection gets the still photo and nothing else: no clip,
+         no motion layers. Chrome/Android report the connection directly;
+         Safari does not, so there the time the HTML itself took to arrive
+         stands in for it. */
       var conn = navigator.connection || {};
-      if (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '')) return;
+      var nav = (performance.getEntriesByType && performance.getEntriesByType('navigation')[0]) || null;
+      var slow = conn.saveData
+        || /(^|-)2g$/.test(conn.effectiveType || '') || conn.effectiveType === '3g'
+        || (typeof conn.downlink === 'number' && conn.downlink > 0 && conn.downlink < 1.5)
+        || (typeof conn.rtt === 'number' && conn.rtt > 400)
+        || (nav && nav.responseEnd > 2500);
+      if (slow) { cine.classList.add('is-lite'); return; }
       /* Below 980px the hero is portrait, so a 3:4 crop of the clip centred on
          the model (about 430 KB) replaces the full 16:9 file; it waits for the
          page to finish loading before it downloads. */
