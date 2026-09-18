@@ -4,3 +4,11 @@
 # The site once lived under /light/ on GitHub Pages.
 /light/*  /:splat  301
 /index.html  /  301
+
+# Short links for social profiles: they read cleanly in a bio and land on the
+# home page with the source tag the contact form reports to Telegram.
+/ig     /?utm_source=instagram  302
+/tt     /?utm_source=tiktok     302
+/g      /?utm_source=gbp        302
+/yelp   /?utm_source=yelp       302
+/fb     /?utm_source=facebook   302
