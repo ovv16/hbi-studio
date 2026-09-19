@@ -595,12 +595,12 @@ body[data-hero="split"] .hero-split { display: grid; }
   margin: calc(-1 * clamp(22px, 3vw, 38px) + 12px) 0 clamp(22px, 3vw, 38px);
 }
 .hero-split .hero-pills {
-  display: flex; gap: 10px; flex-wrap: wrap;
+  display: flex; gap: 8px; flex-wrap: wrap;
   position: relative; z-index: 3;
 }
 .hero-pill {
-  display: inline-flex; align-items: center; gap: 10px;
-  height: 32px; padding: 0 14px;
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 32px; padding: 0 12px;
   background: var(--card);
   border: 1px solid var(--gold-dim);
   font: 700 9px/1 var(--sans);
