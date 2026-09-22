@@ -715,6 +715,13 @@
       msgTitle.textContent = title;
       msgText.textContent = text;
       msg.hidden = false;
+      /* On a phone the block sits below the fold, so a visitor who does not
+         scroll sees nothing happen and sends the form again. Bring it into
+         view for anything that is not the transient "sending" state. */
+      if (kind !== 'pending' && msg.scrollIntoView) {
+        const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        msg.scrollIntoView({ block: 'center', behavior: still ? 'auto' : 'smooth' });
+      }
     };
     const hideStatus = () => { msg.hidden = true; msg.className = 'form-status'; };
     const setSending = (on) => {
