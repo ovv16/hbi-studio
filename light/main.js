@@ -389,7 +389,7 @@
     /* Pairs — real client results, base paths into assets/results/ */
     /* Photographs get regenerated in place; the version keeps a returning
        browser from showing last week's crop. Bump it whenever they change. */
-    const IMG_V = '20260914-4';
+    const IMG_V = '20260924-1';
     const baSrcset = (base) => [700, 1000, 1400].map(w => `${base}-${w}.webp?v=${IMG_V} ${w}w`).join(', ');
     /* by / ay: object-position y for the before and after photo, chosen so
        the crown lands at the same height in both frames. */
