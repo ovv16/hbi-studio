@@ -1182,6 +1182,30 @@
     })();
   </script>
 
+  <script>
+    // A link that points straight at a section (/book sends people to
+    // #contact) lands correctly on the first paint, then drifts: the photos
+    // above finish loading, the page grows under the reader and the section
+    // slides past the fold. Hold the target in place until the layout settles,
+    // and let go the moment the reader scrolls for themselves.
+    (function () {
+      var el = location.hash.length > 1 && document.getElementById(location.hash.slice(1));
+      if (!el) return;
+      var release = false;
+      var pin = function () { if (!release) el.scrollIntoView({ block: 'start', behavior: 'auto' }); };
+      ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (ev) {
+        window.addEventListener(ev, function () { release = true; }, { passive: true, once: true });
+      });
+      pin();
+      window.addEventListener('load', pin);
+      var until = Date.now() + 4000;
+      var iv = setInterval(function () {
+        if (release || Date.now() > until) { clearInterval(iv); return; }
+        if (Math.abs(el.getBoundingClientRect().top) > 2) pin();
+      }, 120);
+    })();
+  </script>
+
   <script src="main.js?v=20260924-1" defer></script>
 
   <script>
