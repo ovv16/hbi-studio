@@ -1198,11 +1198,21 @@
       });
       pin();
       window.addEventListener('load', pin);
-      var until = Date.now() + 4000;
+      /* The drift comes from the page growing above the target: photos, the
+         hero clip taking over from the still, fonts. Follow the height rather
+         than guess how long that takes. */
+      var stop = function () { if (ro) ro.disconnect(); clearInterval(iv); };
+      var ro = window.ResizeObserver ? new ResizeObserver(function () {
+        if (release) return stop();
+        requestAnimationFrame(pin);
+      }) : null;
+      if (ro) ro.observe(document.body);
+      var until = Date.now() + 12000;
       var iv = setInterval(function () {
-        if (release || Date.now() > until) { clearInterval(iv); return; }
+        if (release || Date.now() > until) { stop(); return; }
         if (Math.abs(el.getBoundingClientRect().top) > 2) pin();
-      }, 120);
+      }, 150);
+      setTimeout(stop, 12000);
     })();
   </script>
 
