@@ -12,6 +12,7 @@
 /g      /?utm_source=gbp        302
 /yelp   /?utm_source=yelp       302
 /fb     /?utm_source=facebook   302
+/b      /?utm_source=bing       302
 
 # Addresses people and crawlers keep trying from older sites and habits.
 /contact    /#contact  301
