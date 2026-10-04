@@ -19,11 +19,10 @@ numbers to a 4/8px grid or substitute a framework's defaults.
 ## Read these first, in order
 
 1. `CLAUDE.md` — brand facts and hard rules. Copy this to the repo root.
-2. `ARCHITECTURE.md` — how the three files are organized, every JS module.
-3. `DESIGN_TOKENS.md` — the complete token table.
-4. `BACKLOG.md` — 19 audited findings, prioritized. **Start here for work.**
-5. `reference/Site Audit.html` — the full audit, formatted.
-6. `reference/Brand Guidelines.html` — the visual brand sheet.
+2. `DESIGN_TOKENS.md` — the complete token table.
+3. `BACKLOG.md` — 19 audited findings, prioritized. **Start here for work.**
+4. `reference/Site Audit.html` — the full audit, formatted.
+5. `reference/Brand Guidelines.html` — the visual brand sheet.
 
 ## Package contents
 
@@ -31,7 +30,6 @@ numbers to a 4/8px grid or substitute a framework's defaults.
 design_handoff_hbi_studio_site/
 ├── README.md              ← you are here
 ├── CLAUDE.md              ← copy to repo root
-├── ARCHITECTURE.md
 ├── DESIGN_TOKENS.md
 ├── BACKLOG.md             ← prioritized work queue
 ├── site/                  ← the deployable site, root of the web server
@@ -74,7 +72,7 @@ the token block, the scattered colour rules that follow from it, and their
 before/after photography, which is graded lighter to suit the cream ground.
 
 Run it on its own port with the `hbi-studio-light` launch config (port 3001).
-Only `light/` is deployed — see below. The earlier dark variant lives in `archive-dark-site/` and is not published.
+Only `light/` is deployed — see below. The earlier dark variant was removed (it remains in git history).
 
 ## Deploying
 

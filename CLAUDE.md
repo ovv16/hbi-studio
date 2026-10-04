@@ -60,10 +60,9 @@ no cheapening copy.
 ## Layout and where things live
 
 - `light/` — **the production site**, served as the Pages output directory.
-  `archive-dark-site/` is the retired dark variant (not deployed).
   `photo do i posle/`, `фото для оброботки/`, `new light hero/` are raw source
-  photos, not served. `ARCHITECTURE.md` describes the old dark build and is
-  stale (tweaks panel, Unsplash, Google Fonts are all gone).
+  photos, not served. The retired dark variant and its `ARCHITECTURE.md` were
+  removed on 2026-10-04 (still in git history).
 - `light/index.html` is the whole page. Besides markup it carries: two JSON-LD
   blocks (HairSalon + FAQPage — keep them in sync with visible FAQ/NAP),
   a page-scoped `<style>` for the hero, and inline scripts for the **service
