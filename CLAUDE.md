@@ -25,8 +25,10 @@ Live at **https://hbi-studio.com** (Cloudflare Pages, auto-deploys from `main`).
 - Google rating **5.0**. Review count: **verify against the live Google profile
   before changing the number** (site says 16). Do not guess.
 - Owner-confirmed: "over 9 years of experience"; first salon in Kyiv; in
-  Austin since 2024. Other claims (client counts, "certified/licensed",
-  prices) are unverified — don't add or strengthen them.
+  Austin since 2024; Premium Slavic hair **from $450 per 100 g** (confirmed
+  2026-10-07; shown in the service modal and in the JSON-LD Product offer —
+  keep the two in sync). Other claims (client counts, "certified/licensed",
+  other prices) are unverified — don't add or strengthen them.
 - Don't promise "damage-free" unconditionally; the FAQ's careful wording
   (applied and maintained correctly) is the standard.
 - Assistants (Yulia/Julia, Masha) exist but are not named on the site.
