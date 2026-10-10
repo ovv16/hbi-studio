@@ -26,6 +26,8 @@
 }
 
 :root {
+  /* The site is light only: opt out of browser-forced dark mode */
+  color-scheme: only light;
   /* Color — grounds */
   --ink:        #F6F1E8;
   --ink-2:      #F1EBDF;
