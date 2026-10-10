@@ -27,7 +27,7 @@
 
 :root {
   /* The site is light only: opt out of browser-forced dark mode */
-  color-scheme: only light;
+  color-scheme: light;
   /* Color — grounds */
   --ink:        #F6F1E8;
   --ink-2:      #F1EBDF;
@@ -2224,4 +2224,10 @@ a.score:hover { border-color: var(--gold-line); background: var(--gold-glow); }
   /* Text still deserves a text cursor, and a disabled control says so. */
   input, textarea { cursor: text; }
   :is(button, input, select, textarea, a):is([disabled], :disabled, [aria-disabled="true"]) { cursor: not-allowed; }
+}
+
+/* Light only: tells browsers that offer a dark mode that this site has no dark
+   variant, so they leave it as designed instead of inverting it. */
+@media (prefers-color-scheme: dark) {
+  :root { color-scheme: light; }
 }
