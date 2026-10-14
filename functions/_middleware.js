@@ -6,7 +6,7 @@
  */
 const PRODUCTION_ALIAS = 'hbi-studio.pages.dev';
 const CANONICAL = 'https://hbi-studio.com';
-const SHORT_LINKS = ['/ig', '/tt', '/g', '/yelp', '/fb', '/b'];
+const SHORT_LINKS = ['/ig', '/tt', '/g', '/yelp', '/fb', '/b', '/nd', '/4sq'];
 
 export const onRequest = ({ request, next }) => {
   const url = new URL(request.url);

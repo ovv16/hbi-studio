@@ -109,7 +109,7 @@ is a timestamp) and a `src` block (utm/referrer/landing/device, kept in
 A WAF rate-limit rule on `POST /api/lead` lives in the Cloudflare dashboard.
 
 `light/_redirects` holds same-host redirects: old paths (`/contact`, `/about`,
-…) and the short profile links `/ig` `/tt` `/g` `/yelp` `/fb` →
+…) and the short profile links `/ig` `/tt` `/g` `/yelp` `/fb` `/b` `/nd` `/4sq` →
 `/?utm_source=…`. www→apex is a zone Redirect Rule, not in this file.
 
 ## Running and verifying
