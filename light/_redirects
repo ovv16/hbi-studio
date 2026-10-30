@@ -4,7 +4,6 @@
 # The site once lived under /light/ on GitHub Pages.
 /light/*  /:splat  301
 /index.html  /  301
-r
 # Crawlers and some apps ask for /favicon.ico; the site ships an SVG icon.
 /favicon.ico  /favicon.svg  301
 
