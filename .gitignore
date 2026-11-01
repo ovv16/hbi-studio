@@ -21,3 +21,6 @@ new light hero/
 
 # wrangler local dev cache
 .wrangler/
+
+# graphify knowledge graph output - local only
+graphify-out/
