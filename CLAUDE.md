@@ -86,7 +86,7 @@ no cheapening copy.
 `/assets/results/*` (before/after photos) as **immutable for a year**, so:
 
 - Changing `style.css` / `main.js` / `legal.css` → bump its `?v=YYYYMMDD-N` in
-  `index.html` (and `style.css`/`legal.css` also in `privacy.html`, `terms.html`,
+  `index.html` (and `style.css`/`legal.css`/`main.js` also in `privacy.html`, `terms.html`,
   `404.html`).
 - Changing any file in `assets/results/` → bump the image version everywhere:
   `?v=` in `index.html` **and** `const IMG_V` in `main.js` (main.js builds the
