@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>HBI Studio — review card</title>
+<style>
+  /* Print sheet for the studio counter: a 4x6 in standing card. Values are
+     the site's own tokens (light/style.css), so the card matches the page. */
+  @font-face { font-family: "Cormorant Garamond"; src: url("../light/assets/fonts/cormorant-garamond.woff2") format("woff2"); font-weight: 300 700; }
+  @font-face { font-family: "Cormorant Garamond"; src: url("../light/assets/fonts/cormorant-garamond-italic.woff2") format("woff2"); font-style: italic; font-weight: 300 700; }
+  @font-face { font-family: "Inter"; src: url("../light/assets/fonts/inter.woff2") format("woff2"); font-weight: 100 900; }
+
+  :root {
+    --ink: #F6F1E8;
+    --card: #FCFAF4;
+    --gold: #82602F;
+    --gold-line: rgba(130, 96, 47, .28);
+    --cream: #241D14;
+    --mute: #6A5D4B;
+    --serif: "Cormorant Garamond", "Times New Roman", Georgia, serif;
+    --sans: "Inter", -apple-system, "Segoe UI", sans-serif;
+  }
+  @page { size: 4in 6in; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--ink); }
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  .card {
+    width: 4in; height: 6in;
+    background: var(--ink);
+    position: relative;
+    display: flex; flex-direction: column; align-items: center;
+    padding: .5in .42in .42in;
+    text-align: center;
+    color: var(--cream);
+    font-family: var(--sans);
+  }
+  .card::before {
+    content: ""; position: absolute; inset: .16in;
+    border: 1px solid var(--gold-line);
+    pointer-events: none;
+  }
+  .logo { width: 1.55in; height: auto; display: block; }
+  .eyebrow {
+    margin-top: .3in;
+    font-size: 6.5pt; letter-spacing: .28em; text-transform: uppercase;
+    color: var(--gold); font-weight: 500;
+  }
+  h1 {
+    margin-top: .12in;
+    font-family: var(--serif); font-weight: 400;
+    font-size: 22pt; line-height: 1.08; letter-spacing: -.005em;
+  }
+  h1 .italic { font-style: italic; color: var(--gold); }
+  .body {
+    margin-top: .14in;
+    font-size: 8.4pt; line-height: 1.6; color: var(--mute);
+    max-width: 2.75in;
+  }
+  .qr {
+    margin-top: .24in;
+    background: var(--card);
+    padding: .1in;
+    border: 1px solid var(--gold-line);
+  }
+  .qr img { width: 1.25in; height: 1.25in; display: block; }
+  .scan {
+    margin-top: .12in;
+    font-size: 6.5pt; letter-spacing: .24em; text-transform: uppercase;
+    color: var(--gold); font-weight: 500;
+  }
+  .url { margin-top: .05in; font-size: 8pt; color: var(--cream); letter-spacing: .02em; }
+  .sign {
+    margin-top: auto;
+    font-family: var(--serif); font-style: italic;
+    font-size: 15pt; color: var(--gold);
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <img class="logo" src="../light/assets/logo-bronze.svg" alt="HBI Studio" />
+    <span class="eyebrow">A note from Inna</span>
+    <h1>Thank you for trusting me with <span class="italic">your hair.</span></h1>
+    <p class="body">If you love the result, a few words on Google help other women find my studio. It takes a minute.</p>
+    <div class="qr"><img src="review-qr.svg" alt="QR code to the Google review form" /></div>
+    <span class="scan">Scan to leave a review</span>
+    <span class="url">hbi-studio.com/review</span>
+    <span class="sign">Inna</span>
+  </div>
+</body>
+</html>
