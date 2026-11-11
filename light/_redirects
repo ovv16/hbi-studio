@@ -29,3 +29,7 @@
 # Straight to the booking form, for links sent in a DM funnel. The tag keeps
 # these leads apart from the profile links above in the Telegram "Source" line.
 /book   /?utm_source=dm#contact   302
+
+# Straight to the Google review form, for the QR card at the studio and the
+# thank-you message after a visit.
+/review  https://g.page/r/CXGp7KC758RiEBM/review  302
