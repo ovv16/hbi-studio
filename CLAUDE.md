@@ -23,7 +23,7 @@ Live at **https://hbi-studio.com** (Cloudflare Pages, auto-deploys from `main`).
   everywhere (site, JSON-LD, directories) — it must match the Google profile.
 - Hours: Mon–Fri 10–7, Sat 10–5, Sun closed (matches Google Business Profile).
 - Google rating **5.0**. Review count: **verify against the live Google profile
-  before changing the number** (site says 16). Do not guess.
+  before changing the number** (site says 22). Do not guess.
 - Owner-confirmed: "over 9 years of experience"; first salon in Kyiv; in
   Austin since 2024; Premium Slavic hair **from $450 per 100 g** (confirmed
   2026-10-07; shown in the service modal and in the JSON-LD Product offer —
