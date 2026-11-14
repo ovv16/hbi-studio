@@ -23,7 +23,7 @@ Live at **https://hbi-studio.com** (Cloudflare Pages, auto-deploys from `main`).
   everywhere (site, JSON-LD, directories) — it must match the Google profile.
 - Hours: Mon–Fri 10–7, Sat 10–5, Sun closed (matches Google Business Profile).
 - Google rating **5.0**. Review count: **verify against the live Google profile
-  before changing the number** (site says 22). Do not guess.
+  before changing the number** (site says 23). Do not guess.
 - Owner-confirmed: "over 9 years of experience"; first salon in Kyiv; in
   Austin since 2024; Premium Slavic hair **from $450 per 100 g** (confirmed
   2026-10-07; shown in the service modal and in the JSON-LD Product offer —
@@ -58,6 +58,50 @@ no cheapening copy.
   restrained, no exclamation marks, **no emoji**.
 - Small, targeted edits. This codebase is hand-tuned; don't reformat or
   "improve" regions you weren't asked to touch.
+
+## Write like a person — no AI tells
+
+Applies to every text written for the owner: site copy, review replies,
+captions, messages to clients, directory listings. Based on Wikipedia's
+"Signs of AI writing" (checked 2026-11-14). The owner wants replies that read
+as if Inna typed them on her phone.
+
+- **Plain words.** "is", "has", "used", "tried", "wrote". Not "serves as",
+  "stands as", "boasts", "features", "offers", "utilize", "showcase".
+- **Banned vocabulary:** delve, tapestry, testament, pivotal, crucial, vital,
+  key (as an adjective), underscore, highlight (verb), showcase, vibrant,
+  nestled, in the heart of, boasts, robust, intricate, interplay, landscape
+  (abstract), meticulous, enduring, garner, bolster, foster, enhance, elevate,
+  leverage, seamless, align with, resonate, multifaceted, groundbreaking,
+  renowned, profound, rich (abstract), commitment to, journey, transformative,
+  indelible, deeply rooted, evolving, game-changer, "Additionally" at the start
+  of a sentence. Newer-model tells too: quietly, steady, dependable, matters,
+  practical, clearer, echoed, universally, prioritize.
+- **No inflated significance:** no "a testament to", "means the world",
+  "means a great deal", "a reminder that", "marks a shift", "speaks volumes",
+  "it's moments like these".
+- **No tacked-on -ing clauses** ("…, highlighting her skill", "…, ensuring a
+  natural look", "…, reflecting my commitment").
+- **No negative parallelism:** "it's not just X, it's Y", "not only… but also",
+  "not X but Y", "Y rather than X", "no X, no Y, just Z".
+- **No rule of three** — no reflexive triads of adjectives or phrases. Say one
+  thing, or two.
+- **No em dashes** in client-facing text; use a comma or a full stop.
+  Straight quotes and apostrophes, not curly ones.
+- **No chatbot tone:** no "I hope this helps", "Certainly", "Absolutely",
+  "Feel free to", "Don't hesitate to", "It's important to note", "In summary",
+  "Overall", "That said". No customer-service apologies.
+- **No vague attribution or hedging:** no "many clients say", "experts agree",
+  "based on available information".
+- **No formatting in prose:** no bold, headings or bullet lists inside a reply
+  or caption; no Title Case headings on the site (sentence case).
+- **Sound like one real person:** short sentences of mixed length, one
+  specific detail from what the client actually said, contractions (I'm,
+  you're, it's), plain thanks. A small imperfection is fine; polish is not
+  the goal. Reuse the same word for the same thing instead of rotating
+  synonyms.
+- **Self-check before showing the owner:** reread the draft against this
+  list; if a sentence could be pasted into any other salon's reply, rewrite it.
 
 ## Layout and where things live
 
